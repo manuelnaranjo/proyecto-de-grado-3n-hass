@@ -30,7 +30,7 @@
     {
       \bf
       \large
-      Acondicionamiento y puesta a punto de\\
+      Reingener\'{i}a y puesta en marcha de\\
       Torno CNC Hass Serie HL
     }
   }
@@ -42,62 +42,48 @@
   \maketitle
 {
   El objetivo de este proyecto es lograr el correcto acondicionamiento de la
-  parte el'ectrica, y puesta a punto posterior de un torno CNC marca Hass Serie HL. Al cual
-  luego de varios a'nos de actividad se le decidi'o realizar un reacondicionamiento
-  tanto el'ectrico c'omo mec'anico.
+  parte el'ectrica, con su posterior puesta en marcha de un torno CNC marca Hass
+  Serie HL. Al cual luego de varios a'nos de actividad se le decidi'o realizar
+  un reacondicionamiento tanto el'ectrico c'omo mec'anico.
 
-  Dicha m'aquina fue adquirida usada en el exterior (Estados Unidos, por lo cu'al,
-  el equipo opera en lin'eas trif'asicas de 110V), y ha estado en servicio en el
-  taller 3N del Ing. Gustavo Naranjo en la ciudad de Rosario, desd'e el a'no 2003
-  sin un mantenimiento m'as que el preventivo. Durante el a'no 2012 se tomo la
-  decidisi'on rectificar aquellos componentes mec'anicos que hacen a la precisi'on,
-  caracter'istica preciada en maquin'aria automatizada, as'i como tambi'en se
-  opto por un reemplazo de componentes electr'onicos sensibles, a saber:
-  controladora (con su plc interno), drivers y motores servo paso a paso con sus respectivos
-  encoders. Una parte de potencia importante de la m'aquina es el motor trif'asico
-  que acciona el usillo, as'i tambi'en como el inversor vectorial que lo alimenta,
-  sobre ninguno de los dos se realizaron reemplazos en est'a etapa de
-  acondicionamiento actual.
+  Dicha m'aquina fue adquirida en el exterior, y ha estado en servicio en un
+  taller de torner'ia de nuestra ciudad, desd'e el a'no 2003, Durante el a'no
+  2012 la gerencia tomo la decidisi'on de invertir en el reacondicionamiento de
+  dicha m'aquina. Para ello se procedio rectificar todos los componentes
+  mec'anicos que influyen a la precisi'on de la misma. C'omo as'i tambi'en
+  a reemplazar la etapa el'ectrica casi en su totalidad, incluyendo partes
+  sensibles como ser la controladora, el plc y los drivers de los ejes.
 
-  A nivel electr'onico se opto por reemplazar una antigua controladora marca GE
-  Fanuc, por una m'as moderna de la marca Fagor modelo CNC 8035, a niv'el de
-  drivers para motores servo se opto por unos de la marca Estun modelo Pronet
-  de 200V 15A. Los motores servo vienen con sus encoders incorporados y fueron
-  reemplazados por equipos con caracter'isticas similares a los originales. Es
-  importante destacar que el alumno no particip'o de la selecci'on de los
-  reemplazos, por ende la elecci'on de los mismos excede al trabajo del
-  proyecto a realizar.
+  En una etapa preliminar ser'a necesario hacer un relevaiento sobre la m'aquina,
+  componentes disponibles y elegidos como reemplazos, as'i tambi'en como una
+  investigaci'on sobre la documentaci'on disponible. Dada la falta de conocimientos
+  sobre est'e tipo de maquinar'ias por el alumno ser'a necesario consultar
+  tanto a los operarios del mismo, como a docentes, profesionales del ar'ea,
+  proovedores, etc.
 
-  En una primera etapa del proyecto ser'a necesario analizar y restablecer el
-  cableado interno de la m'aquina, con su correcta identificaci'on y elecci'on
-  adecuada de los componentes a utilizar. En mantenimientos previos realizados
-  se quitaron todas las identificaciones de cableado de la m'aquina, por lo cual
-  la labor de verificar el cableado se har'a m'as engorrosa. Durante est'a etapa
-  se har'a uso tanto de los manuales del fabricante original del torno, la empresa
-  Hass, as'i tambi'en de la informaci'on provista tanto por el manuales de la
-  controladora, encoders, inversor trif'asico, etc.
+  Luego ser'a necesario analizar y restablecer el cableado interno de la
+  m'aquina, con su correcta identificaci'on y elecci'on adecuada de los
+  componentes a utilizar. An'alisis, selecci'on y reemplazo de protecciones
+  necesar'ias para un correcto funcionamiento. Tambi'en se dejar'a constanci'ia
+  sobre el sistema el'ectrico para simplificar futuros mantenimientos.
 
   Una vez realizado el conexionado acorde y verificado el mismo, se proceder'a a
-  la etapa de puesta a punto. Para ello se recurrir'a al manual otorgado por Fagor
-  para el modelo de controladora especif'icamente utilizado, como as'i tambi'en
-  a los manuales de los drivers, los servos y el inversor trif'asico. Personal de
-  la empresa el cu'al opera con la maquinar'ia de forma diar'ia, personal t'ecnico
-  calificado, material referido a teor'ia de control, como as'i tambi'en a los
-  docentes de las respectivas c'atedras de nuestra facultad.
+  la etapa de puesta en marcha. Durante est'a etapa ser'a necesario ajustar
+  cada uno de los par'ametros del controlador seg'un especificaciones de los
+  y mediciones en el campo. Luego ser'a necesario modificar el c'odigo
+  del PLC inclu'ido dentro de la controladora, para adaptarlo a los requerim'ientos
+  de est'a m'aquina en particular, dado que el c'odigo inclu'ido de f'abrica es
+  gen'erico y probablemente no ajuste completamente a est'e caso particular.
 
-  Se tendr'a especial detenimiento en la redacci'on de documentos los cuales
-  permitan a futuro realizar mantenimiento de la maquinar'ia, por ejemplo dejando
-  registro del lugar por d'onde cada cable fue pasado, secciones elegidas,
-  corrientes estimadas, tensiones posibles en cada punto, protecciones, etc.
-  As'i como tambi'en la correcta identificaci'on de cada cable y se'nal
-  reconocible en el sistema. Es importante para el alumno la documentaci'on
-  de la expericia para futuros trabajos a realizar en otras m'aquinas de
-  caracter'isticas similares.
+  Finalmente se realizar'an las pruebas pertinentes para verificar que durante el
+  proceso de reingener'ia no hayan empeorado las capacidades de la m'aquina, en caso
+  de ser necesario se realizar'an los ajustes necesarios de forma iterativa hasta
+  lograr los requerimientos esperados.
 
-  Se estima que el acondicimiento con la puesta a punto deber'ia podr'ia ralizarse en
-  un tiempo de entre uno y dos meses (con dedicaci'on exclusiva), teniendo en cuenta
-  disponibilidades horarias, falta de experiencia en el ar'ea y otros imprevistos
-  dicho tiempo puede ser sensiblemente mayor.
+  Durante todas las etapas del proceso se llevar'a un registro del proceso a fin
+  de poder repetirlo en el con otras m'aquinas similares, y poder realizar
+  un adecuado mantenimiento de la m'aquina en el futuro.
+
 }
 
 \end{document}

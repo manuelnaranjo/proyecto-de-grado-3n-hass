@@ -1,0 +1,127 @@
+%TALLER VER 0.0.1    ,MX--,
+;%Taller ver 0.0.1,MX--,
+;
+; **********************  DEFINICION DE NEMONICOS  *********************
+;
+;   ENTRADAS
+;   ========
+;
+DEF IEMER       I01             ; SETA DE EMERGENCIA           
+DEF REFX        I04             ; REFERENCIA X
+DEF LIMX        I05             ; LIMITE DE CARRERA EJE X
+DEF SYSOK       I33             ; SYSTEM OK
+DEF DRIXOK      I35             ; DRIVER EJE X OK
+;
+;   SALIDAS
+;   ========
+;
+DEF OEMER       O01             ; EMERGENCIA
+DEF SYSENA      O02             ; SYSTEM ENABLE
+DEF SYSRES      O03             ; SYSTEM RESET
+DEF DRIENA      O04             ; DRIVES ENABLE
+;DEF SPEEDX      O06             ; SPEED ENABLE EJE X
+DEF SERVON      M100            ; SERVOS ON
+;
+;                            PROGAMA INICIAL
+;
+CY1                                 ; CICLO INICIAL
+()                                  ; NIVEL LOGICO ALTO
+=     ERA M1 149                    ; BORRA LAS MARCAS
+=     ERA M152 159                  ; BORRA LAS MARCAS
+=     ERA M161 200                  ; BORRA LAS MARCAS
+=     ERA R1 20                     ; BORRA LOS REGISTROS
+=     ERA R23 254                   ; BORRA LOS REGISTROS
+=     ERA T1 255                    ; BORRA LOS TEMPORIZADORES
+=     ERA O1 255                    ; BORRA LAS SALIDAS
+=     SET AUXEND                    ; CONTINUA
+=     SET GEAR1                     ; SETEA GAMA UNO
+END                                 ; FIN DEL CICLO INICIAL
+;
+;                           PROGAMA PRINCIPAL
+;
+PRG                                 ; PROGAMA PRINCIPAL
+REA                                 ; VALORES REALES
+;
+;                              FUNCIONES Ms                          
+;
+;DFU MSTROBE                         ; SI HAY UNA EME
+;                  = TG1 1 40        ; TIEMPO DE EMES
+;
+;DFU TSTROBE                         ; SI HAY UNA EME
+;                  = TG1 1 40        ; TIEMPO DE EMES
+;                  = MOV TBCD R5 108
+;
+DFU MSTROBE OR DFU TSTROBE = TG1 10 100
+;
+;                                SERVOS
+;
+;DRSTAF1 = B1R251          ; X status
+;DRSTAS1 = B0R251
+;
+    NOT LOPEN
+                     = SERVON           ; ACTIVA LOS DRIVER
+                     = OEMER            
+;
+NOT SERVON = TG1 60 1000                ;no esta ;
+   SERVON
+      OR T2 OR T60
+               = DRIENA
+;
+   SERVON
+               = SERVO1ON
+               = SPENA1              ; SPEED ENABLE X
+               = TG3 3 300           ; Retardo desabilitar X
+               = TG2 51 500          ; retardo de 500ms
+   T51                               ; despues del retardo 
+         = DRENA1                    ; Habilitacion drive X
+;                                VARIOS                          
+NOT IEMER
+           = /EMERGEN;
+           = /XFERINH
+           = SYSENA
+()               = /STOP           ; plc en estop
+()               = /FEEDHOL
+START              = CYSTART
+INCYCLE = TIMERON
+;
+NOT T10               = AUXEND
+;
+;-----------Cabezal---------
+() = GEAR1
+() = CNCRD(SREAL,R10,M1000)
+DFU B0R563 AND NOT M119 = CNCEX1(M19,M1111)
+DFU M19 AND NOT AUXEND = SET M119 
+M119 AND CPS R10 EQ 0 = SET SERVOSON
+DFU M55 OR DFD M3 OR DFD M4 = RES M119 
+                            = RES SERVOSON
+((DFU M3 OR DFU M4 OR DFU M19) OR (DM03 OR DM04 OR DM19)) = SET SPENAS
+                                                          = SET O1
+M55 = TG2 12 500
+T18 OR T12 = RES M55 
+           = RES SPENAS 
+           = RES O1
+() = CNCRD(MPS45,R105,M1000)
+DFU B5R561 = TG1 18 R105
+CPS R10 EQ 0 = TRS 18
+NOT O3 = DRENAS
+;
+DFU MSTROBE AND CPS MBCD* EQ $1 = M1
+DFU MSTROBE AND CPS MBCD* EQ $2 = M2
+DFU MSTROBE AND CPS MBCD* EQ $3 = M3
+DFU MSTROBE AND CPS MBCD* EQ $4 = M4
+DFU MSTROBE AND CPS MBCD* EQ $5 = M5
+DFU MSTROBE AND CPS MBCD* EQ $8 = M8
+DFU MSTROBE AND CPS MBCD* EQ $9 = M9
+DFU MSTROBE AND CPS MBCD* EQ $10 = M10
+DFU MSTROBE AND CPS MBCD* EQ $11 = M11
+DFU MSTROBE AND CPS MBCD* EQ $12 = M12
+DFU MSTROBE AND CPS MBCD* EQ $13 = M13
+DFU MSTROBE AND CPS MBCD* EQ $19 = M19 
+DFU MSTROBE AND CPS MBCD* EQ $20 = M20
+DFU MSTROBE AND CPS MBCD* EQ $21 = M21
+DFU MSTROBE AND CPS MBCD* EQ $24 = M24
+DFU MSTROBE AND CPS MBCD* EQ $25 = M25
+DFU MSTROBE AND CPS MBCD* EQ $29 = M29
+DFU MSTROBE AND CPS MBCD* EQ $30 = M30
+;
+END

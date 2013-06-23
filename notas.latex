@@ -1,0 +1,101 @@
+\documentclass[12pt,spanish,twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,activeacute]{babel}
+\usepackage{setspace}
+\oddsidemargin 0in
+\textwidth 6.75in
+\topmargin 0in
+\textheight 8.5in
+\parindent 0em
+\parskip 2ex
+
+\pagestyle{empty} % sin encabezado ni pie de página %
+
+\author{
+    \small Alumno: Naranjo, Manuel Francisco N-0621/1\\
+    \small Director: Ing. Sosa, Ignacio
+}
+
+\date {
+  \small Rosario, 2013
+}
+
+% TODO %
+\title {
+  \centering
+  {
+    {
+      \small
+      Presentación de anteproyecto\\
+    }
+    {
+      \bf
+      \large
+      Reingenería y puesta en marcha de\\
+      Torno CNC Hass Serie HL
+    }
+  }
+}
+
+
+\begin{document}
+  \noindent
+  \maketitle
+{
+  \begin{itemize}
+  \item Usillo:
+    \begin{itemize}
+    \item Driver:
+      \begin{itemize}
+      \item Tipo: Vectorial Trifásico a Transistores
+      \item Fábricante: Mitsubishi
+      \item Modelo: FR-A220E-15K-UL
+      \item Tensión Nominal: 3Ph 220V 50Hz
+      \item Fluctuación Permitida: 170V-242V
+      \item Potencia máxima: 15KW
+      \item
+      \end{itemize}
+    \item Motor:
+    \end{itemize}
+  \item Eje X, Z, Selector de Herramienta
+    \begin{itemize}
+    \item Driver:
+      \begin{itemize}
+      \item Tipo:
+      \item Fábricante: Estun
+      \item Modelo: Pronet - 15A200V
+      \item Tensión Nominal: 200~230 VAC 50/60Hz - 3Ph
+      \item Fluctuación Permitida: -15\%/+10\%
+      \item Potencia Máxima: 1.5KW
+      \item Modos: Control de velocidad, torque y posición con soporte extendido.
+      \item Encoder: 17 bits serial
+      \end{itemize}
+    \item Motor:
+      \begin{itemize}
+      \item Tipo: Servo Drive
+      \item F'abricante: Estun
+      \item Modelo: EMG-15ADA22 ?
+      \item Tensión Nominal: 200V AC
+      \item Fluctuación Permitida:
+      \item Potencia Máxima: 1.5KW
+      \item Torque Máximo: 7.16Nm
+      \item Velocidad Máxima: 2000rpm
+      \item Encoder: Incremental 131072P/R
+      \item Designing Sequence
+      \item Extremo del eje: Recto con chaveta y roscado
+      \item Opcionales: Con sello de aceite
+
+      \end{itemize}
+    \end{itemize}
+
+  \begin{itemize}
+    \item Día 1 (taller): Relevamiento de bloques, identificiación de módulos en el tablero, correlación entre sistema nuevo y original
+    \item Día 2 (casa): Recolección de datos, Diagrama de conexionado
+    \item Día 3 (taller): Diagrama conexionado ingreso y distribución de energía
+    \item Día 4 (taller): Diagrama conexionado inversor usillo y drivers ejes, cambiador de herramientas.
+    \item Día 5 (casa): Comparación manuales servos con manual controladora
+    \item Día 6 (casa/taller): Diagrama conexionado inversor usillo, drivers ejes e intercambiador de herramientas.
+  \end{itemize}
+}
+
+\end{document}

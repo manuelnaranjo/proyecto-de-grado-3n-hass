@@ -1,81 +1,122 @@
 %TALLER VER 0.0.1    ,MX--,
 ;%Taller ver 0.0.1,MX--,
 ;
-; **********************  DEFINICION DE NEMONICOS  *********************
+; *******************  DEFINICION DE NEMONICOS  ******************
 ;
 ;   ENTRADAS
 ;   ========
-;
-DEF IEMER       I01             ; SETA DE EMERGENCIA           
-DEF IREF0X       I02             ; LIMITE DE CARRERA EJE X
-DEF IREF0Z I04;
-DEF SYSOK       I33             ; SYSTEM OK
-DEF IREF0T I06;
-DEF DRIXOK      I35             ; DRIVER EJE X OK
-;
-DEF ICLAMP I8;
-DEF IUNCLAMP I10;
-;   SALIDAS
-DEF IALAX I3
-DEF IALAZ I5
-DEF IALAT I7
-DEF MACHON I16
+DEF IEMER    I01
+; Entrada del boton de emergencia
+DEF IREF0X   I02
+; Origen de maquina eje X
+DEF IREF0Z   I04
+; Origen de maquina eje Z
+DEF IREF0T   I06
+; Origen de maquina torreta
+DEF ICLAMP   I08
+; Torreta campleada
+DEF IUNCLAMP I10
+; Torreta descampleada
+DEF IALAX    I03
+; Entrada Alarma eje X
+DEF IALAZ    I05
+; Entrada Alarma eje Z
+DEF IALAT    I07
+; Entrada Alarma torreta
+DEF MACHON   I16
+; Entrada Machine ON
 DEF REGETEMP I14
+; Alarma de temperatura de la resistencia de regeneracion
+DEF SENAIR   I12
+; Sensor de presion de aire
+DEF LLUB190  I67
+; Sensor de bajo lubricante 190
+DEF LLUB960  I69
+; Sensor de bajo lubricante 960
+DEF DOOR     I65
+; Sensor de puerta cerrada
+DEF SPOVLOA  I71
+; SPINDLE OVERLOAD
+DEF SPPOWFAI I73
+; SPINDLE POWER FAILURE
+DEF SPSU     I75
+;SPINDLE UP TO FREQUENCY
+DEF SPALAR   I77
+; SPINDLE ALARM
+;
+;
+;   SALIDAS
 ;   ========
-DEF SENAIR I12
-DEF LLUB190 I67
-DEF LLUB960 I69
-DEF DOOR I65
 ;
-DEF SPOVLOA I71; SPINDLE OVERLOAD
-DEF SPPOWFAI I73; SPINDLE POWER FAILURE
-DEF SPSU I75 ;SPINDLE UP TO FREQUENCY 
-DEF SPALAR I77; SPINDLE ALARM
-DEF OEMER       O01             ; EMERGENCIA
-DEF SYSENA      O02             ; SYSTEM ENABLE
-DEF SERVON      M100            ; SERVOS ON
-DEF SERONX O3
+DEF OEMER    O01
+; PLC emergencia
+; DEF OSYSENA  O02
+; SYSTEM ENABLE
+DEF OSERONX  O03
+; Activa driver servo x
+DEF OSERONZ  O05
+; Activa driver servo z
+DEF OSERONT  O07
+; Activa driver servo torreta
+DEF OALRESX  O02
+; Resetea alarma servo x
+DEF OALRESZ  O04
+; Resetea alarm servo z
+DEF OALREST  O06
+; Reseta alarma torreta
+DEF OUNCLAMP O48
+; Cuando activado descamplea torreta
+DEF OPARTCAT O46
+; Part catcher
+DEF OLUBAIR  O44
+; Lubricacion con Aire
+DEF OSPSTOP  O42
+; Detener spindle
+DEF OALRESSP O40
+; Spindle reset alarma
+DEF OSPFW    O38
+; Spindle habilitar direccion positiva
+DEF OSPRW    O36
+; Spindle habilitar direccion reversa
 ;
-DEF SERONZ O5
-DEF SERONT O7
-;                            PROGAMA INICIAL
-DEF SERRESAX O2
-DEF SERRESAZ O4
-DEF SERRESAT O6
 ;
-DEF CLAMPCHA O48
-DEF PARTCATC O46
-DEF AIRLUBS O44
-;
-;
-DEF SPSTOP O42
-;STOP
-DEF SPRES O40 ;SPINDLE STOP
-DEF SPFW O38; SPINDLE FORWARD
-DEF SPRW O36; SPINDLE REVERSE
+;   CONSTANTES
+;   ============
 DEF SPVMIN 500000
-CY1                                 ; CICLO INICIAL
-()                                  ; NIVEL LOGICO ALTO
-=     ERA M1 149                    ; BORRA LAS MARCAS
-=     ERA M152 159                  ; BORRA LAS MARCAS
-=     ERA M161 2000                  ; BORRA LAS MARCAS
-=     ERA R1 20                     ; BORRA LOS REGISTROS
-=     ERA R23 254                   ; BORRA LOS REGISTROS
-=     ERA T1 255                    ; BORRA LOS TEMPORIZADORES
-=     ERA O1 255                    ; BORRA LAS SALIDAS
-=     SET AUXEND                    ; CONTINUA
-=     SET GEAR1                     ; SETEA GAMA UNO
-=      SET O2;SERRESAX
-=     SET O4
-= SET     O6
-END                                 ; FIN DEL CICLO INICIAL
+; spindle velocidad mínima
 ;
-;                           PROGAMA PRINCIPAL
 ;
-PRG                                 ; PROGAMA PRINCIPAL
-REA                                 ; VALORES REALES
+;   MARCAS
+;   ============
 ;
-;                              FUNCIONES Ms                          
+;
+;
+; ******************** PROGAMA INICIAL **************************
+CY1                     ; CICLO INICIAL
+()                      ; NIVEL LOGICO ALTO, ejecuta siempre
+=     ERA M1 149        ; BORRA LAS MARCAS
+=     ERA M152 159      ; BORRA LAS MARCAS
+=     ERA M161 2000     ; BORRA LAS MARCAS
+=     ERA R1 20         ; BORRA LOS REGISTROS
+=     ERA R23 254       ; BORRA LOS REGISTROS
+=     ERA T1 255        ; BORRA LOS TEMPORIZADORES
+=     ERA O1 255        ; BORRA LAS SALIDAS
+=     SET GEAR1         ; SETEA GAMA UNO
+=     SET OALRESX       ; reset alarma eje x
+=     SET OALRESZ       ; reset alarma eje z
+=     SET OALREST       ; reset alarma torreta
+=     SET OALRESSP      ; reset alarma spindle
+=     SET AUXEND        ; avisar al CNC que puede continuar
+END                     ; FIN DEL CICLO INICIAL
+;
+;
+;
+; ********************* PROGAMA PRINCIPAL **********************
+;
+PRG                     ; PROGAMA PRINCIPAL
+REA                     ; VALORES REALES
+;
+;                              FUNCIONES Ms
 ;
 ;DFU MSTROBE                         ; SI HAY UNA EME
 ;                  = TG1 1 40        ; TIEMPO DE EMES
@@ -111,15 +152,15 @@ I6=DECELY;
 () = GEAR1
 () = CNCRD(SREAL,R10,M1000)
 DFU B0R563 AND NOT M119 = CNCEX1(M19,M1111)
-DFU M19 AND NOT AUXEND = SET M119 
+DFU M19 AND NOT AUXEND = SET M119
 M119 AND CPS R10 EQ 0 = SET SERVOSON
-DFU M55 OR DFD M3 OR DFD M4 = RES M119 
+DFU M55 OR DFD M3 OR DFD M4 = RES M119
                             = RES SERVOSON
 ((DFU M3 OR DFU M4 OR DFU M19) OR (DM03 OR DM04 OR DM19)) = SET SPENAS
 ;                                                          = SET O1
 M55 = TG2 12 500
-T18 OR T12 = RES M55 
-           = RES SPENAS 
+T18 OR T12 = RES M55
+           = RES SPENAS
            = RES O1
 () = CNCRD(MPS45,R105,M1000)
 DFU B5R561 = TG1 18 R105
@@ -137,7 +178,7 @@ DFU MSTROBE AND CPS MBCD* EQ $10 = M10
 DFU MSTROBE AND CPS MBCD* EQ $11 = M11
 DFU MSTROBE AND CPS MBCD* EQ $12 = M12
 DFU MSTROBE AND CPS MBCD* EQ $13 = M13
-DFU MSTROBE AND CPS MBCD* EQ $19 = M19 
+DFU MSTROBE AND CPS MBCD* EQ $19 = M19
 DFU MSTROBE AND CPS MBCD* EQ $20 = M20
 DFU MSTROBE AND CPS MBCD* EQ $21 = M21
 DFU MSTROBE AND CPS MBCD* EQ $24 = M24
@@ -152,7 +193,7 @@ DFU MSTROBE AND CPS MBCD* EQ $204 = M204
 IMA DFD M201 = SET M1020 = SET M1021
 IMA DFD M202 = RES M1020 = SET M1021
 IMA M1021 AND ( DFD I8 OR DFD I10 ) = SET AUXEND = RES M1021
-DFU M1021 = RES AUXEND 
+DFU M1021 = RES AUXEND
 IMA DFD M203 = RES AUXEND = SET M1998
 = CNCEX(G91 G0 Y.125, M2000)
 M1998 AND IMA DFU INPOSY = SET  AUXEND = RES M1998
@@ -172,7 +213,7 @@ DFU M1900 AND CPS R563 EQ $4 = M205
 DFU M1900 AND CPS R563 EQ $2 = M206
 ;
 ; CONTROL DIRECCION SPINDLE
-( ) = CNCRD(SPEED, R11, M1001 ) 
+( ) = CNCRD(SPEED, R11, M1001 )
 ( DM03 OR DM19 ) AND ( CPS R11 GE 500000 )  = O38
 ;( DFU M05 OR ( ( DFU DM03 OR DFU DM04 ) AND ( CPS R10 LT 50 ) ) )  = O36 = O38
 ( DM05 ) OR ( CPS R11 LT 500000 ) = O40
@@ -180,8 +221,8 @@ DFU M1900 AND CPS R563 EQ $2 = M206
 ;
 ;
 ; CONTROL TORRETA
-( I7 AND I16 ) = SERVOYON; CONTROL SERVO                        
-DFU TSTROBE OR DFU M1100 = CNCRD(TOOL, R20, M2000) = SET M1999 
+( I7 AND I16 ) = SERVOYON; CONTROL SERVO
+DFU TSTROBE OR DFU M1100 = CNCRD(TOOL, R20, M2000) = SET M1999
 IMA DFU M1999 AND CPS R20 LE $10 = JMP L1
 IMA DFU M1999 = SBS R20 6 R20
 L1
@@ -199,7 +240,7 @@ DFU M202 = RES M201
 ;
 ; CAMBIO T
 DFU TSTROBE = RES AUXEND = SET M1002
-= MOV TBCD R13 
+= MOV TBCD R13
 DFU TSTROBE AND CPS R13 GE $10 = SBS R13 6 R13
 IMA DFD I10 AND M1002 = SET M1004
 = SBS R13 1 R13
@@ -209,7 +250,7 @@ IMA DFD I10 AND M1002 = SET M1004
 = CNCEX(G90 G0 Y P200, M1006)
 = CNCEX((PLCM 1007=1), M1006)
 IMA DFU M1007 AND M1004 = RES M1002 = RES M1004
-DFD I8 = SET AUXEND 
+DFD I8 = SET AUXEND
 ;
 ; RESET TOOL CHANGER
 DFU M200 = RES AUXEND = SET M1100
@@ -220,11 +261,11 @@ DFD I10 AND M1100 = RES M1117
 ;= CNCEX(G92Y0, M1107)
 ;= CNCEX(G4, M1107)
 = CNCEX((PLCM 1117=1), M1107)
-DFU M1117 = RES M1118 
-= CNCWR(R12,GUP200,M2000) 
+DFU M1117 = RES M1118
+= CNCWR(R12,GUP200,M2000)
 ;= CNCEX(G90 G0 Y P200, M1107)
 ;= CNCEX(G4, M1107)
-= CNCEX((PLCM 1118=1),M1107) 
+= CNCEX((PLCM 1118=1),M1107)
 DFU M1118 = RES M1100
-DFD  I8 = SET AUXEND 
+DFD  I8 = SET AUXEND
 END

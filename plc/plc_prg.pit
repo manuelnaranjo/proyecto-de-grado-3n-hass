@@ -6,7 +6,7 @@
 ;   ENTRADAS
 ;   ========
 ;
-DEF IEMER       I01             ; SETA DE EMERGENCIA           
+DEF IEMER       I01             ; SETA DE EMERGENCIA
 DEF REFX        I04             ; REFERENCIA X
 DEF LIMX        I05             ; LIMITE DE CARRERA EJE X
 DEF SYSOK       I33             ; SYSTEM OK
@@ -21,6 +21,7 @@ DEF SYSRES      O03             ; SYSTEM RESET
 DEF DRIENA      O04             ; DRIVES ENABLE
 ;DEF SPEEDX      O06             ; SPEED ENABLE EJE X
 DEF SERVON      M100            ; SERVOS ON
+DEF SERVOXON    O3              ; ENABLE SERVO X
 ;
 ;                            PROGAMA INICIAL
 ;
@@ -42,7 +43,7 @@ END                                 ; FIN DEL CICLO INICIAL
 PRG                                 ; PROGAMA PRINCIPAL
 REA                                 ; VALORES REALES
 ;
-;                              FUNCIONES Ms                          
+;                              FUNCIONES Ms
 ;
 ;DFU MSTROBE                         ; SI HAY UNA EME
 ;                  = TG1 1 40        ; TIEMPO DE EMES
@@ -60,25 +61,25 @@ DFU MSTROBE OR DFU TSTROBE = TG1 10 100
 ;
     NOT LOPEN
                      = SERVON           ; ACTIVA LOS DRIVER
-                     = OEMER            
+                     = OEMER
 ;
 NOT SERVON = TG1 60 1000                ;no esta ;
    SERVON
       OR T2 OR T60
-               = DRIENA
+               = SERVOXON
 ;
    SERVON
                = SERVO1ON
                = SPENA1              ; SPEED ENABLE X
                = TG3 3 300           ; Retardo desabilitar X
                = TG2 51 500          ; retardo de 500ms
-   T51                               ; despues del retardo 
-         = DRENA1                    ; Habilitacion drive X
-;                                VARIOS                          
-NOT IEMER
-           = /EMERGEN;
-           = /XFERINH
-           = SYSENA
+   T51                               ; despues del retardo
+         = SERVOXON                  ; Habilitacion drive X
+;                                VARIOS
+IEMER
+        = /EMERGEN;
+        = /XFERINH
+        = SYSENA
 ()               = /STOP           ; plc en estop
 ()               = /FEEDHOL
 START              = CYSTART
@@ -90,15 +91,15 @@ NOT T10               = AUXEND
 () = GEAR1
 () = CNCRD(SREAL,R10,M1000)
 DFU B0R563 AND NOT M119 = CNCEX1(M19,M1111)
-DFU M19 AND NOT AUXEND = SET M119 
+DFU M19 AND NOT AUXEND = SET M119
 M119 AND CPS R10 EQ 0 = SET SERVOSON
-DFU M55 OR DFD M3 OR DFD M4 = RES M119 
+DFU M55 OR DFD M3 OR DFD M4 = RES M119
                             = RES SERVOSON
 ((DFU M3 OR DFU M4 OR DFU M19) OR (DM03 OR DM04 OR DM19)) = SET SPENAS
                                                           = SET O1
 M55 = TG2 12 500
-T18 OR T12 = RES M55 
-           = RES SPENAS 
+T18 OR T12 = RES M55
+           = RES SPENAS
            = RES O1
 () = CNCRD(MPS45,R105,M1000)
 DFU B5R561 = TG1 18 R105
@@ -116,7 +117,7 @@ DFU MSTROBE AND CPS MBCD* EQ $10 = M10
 DFU MSTROBE AND CPS MBCD* EQ $11 = M11
 DFU MSTROBE AND CPS MBCD* EQ $12 = M12
 DFU MSTROBE AND CPS MBCD* EQ $13 = M13
-DFU MSTROBE AND CPS MBCD* EQ $19 = M19 
+DFU MSTROBE AND CPS MBCD* EQ $19 = M19
 DFU MSTROBE AND CPS MBCD* EQ $20 = M20
 DFU MSTROBE AND CPS MBCD* EQ $21 = M21
 DFU MSTROBE AND CPS MBCD* EQ $24 = M24

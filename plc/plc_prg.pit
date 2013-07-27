@@ -83,23 +83,64 @@ DEF OSPRW    O36
 ;   CONSTANTES
 ;   ============
 DEF SPVMIN 500000
-; spindle velocidad minima
+; spindle velocidad minima, por abajo de 50rpm no regula el driver
+; TODO: verificar si se puede reparar el spindle, probar mandando
+;       tensión negativa a ver si reduce la componente de continua
+;       del ruido.
+DEF DISTTOOL -36
+; una herramienta cada 36 grados, sentido negativo
 ;
 ;
 ;   MARCAS
 ;   ============
 DEF MTEMP    M1000
 ; Marca usada para CNCRD, CNCWR y CNCEX
-DEF MANCLAMP M1020
+DEF MANCLAMP M1010
 ; Marca clampeo torreta manual
-DEF MANCLAAU M1021
+DEF MANCLAAU M1011
 ; Marca auxiliar clampeo torreta manual
-DEF MANTAU   M1022
+DEF MANTAU   M1012
 ; Marca auxiliar de que se mando avance manual a la torreta
+DEF MTHOME   M1020
+; Inicializar torreta de herramientas
+DEF MTHOMEA1 M1021
+; auxiliar inicializar torreta herramientas 1
+DEF MTHOMEA2 M1022
+; auxiliar inicializar torreta herramientas 2
+DEF MTHOMEA3 M1023
+; auxiliar inicializar torreta herramientas 3
+DEF MTHOMEA0 M1024
+; auxiliar inicializar torreta herramientas 0
+DEF MTCHANGE M1030
+; cambio de herramienta en progreso por comando T
+DEF MTCHANA0 M1031
+; cambio de herramienta en progreso por comando T auxiliar 0
+DEF MTCHANA1 M1032
+; cambio de herramienta en progreso por comando T auxiliar 1
+DEF MTCHANA2 M1033
+; cambio de herramienta en progreso por comando T auxiliar 2
+;
+;
 ;   REGISTROS
 ;   ============
 DEF RSREAL   R10
 ; Registro utilizado para guardar SREAL del CNC
+DEF RSPEED   R11
+; Registro utilizado para guardar velocidad programada del spindle
+DEF RTOOL    R12
+; Registro utilizado para guardar la herramienta seleccionada -1
+DEF RTOOLD   R13
+; herramienta seleccionada en grados
+DEF RTBCD    R14
+; proxima herramienta pasada por comando T
+DEF RTBCDD   R15
+; proxima herramienta pasada por comando T en gradosx
+DEF RPOSY    R200
+; debug posicion torreta
+DEF RFLWEY   R201
+; debug error posicion torreta
+DEF RTPOSY    R202
+; debug posicion teorica torreta
 ;
 ;   TIMERS
 ;   ============
@@ -190,6 +231,8 @@ DFU MSTROBE AND CPS MBCD* EQ $204 = M204 ; avance lento torreta -
 ;
 ;
 ; -------- Control manual de la torreta de herramientas ---------
+DFU M201 = RES M202
+DFU M202 = RES M201
 IMA DFD M201 = SET MANCLAMP = SET MANCLAAU
 IMA DFD M202 = RES MANCLAMP = SET MANCLAAU
 ;
@@ -232,60 +275,74 @@ DFD B2R563 = RES M205
 DFU B1R563 = SET M206
 DFD B1R563 = RES M206
 ;
-; CONTROL DIRECCION SPINDLE
-( ) = CNCRD(SPEED, R11, M1001 )
-( DM03 OR DM19 ) AND ( CPS R11 GE 500000 )  = O38
-;( DFU M05 OR ( ( DFU DM03 OR DFU DM04 ) AND ( CPS R10 LT 50 ) ) )  = O36 = O38
-( DM05 ) OR ( CPS R11 LT 500000 ) = O40
-( DM04 ) AND ( CPS R11 GE 500000 ) = O36
 ;
 ;
-; CONTROL TORRETA
-( I7 AND I16 ) = SERVOYON; CONTROL SERVO
-DFU TSTROBE OR DFU M1100 = CNCRD(TOOL, R20, M2000) = SET M1999
-IMA DFU M1999 AND CPS R20 LE $10 = JMP L1
-IMA DFU M1999 = SBS R20 6 R20
-L1
-IMA DFU M1999 = SBS R20 1 R20
-= MLS R20 -36 R12
-= RES M1999
-( NOT I10 ) = O7
-;( NOT I10 AND NOT M1020 ) = O7
-M1002 OR M1100 OR MANCLAMP = O48; CONTROL ACTUADOR
-( ) = CNCRD(POSY, R200, M2000)
-= CNCRD(FLWEY, R201, M2000)
-= CNCRD(DISTY, R202, M2000)
-= CNCRD(TPOSY, R203, M2000)
-DFU M202 = RES M201
+; -------- Control Direccion Spindle ----------------------------
+( ) = CNCRD(SPEED, RSPEED, MTEMP )
+( DM03 OR DM19 ) AND ( CPS RSPEED GE SPVMIN ) = OSPFW
+( DM05 ) OR ( CPS RSPEED LT SPVMIN ) = OSPSTOP
+( DM04 ) AND ( CPS RSPEED GE SPVMIN ) = OSPRW
 ;
-; CAMBIO T
-DFU TSTROBE = RES AUXEND = SET M1002
-= MOV TBCD R13
-DFU TSTROBE AND CPS R13 GE $10 = SBS R13 6 R13
-IMA DFD I10 AND M1002 = SET M1004
-= SBS R13 1 R13
-= RES M1007
-= MLS -36 R13 R23
-= CNCWR(R23 ,GUP200,M1006)
-= CNCEX(G90 G0 Y P200, M1006)
-= CNCEX((PLCM 1007=1), M1006)
-IMA DFU M1007 AND M1004 = RES M1002 = RES M1004
-DFD I8 = SET AUXEND
 ;
-; RESET TOOL CHANGER
-DFU M200 = RES AUXEND = SET M1100
-DFD I10 AND M1100 = RES M1117
-= CNCEX(G74 Y, M1107)
-;= CNCEX(G4, M1107)
-;= CNCEX(G90 G0 YP2000, M1107)
-;= CNCEX(G92Y0, M1107)
-;= CNCEX(G4, M1107)
-= CNCEX((PLCM 1117=1), M1107)
-DFU M1117 = RES M1118
-= CNCWR(R12,GUP200,M2000)
-;= CNCEX(G90 G0 Y P200, M1107)
-;= CNCEX(G4, M1107)
-= CNCEX((PLCM 1118=1),M1107)
-DFU M1118 = RES M1100
-DFD  I8 = SET AUXEND
+; -------- Control automatico Torreta herramientas --------------
+( IEJETOK AND IMACHON ) = SERVOYON; habilitar eje
+NOT IUNCLAMP = OSERONT; si descampleado energizar eje
+MTCHANGE OR MTHOME OR MANCLAMP = OUNCLAMP; CONTROL ACTUADOR
+;
+;
+; cargar registros de depuracion
+() = CNCRD(POSY, RPOSY, MTEMP)
+= CNCRD(FLWEY, RFLWEY, MTEMP)
+= CNCRD(TPOSY, RTPOSY, MTEMP)
+;
+; ------ control por comando T ---------------------------------
+DFU TSTROBE = RES AUXEND
+= SET MTCHANGE ; descamplear
+= SET MTCHANA2 ; proceso en ejecucion
+= MOV TBCD RTBCD 1032     ; copiar origen bcd destino bin
+= SBS RTBCD 1 RTBCD       ; restar 1
+= MLS RTBCD DISTTOOL RTBCDD; pasar a grados
+IMA DFD IUNCLAMP AND MTCHANGE
+= RES MTCHANA1
+= CNCWR(RTBCDD,GUP 200, MTEMP)
+= CNCEX(G90 G0 Y P200, MTEMP)
+= CNCEX((PLCMM 1032=1), MTEMP); MTCHANA1 alto cuando termina ejec
+;
+IMA DFU MTCHANA1 AND MTCHANGE = RES MTCHANGE; clampear
+;
+DFD ICLAMP AND MTCHANA2 = SET AUXEND; esperar clampeo
+= RES MTCHANA2; proceso terminado
+= RES MTCHANA1
+= RES MTCHANA0
+;
+;
+; ----- reiniciar torreta - M200 -------------------------------
+DFU M200 = RES AUXEND
+= SET MTHOME  ; descamplear
+= SET MTHOMEA1; proceso en ejecucion
+= CNCRD(TOOL, RTOOL, MTEMP) ; leer herramienta de CNC
+= MOV RTOOL RTOOL 1032      ; convertir bcd a bin
+= SBS RTOOL 1 RTOOL         ; TOOL comienza a contar en 1
+= MLS RTOOL DISTTOOL RTOOLD ; pasar a gados
+;
+IMA DFD IUNCLAMP AND MTHOME = RES MTHOMEA2; esperar desclampeo
+= CNCEX(G74 Y, MTEMP)          ; buscar inicio
+= CNCEX(G91 G1 YP2000, MTEMP)  ; mover a offset
+= CNCEX(G92Y0, MTEMP)          ; setear eje a 0
+= CNCEX((PLCMM 1022=1), MTEMP)  ; avisar plc termino cnc MTHOMEA2
+;
+DFU MTHOMEA2 = RES MTHOMEA3 ; home encontrado,
+; llevar a herramienta seleccionada en CNC
+= CNCWR(RTOOLD,GUP 200, MTEMP)
+= CNCEX(G90 G0 Y P200 , MTEMP)
+= CNCEX((PLCMM 1023=1), MTEMP) ; avisar plc termino cnc MTHOMEA3
+DFU MTHOMEA3 AND MTHOME = RES MTHOME; clampear
+;
+DFD ICLAMP AND MTHOMEA1 = SET AUXEND; esperar clampeo
+= RES MTHOMEA1; proceso terminado
+= RES MTHOMEA2
+= RES MTHOMEA3
+;
+;
+; ------------------------- fin programa pricipal --------------
 END

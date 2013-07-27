@@ -79,8 +79,9 @@
       \item Fluctuación Permitida:
       \item Potencia Máxima: 1.5KW
       \item Torque Máximo: 7.16Nm
-      \item Velocidad Máxima: 2000rpm
-      \item Encoder: Incremental 131072P/R
+      \item Velocidad Nominal: 2000rpm
+      \item Velocidad Máxima: 3000rpm
+      \item Encoder: Incremental 131072P/R 17-bit
       \item Designing Sequence
       \item Extremo del eje: Recto con chaveta y roscado
       \item Opcionales: Con sello de aceite
@@ -95,7 +96,32 @@
     \item Día 4 (taller): Diagrama conexionado inversor usillo y drivers ejes, cambiador de herramientas.
     \item Día 5 (casa): Comparación manuales servos con manual controladora
     \item Día 6 (casa/taller): Diagrama conexionado inversor usillo, drivers ejes e intercambiador de herramientas.
-  \end{itemize}
+    \item Día 7 (casa/taller): idem
+    \item Día 8 (casa/taller): idem
+    \item Día 9 (taller): Desgloce de cables, remoción circuito previo
+    \item Día 10 (taller): Conexionado inicial de etapas de potencia
+    \item Día 11 (taller): idem
+    \item Día 12 (taller): Diseño circuito encedido potencia y encedido control
+    \item Día 13 (taller): Conexionado y prueba de circuitos de encedido
+    \item Día 14 (taller): Investigación controladora, desgloce cables de señales
+
+  Servos:
+  Ajuste ganancia: 9.5V -> 2000RPM -> 210RPM/V
+  P011 = 1 / assume ZX plane on powerup
+
+  P023 = 10 / 10 tools in turret
+  P68 = 1
+  P123 = 1 / assumes cutter geometry is associated with tool offset
+  P129b0 = 1 / differentenial handwheel
+
+  eje x
+  P55 = NO / no rollover
+
+
+  para configurar offsets
+  setear FBALTIME a 0 así el CNC no chequea la cantidad de pulsos a recibir
+  setear MAXFLEW1 y MAXFLEW2 a máximo valor
+
 }
 
 \end{document}

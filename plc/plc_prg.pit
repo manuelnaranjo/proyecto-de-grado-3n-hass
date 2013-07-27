@@ -17,31 +17,31 @@ DEF ICLAMP   I08
 ; Torreta campleada
 DEF IUNCLAMP I10
 ; Torreta descampleada
-DEF IALAX    I03
+DEF IEJEXOK  I03
 ; Entrada Alarma eje X
-DEF IALAZ    I05
+DEF IEJEZOK  I05
 ; Entrada Alarma eje Z
-DEF IALAT    I07
+DEF IEJETOK  I07
 ; Entrada Alarma torreta
-DEF MACHON   I16
+DEF IMACHON  I16
 ; Entrada Machine ON
-DEF REGETEMP I14
+DEF IREGTEMP I14
 ; Alarma de temperatura de la resistencia de regeneracion
-DEF SENAIR   I12
+DEF ISENAIR  I12
 ; Sensor de presion de aire
-DEF LLUB190  I67
+DEF ILLUB190 I67
 ; Sensor de bajo lubricante 190
-DEF LLUB960  I69
+DEF ILLUB960 I69
 ; Sensor de bajo lubricante 960
-DEF DOOR     I65
+DEF IDOOR    I65
 ; Sensor de puerta cerrada
-DEF SPOVLOA  I71
+DEF ISPOVLOA I71
 ; SPINDLE OVERLOAD
-DEF SPPOWFAI I73
+DEF ISPPOWAL I73
 ; SPINDLE POWER FAILURE
-DEF SPSU     I75
+DEF ISPSU    I75
 ;SPINDLE UP TO FREQUENCY
-DEF SPALAR   I77
+DEF ISPALAR  I77
 ; SPINDLE ALARM
 ;
 ;
@@ -83,13 +83,29 @@ DEF OSPRW    O36
 ;   CONSTANTES
 ;   ============
 DEF SPVMIN 500000
-; spindle velocidad mínima
+; spindle velocidad minima
 ;
 ;
 ;   MARCAS
 ;   ============
+DEF MTEMP    M1000
+; Marca usada para CNCRD, CNCWR y CNCEX
+DEF MANCLAMP M1020
+; Marca clampeo torreta manual
+DEF MANCLAAU M1021
+; Marca auxiliar clampeo torreta manual
+DEF MANTAU   M1022
+; Marca auxiliar de que se mando avance manual a la torreta
+;   REGISTROS
+;   ============
+DEF RSREAL   R10
+; Registro utilizado para guardar SREAL del CNC
 ;
+;   TIMERS
+;   ============
 ;
+;   CONTADORES
+;   ============
 ;
 ; ******************** PROGAMA INICIAL **************************
 CY1                     ; CICLO INICIAL
@@ -107,6 +123,10 @@ CY1                     ; CICLO INICIAL
 =     SET OALREST       ; reset alarma torreta
 =     SET OALRESSP      ; reset alarma spindle
 =     SET AUXEND        ; avisar al CNC que puede continuar
+=     RES OUNCLAMP      ; clampear
+=     RES OPARTCAT      ; desactivar part catcher
+=     RES OLUBAIR       ; desactivar lubricación
+=     SET OSPSTOP       ; frenar spindle
 END                     ; FIN DEL CICLO INICIAL
 ;
 ;
@@ -116,101 +136,101 @@ END                     ; FIN DEL CICLO INICIAL
 PRG                     ; PROGAMA PRINCIPAL
 REA                     ; VALORES REALES
 ;
-;                              FUNCIONES Ms
-;
-;DFU MSTROBE                         ; SI HAY UNA EME
-;                  = TG1 1 40        ; TIEMPO DE EMES
-;
-;DFU TSTROBE                         ; SI HAY UNA EME
-;                  = TG1 1 40        ; TIEMPO DE EMES
-;                  = MOV TBCD R5 108
-;
-DFU MSTROBE OR DFU TSTROBE = TG1 10 100
-;
-;                                SERVOS
-;
-;DRSTAF1 = B1R251          ; X status
-;DRSTAS1 = B0R251
-;
-;
-( I3 AND I16 ) = SERVOXON = O3
-( I5 AND I16 ) = SERVOZON = O5
+; plc status
 IEMER = /EMERGEN;
-()               = /STOP           ; plc en estop
-() = /FEEDHOL;
+()    = /STOP           ; canal plc en stop
+()    = /FEEDHOL;
 START = CYSTART;
 INCYCLE = TIMERON;
 ;
-I2=DECELX;
-I4=DECELZ;
-I6=DECELY;
-;NOT T10               = AUXEND
+; habilitar ejes si es posible
+( IEJEXOK AND IMACHON ) = SERVOXON = OSERONX
+( IEJEZOK AND IMACHON ) = SERVOZON = OSERONZ
 ;
-() = NOT O48 = NOT O46 = NOT O44
-;-----------Cabezal---------
-;() = O36 = NOT O38 = NOT O40 = NOT O42;
-() = GEAR1
-() = CNCRD(SREAL,R10,M1000)
-DFU B0R563 AND NOT M119 = CNCEX1(M19,M1111)
-DFU M19 AND NOT AUXEND = SET M119
-M119 AND CPS R10 EQ 0 = SET SERVOSON
-DFU M55 OR DFD M3 OR DFD M4 = RES M119
-                            = RES SERVOSON
-((DFU M3 OR DFU M4 OR DFU M19) OR (DM03 OR DM04 OR DM19)) = SET SPENAS
-;                                                          = SET O1
-M55 = TG2 12 500
-T18 OR T12 = RES M55
-           = RES SPENAS
-           = RES O1
-() = CNCRD(MPS45,R105,M1000)
-DFU B5R561 = TG1 18 R105
-CPS R10 EQ 0 = TRS 18
-NOT O3 = DRENAS
+; Conectar sensores de inicio máquina
+IREF0X=DECELX;
+IREF0Z=DECELZ;
+IREF0T=DECELY;
 ;
-DFU MSTROBE AND CPS MBCD* EQ $1 = M1
-DFU MSTROBE AND CPS MBCD* EQ $2 = M2
-DFU MSTROBE AND CPS MBCD* EQ $3 = M3
-DFU MSTROBE AND CPS MBCD* EQ $4 = M4
-DFU MSTROBE AND CPS MBCD* EQ $5 = M5
-DFU MSTROBE AND CPS MBCD* EQ $8 = M8
-DFU MSTROBE AND CPS MBCD* EQ $9 = M9
+;
+; -----------Cabezal---------
+() = GEAR1                  ; unico cambio
+() = CNCRD(SREAL, RSREAL, MTEMP)
+; TODO: agregar codigo para M19 luego de comprobar si el inversor
+;       se lo banca
+; TODO: agegar codigo delay de inicializacion si fuese necesario
+;
+;
+; -----------Marcas enviadas por el CNC --------------------
+;DFU MSTROBE AND CPS MBCD* EQ $0 =  M0    ; parada programada
+DFU MSTROBE AND CPS MBCD* EQ $1 =  M1    ; parada opcional
+DFU MSTROBE AND CPS MBCD* EQ $2 =  M2    ; simil m30
+DFU MSTROBE AND CPS MBCD* EQ $3 =  M3    ; spindle a favor reloj
+DFU MSTROBE AND CPS MBCD* EQ $4 =  M4    ; spindle contra reloj
+DFU MSTROBE AND CPS MBCD* EQ $5 =  M5    ; parar spindle
+DFU MSTROBE AND CPS MBCD* EQ $8 =  M8    ; activar refrigerante
+DFU MSTROBE AND CPS MBCD* EQ $9 =  M9    ; desactivar refrigerante
 DFU MSTROBE AND CPS MBCD* EQ $10 = M10
 DFU MSTROBE AND CPS MBCD* EQ $11 = M11
 DFU MSTROBE AND CPS MBCD* EQ $12 = M12
 DFU MSTROBE AND CPS MBCD* EQ $13 = M13
-DFU MSTROBE AND CPS MBCD* EQ $19 = M19
+DFU MSTROBE AND CPS MBCD* EQ $19 = M19   ; spindle lazo cerrado
 DFU MSTROBE AND CPS MBCD* EQ $20 = M20
 DFU MSTROBE AND CPS MBCD* EQ $21 = M21
 DFU MSTROBE AND CPS MBCD* EQ $24 = M24
 DFU MSTROBE AND CPS MBCD* EQ $25 = M25
 DFU MSTROBE AND CPS MBCD* EQ $29 = M29
-DFU MSTROBE AND CPS MBCD* EQ $30 = M30
-DFU MSTROBE AND CPS MBCD* EQ $200 = M200
-DFU MSTROBE AND CPS MBCD* EQ $201 = M201
-DFU MSTROBE AND CPS MBCD* EQ $202 = M202
-DFU MSTROBE AND CPS MBCD* EQ $203 = M203
-DFU MSTROBE AND CPS MBCD* EQ $204 = M204
-IMA DFD M201 = SET M1020 = SET M1021
-IMA DFD M202 = RES M1020 = SET M1021
-IMA M1021 AND ( DFD I8 OR DFD I10 ) = SET AUXEND = RES M1021
-DFU M1021 = RES AUXEND
-IMA DFD M203 = RES AUXEND = SET M1998
-= CNCEX(G91 G0 Y.125, M2000)
-M1998 AND IMA DFU INPOSY = SET  AUXEND = RES M1998
-IMA DFD M204 = RES AUXEND = SET M1998
-= CNCEX(G91 G0 Y-.125, M2000)
-IMA DFD M205 = RES AUXEND = SET M1998
-= CNCEX(G91 G0 Y-36, M2000)
-IMA DFD M206 = RES AUXEND = SET M1998
-= CNCEX(G91 G0 Y36, M2000)
-CPS R563 NE R30 = CPL M1900
-() = MOV R563 R30
-DFU M1900 AND CPS R563 EQ $40 = M201
-DFU M1900 AND CPS R563 EQ $20 = M202
-DFU M1900 AND CPS R563 EQ $10 = M203
-DFU M1900 AND CPS R563 EQ $8 = M204
-DFU M1900 AND CPS R563 EQ $4 = M205
-DFU M1900 AND CPS R563 EQ $2 = M206
+DFU MSTROBE AND CPS MBCD* EQ $30 = M30   ; fin de programa
+; comandos macro personalizados
+DFU MSTROBE AND CPS MBCD* EQ $200 = M200 ; inicializar torreta
+DFU MSTROBE AND CPS MBCD* EQ $201 = M201 ; descamplear
+DFU MSTROBE AND CPS MBCD* EQ $202 = M202 ; camplear
+DFU MSTROBE AND CPS MBCD* EQ $203 = M203 ; avance lento torreta +
+DFU MSTROBE AND CPS MBCD* EQ $204 = M204 ; avance lento torreta -
+;
+;
+; -------- Control manual de la torreta de herramientas ---------
+IMA DFD M201 = SET MANCLAMP = SET MANCLAAU
+IMA DFD M202 = RES MANCLAMP = SET MANCLAAU
+;
+; si usuario solicito clampeo manual esperar a que termine de
+; cambiar el actuador previo a permitir al CNC continuar
+IMA MANCLAAU AND ( DFD ICLAMP OR DFD IUNCLAMP ) = SET AUXEND
+= RES MANCLAAU
+DFU MANCLAAU = RES AUXEND
+;
+; control de avance manual, se setea marca de control, se resetea
+; auxend y se setea una vez que se alcanzo la posicion
+IMA DFD M203 AND MANCLAMP = SET MANTAU ; avance lento +
+= RES AUXEND
+= CNCEX(G91 G0 Y.125, MTEMP)
+IMA DFD M204 AND MANCLAMP = SET MANTAU ; avance lento -
+= RES AUXEND
+= CNCEX(G91 G0 Y-.125, MTEMP)
+IMA DFD M206 AND MANCLAMP = SET MANTAU ; avance rapido +
+= RES AUXEND
+= CNCEX(G91 G0 Y36, MTEMP)
+IMA DFD M205 AND MANCLAMP = SET MANTAU ; avance rapido -
+= RES AUXEND
+= CNCEX(G91 G0 Y-36, MTEMP)
+; cuando servo alcance posicion
+MANTAU AND IMA DFU INPOSY = SET  AUXEND
+= RES MANTAU
+;
+; -------- Control temporal por teclado de torreta manual -------
+; TODO: esto tiene que desaparacer en el codigo final
+DFU B6R563 = SET M201
+DFD B6R563 = RES M201
+DFU B5R563 = SET M202
+DFD B5R563 = RES M202
+DFU B4R563 = SET M203
+DFD B4R563 = RES M203
+DFU B3R563 = SET M204
+DFD B3R563 = RES M204
+DFU B2R563 = SET M205
+DFD B2R563 = RES M205
+DFU B1R563 = SET M206
+DFD B1R563 = RES M206
 ;
 ; CONTROL DIRECCION SPINDLE
 ( ) = CNCRD(SPEED, R11, M1001 )
@@ -231,7 +251,7 @@ IMA DFU M1999 = SBS R20 1 R20
 = RES M1999
 ( NOT I10 ) = O7
 ;( NOT I10 AND NOT M1020 ) = O7
-M1002 OR M1100 OR M1020 = O48; CONTROL ACTUADOR
+M1002 OR M1100 OR MANCLAMP = O48; CONTROL ACTUADOR
 ( ) = CNCRD(POSY, R200, M2000)
 = CNCRD(FLWEY, R201, M2000)
 = CNCRD(DISTY, R202, M2000)

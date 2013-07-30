@@ -90,6 +90,10 @@ DEF SPVMIN 500000
 DEF DISTTOOL -36
 ; una herramienta cada 36 grados, sentido negativo
 ;
+DEF TIMECLA  75
+; 75 ms timeout al clampear
+DEF TIMEUCLA 50
+; 50 ms timeout al desclampear
 ;
 ;   MARCAS
 ;   ============
@@ -124,6 +128,9 @@ DEF MCLAMPED M1040
 ; torreta clampeada
 DEF MUCLAMPE M1041
 ; torreta descampleada
+;
+DEF MACKSPIN M1050
+; usado para hacer el ACK de los comandos del spindle M03, M04, M05, M19
 ;
 ;   REGISTROS
 ;   ============
@@ -166,7 +173,7 @@ CY1                     ; CICLO INICIAL
 =     SET OALRESX       ; reset alarma eje x
 =     SET OALRESZ       ; reset alarma eje z
 =     SET OALREST       ; reset alarma torreta
-=     SET OALRESSP      ; reset alarma spindle
+=     RES OALRESSP      ; reset alarma spindle
 =     SET AUXEND        ; avisar al CNC que puede continuar
 =     RES OUNCLAMP      ; clampear
 =     RES OPARTCAT      ; desactivar part catcher
@@ -200,7 +207,9 @@ IREF0T=DECELY;
 ;
 ; -----------Cabezal---------
 () = GEAR1                  ; unico cambio
-() = CNCRD(SREAL, RSREAL, MTEMP)
+= SPENAS
+= DRENAS
+= SERVOSON
 ; TODO: agregar codigo para M19 luego de comprobar si el inversor
 ;       se lo banca
 ; TODO: agegar codigo delay de inicializacion si fuese necesario
@@ -282,11 +291,16 @@ DFD B1R563 = RES M206
 ;
 ;
 ; -------- Control Direccion Spindle ----------------------------
-( ) = CNCRD(FTEOS, RSPEED, MTEMP )
+() = CNCRD(SPEED, RSPEED, MTEMP )
+= CNCRD(SREAL, RSREAL, MTEMP )
 ( DM03 OR DM19 ) AND ( CPS RSPEED GE SPVMIN ) = OSPFW
 ( DM05 ) OR ( CPS RSPEED LT SPVMIN ) = OSPSTOP
 ( DM04 ) AND ( CPS RSPEED GE SPVMIN ) = OSPRW
-;
+DFU M3 OR DFU M4 OR DFU M5 OR DFU M19 OR DFU SSTROBE = SET MACKSPIN
+= RES AUXEND
+MACKSPING = TG1 3 20         ; por 20 ms auxend es mio
+NOT T3 AND MACKSPIN = SET AUXEND
+= RES MACKSPIN
 ;
 ; -------- Control automatico Torreta herramientas --------------
 ( IEJETOK AND IMACHON ) = SERVOYON; habilitar lazo eje salvo que hayan alarmas
@@ -295,14 +309,14 @@ DFD B1R563 = RES M206
 ; proceso de cambio de estado del actuador
 DFU MTCHANGE OR DFU MTHOME OR DFU MANCLAMP = SET OUNCLAMP; descamplear
 DFD IUNCLAMP = SET MUCLAMPE       ; marcar cuando se detecta desclampe
-MUCLAMPE = TG4 1 100              ; esperar 100ms luego de descamplear
+MUCLAMPE = TG4 1 TIMEUCLA         ; esperar Xms luego de descamplear
 NOT IUNCLAMP AND NOT T1 AND MUCLAMPE = RES MUCLAMPE ; limpiar marca
 DFD MUCLAMPE = SET OSERONT        ; cuando la marca se limpia, energizar servo
 ;
 ;
 DFD MTCHANGE OR DFD MTHOME OR DFD MANCLAMP = RES OSERONT ; desenergizar servo
 DFD OSERONT = SET MCLAMPED    ; marcar cuando servo se desenergiza
-MCLAMPED = TG4 2 100          ; esperar 100ms previo a clampear
+MCLAMPED = TG4 2 TIMECLA      ; esperar Xms previo a clampear
 NOT OSERONT AND NOT T2 AND MCLAMPED = RES MCLAMPED; descamplear
 DFD MCLAMPED = RES OUNCLAMP   ; clampear
 ;

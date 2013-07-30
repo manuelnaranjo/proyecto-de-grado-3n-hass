@@ -120,6 +120,10 @@ DEF MTCHANA1 M1032
 DEF MTCHANA2 M1033
 ; cambio de herramienta en progreso por comando T auxiliar 2
 ;
+DEF MCLAMPED M1040
+; torreta clampeada
+DEF MUCLAMPE M1041
+; torreta descampleada
 ;
 ;   REGISTROS
 ;   ============
@@ -278,16 +282,30 @@ DFD B1R563 = RES M206
 ;
 ;
 ; -------- Control Direccion Spindle ----------------------------
-( ) = CNCRD(SPEED, RSPEED, MTEMP )
+( ) = CNCRD(FTEOS, RSPEED, MTEMP )
 ( DM03 OR DM19 ) AND ( CPS RSPEED GE SPVMIN ) = OSPFW
 ( DM05 ) OR ( CPS RSPEED LT SPVMIN ) = OSPSTOP
 ( DM04 ) AND ( CPS RSPEED GE SPVMIN ) = OSPRW
 ;
 ;
 ; -------- Control automatico Torreta herramientas --------------
-( IEJETOK AND IMACHON ) = SERVOYON; habilitar eje
-NOT IUNCLAMP = OSERONT; si descampleado energizar eje
-MTCHANGE OR MTHOME OR MANCLAMP = OUNCLAMP; CONTROL ACTUADOR
+( IEJETOK AND IMACHON ) = SERVOYON; habilitar lazo eje salvo que hayan alarmas
+;
+; control con retardos para evitar que lazo de control se active durante
+; proceso de cambio de estado del actuador
+DFU MTCHANGE OR DFU MTHOME OR DFU MANCLAMP = SET OUNCLAMP; descamplear
+DFD IUNCLAMP = SET MUCLAMPE       ; marcar cuando se detecta desclampe
+MUCLAMPE = TG4 1 100              ; esperar 100ms luego de descamplear
+NOT IUNCLAMP AND NOT T1 AND MUCLAMPE = RES MUCLAMPE ; limpiar marca
+DFD MUCLAMPE = SET OSERONT        ; cuando la marca se limpia, energizar servo
+;
+;
+DFD MTCHANGE OR DFD MTHOME OR DFD MANCLAMP = RES OSERONT ; desenergizar servo
+DFD OSERONT = SET MCLAMPED    ; marcar cuando servo se desenergiza
+MCLAMPED = TG4 2 100          ; esperar 100ms previo a clampear
+NOT OSERONT AND NOT T2 AND MCLAMPED = RES MCLAMPED; descamplear
+DFD MCLAMPED = RES OUNCLAMP   ; clampear
+;
 ;
 ;
 ; cargar registros de depuracion
@@ -302,8 +320,8 @@ DFU TSTROBE = RES AUXEND
 = MOV TBCD RTBCD 1032     ; copiar origen bcd destino bin
 = SBS RTBCD 1 RTBCD       ; restar 1
 = MLS RTBCD DISTTOOL RTBCDD; pasar a grados
-IMA DFD IUNCLAMP AND MTCHANGE
-= RES MTCHANA1
+;
+DFU OSERONT AND MTCHANGE = RES MTCHANA1 ; esperar que servo este listo
 = CNCWR(RTBCDD,GUP 200, MTEMP)
 = CNCEX(G90 G0 Y P200, MTEMP)
 = CNCEX((PLCMM 1032=1), MTEMP); MTCHANA1 alto cuando termina ejec
@@ -318,25 +336,25 @@ DFD ICLAMP AND MTCHANA2 = SET AUXEND; esperar clampeo
 ;
 ; ----- reiniciar torreta - M200 -------------------------------
 DFU M200 = RES AUXEND
-= SET MTHOME  ; descamplear
 = SET MTHOMEA1; proceso en ejecucion
 = CNCRD(TOOL, RTOOL, MTEMP) ; leer herramienta de CNC
 = MOV RTOOL RTOOL 1032      ; convertir bcd a bin
 = SBS RTOOL 1 RTOOL         ; TOOL comienza a contar en 1
 = MLS RTOOL DISTTOOL RTOOLD ; pasar a gados
+= SET MTHOME  ; descamplear y esperar senal de T1
 ;
-IMA DFD IUNCLAMP AND MTHOME = RES MTHOMEA2; esperar desclampeo
+DFU OSERONT AND MTHOME = RES MTHOMEA2; esperar servo listo
 = CNCEX(G74 Y, MTEMP)          ; buscar inicio
-= CNCEX(G91 G1 YP2000, MTEMP)  ; mover a offset
+= CNCEX(G91 G1 YP2000, MTEMP)  ; mover a offset en coordenadas relativas
 = CNCEX(G92Y0, MTEMP)          ; setear eje a 0
-= CNCEX((PLCMM 1022=1), MTEMP)  ; avisar plc termino cnc MTHOMEA2
+= CNCEX((PLCMM 1022=1), MTEMP) ; avisar plc termino cnc MTHOMEA2
 ;
 DFU MTHOMEA2 = RES MTHOMEA3 ; home encontrado,
 ; llevar a herramienta seleccionada en CNC
 = CNCWR(RTOOLD,GUP 200, MTEMP)
 = CNCEX(G90 G0 Y P200 , MTEMP)
 = CNCEX((PLCMM 1023=1), MTEMP) ; avisar plc termino cnc MTHOMEA3
-DFU MTHOMEA3 AND MTHOME = RES MTHOME; clampear
+DFU MTHOMEA3 AND MTHOME = RES MTHOME; iniciar proceso de clampeo
 ;
 DFD ICLAMP AND MTHOMEA1 = SET AUXEND; esperar clampeo
 = RES MTHOMEA1; proceso terminado

@@ -90,7 +90,7 @@ DEF SPVMIN 500000
 DEF DISTTOOL -36
 ; una herramienta cada 36 grados, sentido negativo
 ;
-DEF TIMECLA  75
+DEF TIMECLA  100
 ; 75 ms timeout al clampear
 DEF TIMEUCLA 50
 ; 50 ms timeout al desclampear
@@ -152,6 +152,7 @@ DEF RFLWEY   R201
 ; debug error posicion torreta
 DEF RTPOSY    R202
 ; debug posicion teorica torreta
+DEF RAPOSY R203
 ;
 ;   TIMERS
 ;   ============
@@ -259,10 +260,10 @@ DFU MANCLAAU = RES AUXEND
 ; auxend y se setea una vez que se alcanzo la posicion
 IMA DFD M203 AND MANCLAMP = SET MANTAU ; avance lento +
 = RES AUXEND
-= CNCEX(G91 G0 Y.125, MTEMP)
+= CNCEX(G1 G91 Y.125 F700., MTEMP)
 IMA DFD M204 AND MANCLAMP = SET MANTAU ; avance lento -
 = RES AUXEND
-= CNCEX(G91 G0 Y-.125, MTEMP)
+= CNCEX(G1 G91 Y-.125 F700, MTEMP)
 IMA DFD M206 AND MANCLAMP = SET MANTAU ; avance rapido +
 = RES AUXEND
 = CNCEX(G91 G0 Y36, MTEMP)
@@ -298,7 +299,7 @@ DFD B1R563 = RES M206
 ( DM04 ) AND ( CPS RSPEED GE SPVMIN ) = OSPRW
 DFU M3 OR DFU M4 OR DFU M5 OR DFU M19 OR DFU SSTROBE = SET MACKSPIN
 = RES AUXEND
-MACKSPING = TG1 3 20         ; por 20 ms auxend es mio
+MACKSPIN = TG1 3 20         ; por 20 ms auxend es mio
 NOT T3 AND MACKSPIN = SET AUXEND
 = RES MACKSPIN
 ;
@@ -326,6 +327,7 @@ DFD MCLAMPED = RES OUNCLAMP   ; clampear
 () = CNCRD(POSY, RPOSY, MTEMP)
 = CNCRD(FLWEY, RFLWEY, MTEMP)
 = CNCRD(TPOSY, RTPOSY, MTEMP)
+= CNCRD(APOSY, RAPOSY,MTEMP)
 ;
 ; ------ control por comando T ---------------------------------
 DFU TSTROBE = RES AUXEND
@@ -346,6 +348,7 @@ DFD ICLAMP AND MTCHANA2 = SET AUXEND; esperar clampeo
 = RES MTCHANA2; proceso terminado
 = RES MTCHANA1
 = RES MTCHANA0
+;= CNCEX(G92 YP200, MTEMP)          ; setear eje
 ;
 ;
 ; ----- reiniciar torreta - M200 -------------------------------
@@ -359,14 +362,14 @@ DFU M200 = RES AUXEND
 ;
 DFU OSERONT AND MTHOME = RES MTHOMEA2; esperar servo listo
 = CNCEX(G74 Y, MTEMP)          ; buscar inicio
-= CNCEX(G91 G1 YP2000, MTEMP)  ; mover a offset en coordenadas relativas
-= CNCEX(G92Y0, MTEMP)          ; setear eje a 0
+= CNCEX(G91 G1 YP2000 F100., MTEMP)  ; mover a offset en coordenadas relativas
+= CNCEX(G92 Y0, MTEMP)          ; setear eje a 0
 = CNCEX((PLCMM 1022=1), MTEMP) ; avisar plc termino cnc MTHOMEA2
 ;
 DFU MTHOMEA2 = RES MTHOMEA3 ; home encontrado,
 ; llevar a herramienta seleccionada en CNC
 = CNCWR(RTOOLD,GUP 200, MTEMP)
-= CNCEX(G90 G0 Y P200 , MTEMP)
+= CNCEX(G1 YP200 F600. , MTEMP)
 = CNCEX((PLCMM 1023=1), MTEMP) ; avisar plc termino cnc MTHOMEA3
 DFU MTHOMEA3 AND MTHOME = RES MTHOME; iniciar proceso de clampeo
 ;
@@ -374,6 +377,7 @@ DFD ICLAMP AND MTHOMEA1 = SET AUXEND; esperar clampeo
 = RES MTHOMEA1; proceso terminado
 = RES MTHOMEA2
 = RES MTHOMEA3
+= CNCEX(G92 YP200, MTEMP)          ; setear eje
 ;
 ;
 ; ------------------------- fin programa pricipal --------------

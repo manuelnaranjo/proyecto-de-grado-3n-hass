@@ -95,7 +95,6 @@ DEF OTAILF   O35
 DEF OTAILHS  O39
 ; Mover contrapunta a toda velocidad
 ;DEF OSPCLAMP O37
-; TODO revisar esta selenoide
 ; Liberar pieza
 ;
 DEF OLUZVERD O45

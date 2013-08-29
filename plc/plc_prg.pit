@@ -25,7 +25,7 @@ DEF IEJETOK  I07
 ; Entrada Alarma torreta
 DEF IMACHON  I16
 ; Entrada Machine ON
-DEF IREGTEMP I14
+DEF IREGTEMP I09
 ; Alarma de temperatura de la resistencia de regeneracion
 DEF ISENAIR  I12
 ; Sensor de presion de aire
@@ -36,13 +36,22 @@ DEF ILLUB960 I69
 DEF IDOOR    I65
 ; Sensor de puerta cerrada
 DEF ISPOVLOA I71
-; SPINDLE OVERLOAD
+; Spindle Sobrecarga
 DEF ISPPOWAL I73
-; SPINDLE POWER FAILURE
+; Spindle Falla Energia
 DEF ISPSU    I75
-;SPINDLE UP TO FREQUENCY
+; Spindle Frequencia Alcanzada
 DEF ISPALAR  I77
-; SPINDLE ALARM
+; Spindle Alarma
+DEF ILOWHIDR I14
+; Baja presión en sistema hidraulico NA
+DEF ITAILFIN1 I11
+; Contra punta cerca pieza
+DEF ITAILFIN2 I13
+; Contra punta punto medio
+DEF ITAILFIN3 I15
+; Contra punta alejada pieza
+;
 ;
 ;
 ;   SALIDAS
@@ -66,7 +75,7 @@ DEF OALREST  O06
 ; Reseta alarma torreta
 DEF OUNCLAMP O48
 ; Cuando activado descamplea torreta
-DEF OPARTCAT O46
+DEF OPARTCAT O460
 ; Part catcher
 DEF OLUBAIR  O44
 ; Lubricacion con Aire
@@ -79,6 +88,20 @@ DEF OSPFW    O38
 DEF OSPRW    O36
 ; Spindle habilitar direccion reversa
 ;
+DEF OTAILR   O33
+; Alejar contra punta de la pieza
+DEF OTAILF   O35
+; Acercar contra punta a la pieza
+DEF OTAILHS  O39
+; Mover contrapunta a toda velocidad
+;DEF OSPCLAMP O37
+; TODO revisar esta selenoide
+; Liberar pieza
+;
+DEF OLUZVERD O45
+; Prender durante ciclo de trabajo
+DEF OLUZROJA O47
+; Prender en caso de alarma
 ;
 ;   CONSTANTES
 ;   ============
@@ -289,6 +312,12 @@ DFD B2R563 = RES M205
 DFU B1R563 = SET M206
 DFD B1R563 = RES M206
 ;
+;
+;--------- Control manual de contra punta -----------------------
+B0R563 = OTAILF
+B7R563 = OTAILR
+B15R563 = OTAILHS
+;B10R563 = OSPCLAMP
 ;
 ;
 ; -------- Control Direccion Spindle ----------------------------

@@ -51,6 +51,9 @@ DEF ITAILFIN2 I13
 ; Contra punta punto medio
 DEF ITAILFIN3 I15
 ; Contra punta alejada pieza
+DEF IPEDALCLA I77
+; Pedal de clampeo/desclampeo de pieza
+DEF IPEDALTAI I84
 ;
 ;
 ;

@@ -1,5 +1,5 @@
-%TALLER VER 0.0.1    ,MX--,
-;%Taller ver 0.0.1,MX--,
+%TALLER VER 0.1.0    ,MX--,
+;%Taller ver 0.1.0,MX--,
 ;
 ; *******************  DEFINICION DE NEMONICOS  ******************
 ;
@@ -97,7 +97,7 @@ DEF OTAILF   O35
 ; Acercar contra punta a la pieza
 DEF OTAILHS  O39
 ; Mover contrapunta a toda velocidad
-;DEF OSPCLAMP O37
+DEF OSPCLAMP O37
 ; Liberar pieza
 ;
 DEF OLUZVERD O45
@@ -109,9 +109,6 @@ DEF OLUZROJA O47
 ;   ============
 DEF SPVMIN 500000
 ; spindle velocidad minima, por abajo de 50rpm no regula el driver
-; TODO: verificar si se puede reparar el spindle, probar mandando
-;       tensión negativa a ver si reduce la componente de continua
-;       del ruido.
 DEF DISTTOOL -36
 ; una herramienta cada 36 grados, sentido negativo
 ;
@@ -119,6 +116,18 @@ DEF TIMECLA  100
 ; 75 ms timeout al clampear
 DEF TIMEUCLA 50
 ; 50 ms timeout al desclampear
+;
+;
+DEF TIMETAIL 5500
+; tiempo a velocidad lenta entre que pasa fin1 y llega al usillo
+DEF TAILZON0 1
+; contra punta entre fin 1 y pieza (zona 0)
+DEF TAILZON1 2
+; contra punta entre fin 1 y fin 2 (zona 1)
+DEF TAILZON2 3
+; contra punta entre fin 2 y fin 3 (zona 2)
+DEF TAILFIN3 4
+; contra punta en fin 3
 ;
 ;   MARCAS
 ;   ============
@@ -157,6 +166,26 @@ DEF MUCLAMPE M1041
 DEF MACKSPIN M1050
 ; usado para hacer el ACK de los comandos del spindle M03, M04, M05, M19
 ;
+DEF MTIMTAIL M1060
+; usado para controlar timer para control de la contra punta
+DEF MTAILFI3 M1061
+; usado para marcar al llegar contra punta a fin3
+DEF MTAILZO2 M1062
+; usado para marcar al llegar contra punta a zona2
+DEF MTAILZO1 M1063
+; usado para marcar al llegar contra punta a zona1
+DEF MTAILZO0 M1064
+; usado para marcar al llegar contra punta a zona0
+DEF MTAILRDO M1065
+; usado para marcar fin de proceso de retroceso
+DEF MTAILFDO M1066
+; usado para detectar flancos en T4
+DEF MT4      M1067
+; usado para marcar contra punta programada
+DEF MTAILPRO M1068
+; usado para marcar direccion contra punta por pedal
+DEF MTAILPED M1069
+;
 ;   REGISTROS
 ;   ============
 DEF RSREAL   R10
@@ -171,16 +200,30 @@ DEF RTBCD    R14
 ; proxima herramienta pasada por comando T
 DEF RTBCDD   R15
 ; proxima herramienta pasada por comando T en gradosx
+DEF RPOSTAIL R300
+; posicion contra punta
+;          posibles valores:
+;                   0 - No inicializado
+;                   1 - Pieza
+;                   2 - Fin 1
+;                   3 - Fin 2
+;                   4 - Fin 3
 DEF RPOSY    R200
 ; debug posicion torreta
 DEF RFLWEY   R201
 ; debug error posicion torreta
-DEF RTPOSY    R202
+DEF RTPOSY   R202
 ; debug posicion teorica torreta
-DEF RAPOSY R203
+DEF RAPOSY   R203
 ;
 ;   TIMERS
 ;   ============
+;   T1 usado para esperar previo a desclampeo torreta
+;   T2 usado para esperar previo a clampeo torreta
+;   T3 usado control dirección de spindle
+;   T4 usado para contar el tiempo que transcurre desde que la contra punta
+;   entra a zona 0 hasta que la misma haya llegado a la pieza, como no hay
+;   sensores disponibles no puedo saber si llego a tocar
 ;
 ;   CONTADORES
 ;   ============
@@ -190,7 +233,8 @@ CY1                     ; CICLO INICIAL
 ()                      ; NIVEL LOGICO ALTO, ejecuta siempre
 =     ERA M1 149        ; BORRA LAS MARCAS
 =     ERA M152 159      ; BORRA LAS MARCAS
-=     ERA M161 2000     ; BORRA LAS MARCAS
+=     ERA M161 1059     ; BORRA LAS MARCAS
+=     ERA M1080 2000    ; BORRA LAS MARCAS
 =     ERA R1 20         ; BORRA LOS REGISTROS
 =     ERA R23 254       ; BORRA LOS REGISTROS
 =     ERA T1 255        ; BORRA LOS TEMPORIZADORES
@@ -261,12 +305,28 @@ DFU MSTROBE AND CPS MBCD* EQ $24 = M24
 DFU MSTROBE AND CPS MBCD* EQ $25 = M25
 DFU MSTROBE AND CPS MBCD* EQ $29 = M29
 DFU MSTROBE AND CPS MBCD* EQ $30 = M30   ; fin de programa
-; comandos macro personalizados
+;
+; ------------ comandos macro personalizados --------------------------
+; comandos
 DFU MSTROBE AND CPS MBCD* EQ $200 = M200 ; inicializar torreta
-DFU MSTROBE AND CPS MBCD* EQ $201 = M201 ; descamplear
-DFU MSTROBE AND CPS MBCD* EQ $202 = M202 ; camplear
-DFU MSTROBE AND CPS MBCD* EQ $203 = M203 ; avance lento torreta +
-DFU MSTROBE AND CPS MBCD* EQ $204 = M204 ; avance lento torreta -
+; --------------------
+; TODO: estos comandos tienen que volar de la version final
+DFU MSTROBE AND CPS MBCD* EQ $201 = M201 ; descamplear torreta
+DFU MSTROBE AND CPS MBCD* EQ $202 = M202 ; camplear torreta
+DFU MSTROBE AND CPS MBCD* EQ $203 = M203 ; avance lento contra punta +
+DFU MSTROBE AND CPS MBCD* EQ $204 = M204 ; avance rapido contra punto -
+; fin de TODO
+;
+;
+; control contra punta
+; retroceso rapido
+DFU MSTROBE AND CPS MBCD* EQ $300 = SET M300 ; hasta tope 1
+DFU MSTROBE AND CPS MBCD* EQ $301 = SET M301 ; hasta tope 2
+DFU MSTROBE AND CPS MBCD* EQ $302 = SET M302 ; hasta tope 3
+; avance rapudo hasta tope X luego lento por TIMETAIL ms
+DFU MSTROBE AND CPS MBCD* EQ $310 = SET M310 ; rapido hasta tope 1
+DFU MSTROBE AND CPS MBCD* EQ $311 = SET M311 ; rapido hasta tope 2
+DFU MSTROBE AND CPS MBCD* EQ $312 = SET M312 ; lento
 ;
 ;
 ; -------- Control manual de la torreta de herramientas ---------
@@ -316,10 +376,83 @@ DFD B1R563 = RES M206
 ;
 ;
 ;--------- Control manual de contra punta -----------------------
-B0R563 = OTAILF
-B7R563 = OTAILR
-B15R563 = OTAILHS
-;B10R563 = OSPCLAMP
+; si llega a fin3 entonces esta en fin 3
+DFU ITAILFIN3 = MOV TAILFIN3 RPOSTAIL
+; si llega a fin2 y se aleja de la pieza o si se alejo de fin3
+; se encuentra en en zona 2
+(DFU ITAILFIN2 AND OTAILR) OR DFD ITAILFIN3 = MOV TAILZON2 RPOSTAIL;
+; si llega a fin1 y se aleja de la pieza, o si se acerca a la pieza y toca fin 2
+; se encuentra en zona 1
+(DFU ITAILFIN1 AND OTAILR) OR (DFD ITAILFIN2 AND OTAILF) = MOV TAILZON1 RPOSTAIL
+; si se aleja de fin1 y se acerca a la pieza entonces alcanzo zona 0
+DFD ITAILFIN1 AND OTAILF = MOV TAILZON0 RPOSTAIL
+; cualquier otro caso no se inicializo y se mueve lentamente hasta entrar
+; en estado válido, esto sólo sucede la primera vez que se ejecute esté código
+; ya que el registro mantiene el valor luego de perder la energía y no es borrado.
+;
+; setear marcas para detectar transiciones
+CPS RPOSTAIL EQ TAILFIN3 = MTAILFI3
+CPS RPOSTAIL EQ TAILZON2 = MTAILZO2
+CPS RPOSTAIL EQ TAILZON1 = MTAILZO1
+CPS RPOSTAIL EQ TAILZON0 = MTAILZO0
+;
+; desactivar contra punta cuando llega a fin3
+DFU MTAILFI3 AND OTAILR = RES OTAILR = RES OTAILHS
+;
+;
+; marcar inicio de retroceso programado
+DFU M300 OR DFU M301 OR DFU M302
+= SET MTAILRDO
+= RES AUXEND
+;
+; marcar fin de retroceso programado
+(M300 AND DFU ITAILFIN1) OR
+(M301 AND DFU ITAILFIN2) OR
+(M302 AND DFU ITAILFIN3)
+= RES MTAILRDO
+= RES M300 = RES M301 = RES M302
+= SET AUXEND
+;
+; marcar inicio avance programado
+DFU M310 OR DFU M311 OR DFU M312
+= SET MTAILFDO
+= RES AUXEND
+; marcar fin de avance programado
+T4 = MT4
+DFD MT4
+= RES MTAILFDO
+= SET AUXEND
+= RES M310 = RES M311 = RES M312
+= RES MTIMTAIL
+;
+; control avance contra punta
+DFU B0R563 OR DFU MTAILFDO = SET OTAILF
+DFD B0R563 OR DFD MTAILFDO = RES OTAILF
+;
+; control retroceso contra punta
+DFU B7R563 OR DFU MTAILRDO = SET OTAILR
+DFD B7R563 OR DFD MTAILRDO = RES OTAILR
+;
+; control velocidad rapida contra punta
+DFU MTAILRDO OR
+DFU B15R563 OR
+MTAILFDO AND (
+         ( NOT MTAILZO0 AND M310 ) OR
+         ( NOT MTAILZO0 AND NOT MTAILZO1 AND M311 ) OR
+         ( NOT MTAILZO0 AND NOT MTAILZO1 AND NOT MTAILZO2 AND M312)
+)
+= SET OTAILHS
+DFD MTAILRDO OR DFD B15R563 = RES OTAILHS
+; desactivar alta velocidad al entrar a zona 0 si M310
+; desactivar alta velocidad al entrar a zona 1 si M311
+; desactivar alta velocidad al entrar a zona 2 si M312
+OTAILF AND (
+       (DFU MTAILZO0 AND M310) OR
+       (DFU MTAILZO1 AND M311) OR
+       (DFU MTAILZO2 AND M312)
+) = RES OTAILHS
+= SET MTIMTAIL ; inicializar contador
+MTIMTAIL = TG4 4 TIMETAIL
 ;
 ;
 ; -------- Control Direccion Spindle ----------------------------
@@ -411,5 +544,27 @@ DFD ICLAMP AND MTHOMEA1 = SET AUXEND; esperar clampeo
 = CNCEX(G92 YP200, MTEMP)          ; setear eje
 ;
 ;
+; ------------------------- control por pedales ---------------
+;
+; ---- control de cabezal ------
+DFU IPEDALCLA AND OSPCLAMP = RES OSPCLAMP
+DFU IPEDALCLA AND NOT OSPCLAMP = SET OSPCLAMP
+;
+; ---- control de contra punta -----
+MTAILRDO AND MTAILFDO = MTAILPRO
+NOT MTAILPRO AND DFU IPEDALTAI AND MTAILPED
+= SET OTAILR
+= SET OTAILHS
+= RES MTAILPED
+;
+NOT MTAILPRO AND DFU IPEDALTAI AND NOT MTAILPED
+= SET OTAILF
+= SET MTAILPED
+;
+NOT MTAILPRO AND DFD IPEDALTAI
+= RES OTAILR
+= RES OTAILF
+= RES OTAILHS
+
 ; ------------------------- fin programa pricipal --------------
 END

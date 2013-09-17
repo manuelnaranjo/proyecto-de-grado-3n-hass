@@ -78,7 +78,7 @@ DEF OALREST  O06
 ; Reseta alarma torreta
 DEF OUNCLAMP O48
 ; Cuando activado descamplea torreta
-DEF OPARTCAT O460
+DEF OPARTCAT O46
 ; Part catcher
 DEF OLUBAIR  O44
 ; Lubricacion con Aire
@@ -308,6 +308,8 @@ DFU MSTROBE AND CPS MBCD* EQ $30 = M30   ; fin de programa
 ;
 ; ------------ comandos macro personalizados --------------------------
 ; comandos
+DFU MSTROBE AND CPS MBCD* EQ $53  = M53  ; activar part catcher
+DFU MSTROBE AND CPS MBCD* EQ $63  = M63  ; desactivar part catcher
 DFU MSTROBE AND CPS MBCD* EQ $200 = M200 ; inicializar torreta
 ; --------------------
 ; TODO: estos comandos tienen que volar de la version final
@@ -565,6 +567,11 @@ NOT MTAILPRO AND DFD IPEDALTAI
 = RES OTAILR
 = RES OTAILF
 = RES OTAILHS
-
+;
+;
+; ------------------ control part catcher ----------------------
+DFU M53 AND NOT OPARTCAT = SET OPARTCAT
+DFU M63 AND OPARTCAT = RES OPARTCAT
+;
 ; ------------------------- fin programa pricipal --------------
 END

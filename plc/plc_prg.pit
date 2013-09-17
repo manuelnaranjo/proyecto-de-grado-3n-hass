@@ -597,6 +597,8 @@ NOT MTAILPRO AND DFD IPEDALTAI
 ; ------------------ control part catcher ----------------------
 DFU M53 AND NOT OPARTCAT = SET OPARTCAT
 DFU M63 AND OPARTCAT = RES OPARTCAT
+DFU M53 OR DFU M63 = RES AUXEND
+DFD M53 OR DFD M63 = SET AUXEND
 ;
 ; ------------------------- fin programa pricipal --------------
 END

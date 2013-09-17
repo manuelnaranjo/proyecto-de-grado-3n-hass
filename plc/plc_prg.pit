@@ -186,6 +186,16 @@ DEF MTAILPRO M1068
 ; usado para marcar direccion contra punta por pedal
 DEF MTAILPED M1069
 ;
+; control de clampeo de spindle
+; modo diametro interior / diametro exterior 1 en modo diametro interior
+DEF MDIAMINT M1080
+; pieza atrapada
+DEF MPARTCLA M1081
+; spindle quieto
+DEF MSPINDEA M1082
+;
+;
+;
 ;   REGISTROS
 ;   ============
 DEF RSREAL   R10
@@ -249,6 +259,8 @@ CY1                     ; CICLO INICIAL
 =     RES OPARTCAT      ; desactivar part catcher
 =     RES OLUBAIR       ; desactivar lubricación
 =     SET OSPSTOP       ; frenar spindle
+=     CNCRD(GUP 1000, R1, MTEMP) ; leer parametro general 1000
+CPS R1 EQ 1 = MDIAMINT  ; cargar modo diametro interior, diametro exterior
 END                     ; FIN DEL CICLO INICIAL
 ;
 ;
@@ -260,9 +272,12 @@ REA                     ; VALORES REALES
 ;
 ; plc status
 IEMER = /EMERGEN;
-()    = /STOP           ; canal plc en stop
+; canal plc en stop
+()    = /STOP
+; habilitar avance de ejes
 ()    = /FEEDHOL;
-START = CYSTART;
+; no permitir iniciar programa a menos que la pieza se encuentra agarrada
+START AND MPARTCLA = CYSTART;
 INCYCLE = TIMERON;
 ;
 ; habilitar ejes si es posible
@@ -459,7 +474,6 @@ MTIMTAIL = TG4 4 TIMETAIL
 ;
 ; -------- Control Direccion Spindle ----------------------------
 () = CNCRD(SPEED, RSPEED, MTEMP )
-= CNCRD(SREAL, RSREAL, MTEMP )
 ( DM03 OR DM19 ) AND ( CPS RSPEED GE SPVMIN ) = OSPFW
 ( DM05 ) OR ( CPS RSPEED LT SPVMIN ) = OSPSTOP
 ( DM04 ) AND ( CPS RSPEED GE SPVMIN ) = OSPRW
@@ -549,8 +563,19 @@ DFD ICLAMP AND MTHOMEA1 = SET AUXEND; esperar clampeo
 ; ------------------------- control por pedales ---------------
 ;
 ; ---- control de cabezal ------
-DFU IPEDALCLA AND OSPCLAMP = RES OSPCLAMP
-DFU IPEDALCLA AND NOT OSPCLAMP = SET OSPCLAMP
+;
+; la pieza se encuentra clampeada dependiendo de si se encuentra
+; trabajando en modo diametro interior o diametro exterior
+NOT (OSPCLAMP XOR MDIAMINT) = MPARTCLA
+;
+; leer velocidad
+() = CNCRD(SREAL, RSREAL, MTEMP )
+; guardar si cabezal esta quieto
+CPS RSREAL EQ 0 = MSPINDEA
+; por cuestiones de seguridad solo se tiene que poder atrapar o
+; liberar la pieza cuando no hay velocidad de giro
+DFU IPEDALCLA AND MSPINDEA AND OSPCLAMP = RES OSPCLAMP
+DFU IPDEALCLA AND MSPINDEA AND NOT OSPCLAMP = SET OSPCLAMP
 ;
 ; ---- control de contra punta -----
 MTAILRDO AND MTAILFDO = MTAILPRO

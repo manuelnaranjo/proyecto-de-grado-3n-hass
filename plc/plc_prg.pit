@@ -168,6 +168,7 @@ DEF MUCLAMPE M1041
 DEF MACKSPIN M1050
 ; usado para hacer el ACK de los comandos del spindle M03, M04, M05, M19
 ;
+;
 DEF MTIMTAIL M1060
 ; usado para controlar timer para control de la contra punta
 DEF MTAILFI3 M1061
@@ -189,8 +190,9 @@ DEF MTAILPRO M1068
 DEF MTAILPED M1069
 ;
 ; control de clampeo de spindle
-; modo diametro interior / diametro exterior 1 en modo diametro interior
-DEF MDIAMINT M1080
+; modo fijación interior / exterior 1 en modo fijación interior
+; esta opcion se guarda en una marca que no se borra al reiniciar
+DEF MDIAMINT M1070
 ; pieza atrapada
 DEF MPARTCLA M1081
 ; spindle quieto
@@ -199,6 +201,8 @@ DEF MSPINDEA M1082
 ; usado para el control temporazidor del part-catcher
 DEF MPARTCAT M1090
 ;
+; usado para operaciones que retienen auxend
+DEF MAUXEND  M1091
 ;
 ;   REGISTROS
 ;   ============
@@ -214,6 +218,10 @@ DEF RTBCD    R14
 ; proxima herramienta pasada por comando T
 DEF RTBCDD   R15
 ; proxima herramienta pasada por comando T en gradosx
+DEF ROPMODE  R16
+; modo de operacion
+DEF RHANDWHE R17
+; multiplicador volate
 DEF RPOSTAIL R300
 ; posicion contra punta
 ;          posibles valores:
@@ -238,6 +246,9 @@ DEF RAPOSY   R203
 ;   T4 usado para contar el tiempo que transcurre desde que la contra punta
 ;   entra a zona 0 hasta que la misma haya llegado a la pieza, como no hay
 ;   sensores disponibles no puedo saber si llego a tocar
+;   T5 usado para control de tiempo del part-catcher
+;   T6 usado para control de AUXEND en aquellos comandos que sólo cambian el
+;   estado interno del plc
 ;
 ;   CONTADORES
 ;   ============
@@ -263,8 +274,6 @@ CY1                     ; CICLO INICIAL
 =     RES OPARTCAT      ; desactivar part catcher
 =     RES OLUBAIR       ; desactivar lubricación
 =     SET OSPSTOP       ; frenar spindle
-=     CNCRD(GUP 1000, R1, MTEMP) ; leer parametro general 1000
-CPS R1 EQ 1 = MDIAMINT  ; cargar modo diametro interior, diametro exterior
 END                     ; FIN DEL CICLO INICIAL
 ;
 ;
@@ -330,6 +339,9 @@ DFU MSTROBE AND CPS MBCD* EQ $30 = M30   ; fin de programa
 DFU MSTROBE AND CPS MBCD* EQ $53  = M53  ; activar part catcher
 DFU MSTROBE AND CPS MBCD* EQ $63  = M63  ; desactivar part catcher
 DFU MSTROBE AND CPS MBCD* EQ $200 = M200 ; inicializar torreta
+DFU MSTROBE AND CPS MBCD* EQ $40  = M40  ; fijación interna
+DFU MSTROBE AND CPS MBCD* EQ $41  = M41  ; fijación externa
+;
 ; --------------------
 ; TODO: estos comandos tienen que volar de la version final
 DFU MSTROBE AND CPS MBCD* EQ $201 = M201 ; descamplear torreta
@@ -564,10 +576,17 @@ DFD ICLAMP AND MTHOMEA1 = SET AUXEND; esperar clampeo
 = CNCEX(G92 YP200, MTEMP)          ; setear eje
 ;
 ;
+; ------------------------- control modo de fijación ----------
+DFU M40 = SET MDIAMINT
+DFU M41 = RES MDIAMINT
+DFD M40 OR DFD M41 = TG1 6 20 = RES AUXEND ; retener auxend por 20ms
+T6 = MAUXEND
+DFU MAUXEND = SET AUXEND
+;
 ; ------------------------- control por pedales ---------------
 ;
-; ---- control de cabezal ------
 ;
+; ---- control de cabezal ------
 ; la pieza se encuentra clampeada dependiendo de si se encuentra
 ; trabajando en modo diametro interior o diametro exterior
 NOT (OSPCLAMP XOR MDIAMINT) = MPARTCLA

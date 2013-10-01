@@ -1,10 +1,10 @@
 % Taller v0.1.0 mensajes, MX-O,
-1 Baja presión del sistema neumático
+1 Baja presion del sistema neumatico
 2 Sobre calentamiento del regenerador del usillo
 3 Usillo sobre cargado
-4 Falla de alimentación en el usillo
-5 Baja presión en el sistema de lubricación 1
-6 Baja presión en el sistema de lubricación 2
+4 Falla de alimentacion en el usillo
+5 Baja presion en el sistema de lubricacion 1
+6 Baja presion en el sistema de lubricacion 2
 7 No se logro desclampear torre
 8 No se logro camplear torre
 9 No hay pieza en el cabezal previo al arranque
@@ -13,4 +13,4 @@
 12 Error detectado en el Servo del eje Z
 13 Error detectado en el Servo del cambiador de herramientas
 14 Alarma en el inversor del usillo
-15 Baja presión del sistema Hidráulico
+15 Baja presion del sistema Hidraulico

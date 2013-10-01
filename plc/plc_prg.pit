@@ -41,7 +41,7 @@ DEF ISPPOWAL I73
 ; Spindle Falla Energia
 DEF ISPSU    I75
 ; Spindle Frequencia Alcanzada
-DEF ISPALAR  I77
+DEF ISPALAR  I70
 ; Spindle Alarma
 DEF ILOWHIDR I14
 ; Baja presión en sistema hidraulico NA
@@ -343,7 +343,7 @@ MALARMHP = /EMERGEN;
 ; alarmas de baja prioridad, si se da cualquier condición entonces el ciclo de
 ; mecanizado se deja terminar, pero se alerta al usuario de que algo esta mal
 ; para que decida cuando terminar el ciclo de trabajo, sin dañar la máquina
-IREGTEMP OR ISPOVLOA OR ISPPOWAL OR ISPALAR = MALARMLP;
+IREGTEMP OR ISPOVLOA OR ISPPOWAL OR NOT ISPALAR = MALARMLP;
 ;
 ; estados de alarma que requieren temporización
 DFD ISENAIR = TG1 7 TIMELOWA;

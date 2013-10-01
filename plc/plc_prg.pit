@@ -509,7 +509,7 @@ CPS RDISTX GE RMAXDISX OR CPS RDISTZ GE RMAXDISZ
 ;
 ; activación de lubricacion
 T10 OR T11 OR T13 OR T14 = OLUBAIR
-DFD OLUBAIR = TRS10 = TRS11 = TRS13 = TRS14 ; reiniciar timers
+DFD OLUBAIR = TRS 10 = TRS 11 = TRS 13 = TRS 14; reiniciar timers
 ;
 ; -------- Control manual de la torreta de herramientas ----------
 DFU M201 = RES M202

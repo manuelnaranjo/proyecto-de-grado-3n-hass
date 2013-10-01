@@ -390,9 +390,11 @@ START AND MPARTCLA AND SERVOXON AND SERVOZON = CYSTART;
 ;
 INCYCLE = TIMERON;
 ;
+CNCREADY AND /ALARM = OEMER;
+;
 ; habilitar ejes si es posible
-( IEJEXOK AND IMACHON ) = SERVOXON = OSERONX
-( IEJEZOK AND IMACHON ) = SERVOZON = OSERONZ
+( IEJEXOK AND IMACHON AND NOT LOPEN ) = SERVOXON = OSERONX
+( IEJEZOK AND IMACHON AND NOT LOPEN ) = SERVOZON = OSERONZ
 ;
 ; Conectar sensores de inicio máquina
 IREF0X=DECELX;
@@ -597,7 +599,8 @@ NOT T3 AND MACKSPIN = SET AUXEND
 = RES MACKSPIN
 ;
 ; -------- Control automatico Torreta herramientas --------------
-( IEJETOK AND IMACHON ) = SERVOYON; habilitar lazo eje salvo que hayan alarmas
+( IEJETOK AND IMACHON AND NOT LOPEN ) = SERVOYON; habilitar lazo eje salvo
+                                                ; que existan alarmas
 ;
 ; control con retardos para evitar que lazo de control se active durante
 ; proceso de cambio de estado del actuador
@@ -605,13 +608,18 @@ DFU MTCHANGE OR DFU MTHOME OR DFU MANCLAMP = SET OUNCLAMP; descamplear
 DFD IUNCLAMP = SET MUCLAMPE       ; marcar cuando se detecta desclampe
 MUCLAMPE = TG4 1 TIMEUCLA         ; esperar Xms luego de descamplear
 NOT IUNCLAMP AND NOT T1 AND MUCLAMPE = RES MUCLAMPE ; limpiar marca
-DFD MUCLAMPE = SET OSERONT        ; cuando la marca se limpia, energizar servo
+DFD MUCLAMPE AND NOT LOPEN = SET OSERONT ; cuando la marca se limpia, energizar
+                                         ; servo
+;
+DFU LOPEN AND NOT MUCLAMPE = RES OSERONT; si se muestra algun error entonces
+DFD LOPEN AND NOT MUCLAMPE = SET OSERONT; LOPEN cambia de estado y debemos
+; desenergizar los ejes, para que los mismos no se mueven
 ;
 ;
 DFD MTCHANGE OR DFD MTHOME OR DFD MANCLAMP = RES OSERONT ; desenergizar servo
 DFD OSERONT = SET MCLAMPED    ; marcar cuando servo se desenergiza
 MCLAMPED = TG4 2 TIMECLA      ; esperar Xms previo a clampear
-NOT OSERONT AND NOT T2 AND MCLAMPED = RES MCLAMPED; descamplear
+NOT OSERONT AND NOT T2 AND MCLAMPED AND NOT LOPEN = RES MCLAMPED; descamplear
 DFD MCLAMPED = RES OUNCLAMP   ; clampear
 ;
 ;

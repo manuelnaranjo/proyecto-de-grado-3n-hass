@@ -498,7 +498,7 @@ T13 = TRS 12 = TG2 12 ONEHOUR; reiniciar contador de 1 hora
 ;
 ; cargar parametros configurables por el usuario para setear distancias a
 ; recorrer en X y en Z antes de lubricar
-() = CNCRD(2001, RMAXDISX, MTEMP) = CNCRD(GUP 2000, RMAXDISZ, MTEMP)
+() = CNCRD(GUP 2010, RMAXDISX, MTEMP) = CNCRD(GUP 2011, RMAXDISZ, MTEMP)
 () = CNCRD(DISTX, RDISTX, MTEMP) = CNCRD(DISTZ, RDISTZ, MTEMP)
 CPS RDISTX GE RMAXDISX OR CPS RDISTZ GE RMAXDISZ
 = TG1 14 LUBDISTA ; activar en monostable para lubricar

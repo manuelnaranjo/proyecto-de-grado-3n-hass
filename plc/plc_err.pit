@@ -1,0 +1,10 @@
+%TALLER v0.1.0 errores,MX-O,
+1 No hay pieza en el cabezal previo al arranque
+2 Debe presionar Machine ON previo al arranque
+3 Error detectado en el Servo del eje X
+4 Error detectado en el Servo del eje Z
+5 Error detectado en el Servo del cambiador de herramientas
+6 Alarma en el inversor del usillo
+7 Baja presión del sistema Hidráulico
+8 No se logro desclampear torre
+9 No se logro camplear torre

@@ -230,15 +230,16 @@ DEF MALARMHP M1093
 DEF MLOWAIRP M1094
 ;
 ; marcas temporizadores
-DEF MT1 M1101
-DEF MT2 M1102
-DEF MT3 M1103
-DEF MT4 M1104
-DEF MT5 M1105
-DEF MT6 M1106
-DEF MT7 M1107
-DEF MT8 M1108
-DEF MT9 M1109
+DEF MT1  M1101
+DEF MT2  M1102
+DEF MT3  M1103
+DEF MT4  M1104
+DEF MT5  M1105
+DEF MT6  M1106
+DEF MT7  M1107
+DEF MT8  M1108
+DEF MT9  M1109
+DEF MT10 M1110
 ;
 ;   REGISTROS
 ;   ============
@@ -468,8 +469,8 @@ DFU MSTROBE AND CPS MBCD* EQ $30 = M30   ; fin de programa
 DFU MSTROBE AND CPS MBCD* EQ $53  = M53  ; activar part catcher
 DFU MSTROBE AND CPS MBCD* EQ $63  = M63  ; desactivar part catcher
 DFU MSTROBE AND CPS MBCD* EQ $200 = M200 ; inicializar torreta
-DFU MSTROBE AND CPS MBCD* EQ $40  = M40  ; fijación interna
-DFU MSTROBE AND CPS MBCD* EQ $41  = M41  ; fijación externa
+DFU MSTROBE AND CPS MBCD* EQ $50  = M50  ; fijación interna
+DFU MSTROBE AND CPS MBCD* EQ $51  = M51  ; fijación externa
 ;
 ; --------------------
 ; TODO: estos comandos tienen que volar de la version final
@@ -732,9 +733,9 @@ DFD ICLAMP AND MTHOMEA1 = SET AUXEND; esperar clampeo
 ;
 ;
 ; ------------------------- control modo de fijación ----------
-DFU M40 = SET MDIAMINT
-DFU M41 = RES MDIAMINT
-DFD M40 OR DFD M41 = TG1 6 20 = RES AUXEND ; retener auxend por 20ms
+DFU M50 = SET MDIAMINT
+DFU M51 = RES MDIAMINT
+DFD M50 OR DFD M51 = TG1 6 20 = RES AUXEND ; retener auxend por 20ms
 T6 = MAUXEND
 DFU MAUXEND = SET AUXEND
 ;

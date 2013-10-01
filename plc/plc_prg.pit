@@ -134,6 +134,12 @@ DEF TAILFIN3 4
 DEF TIMELOWA 700
 ; si se detecta baja presión de aire por 700ms entonces mostramos mensaje
 ;
+DEF TIMEUNMA 1000
+; si no se logra descamplear en Xms entonces mostramos mensaje
+DEF TIMECLMA 1000
+; si no se logra camplear en Xms entonces mostramos mensaje
+;
+;
 ;   MARCAS
 ;   ============
 DEF MTEMP    M1000
@@ -260,6 +266,11 @@ DEF RAPOSY   R203
 ;   estado interno del plc
 ;   T7 usado para verificar si la presión de aire es baja de manera sostenida
 ;   y no sólo durante la operación
+;   T8 usado para alertar al usuario si por alguna razón no se logro descamplear
+;   la torre de herramientas en el tiempo estipulado
+;   T9 usado para alertar al usuario si por alguna razón no se logro camplear en
+;   el tiempo estipulado
+;
 ;
 ;   CONTADORES
 ;   ============
@@ -274,12 +285,14 @@ DEF MSGSPALA MSG005;
 DEF MSGLOHID MSG006;
 DEF MSGLLUB1 MSG007;
 DEF MSGLLUB2 MSG008;
-DEF MSGEJEX  MSG009;
-DEF MSGEJEZ  MSG010;
-DEF MSGTORRE MSG011;
+DEF MSGUNCLA MSG009;
+DEF MSGCLAM  MSG010;
 ;
 DEF MSGNOPAR ERR001;
 DEF MSGNOMAC ERR002;
+DEF MSGEJEX  ERR003;
+DEF MSGEJEZ  ERR004;
+DEF MSGTORRE ERR005;
 ;
 ; ******************** PROGAMA INICIAL **************************
 CY1                     ; CICLO INICIAL
@@ -323,8 +336,16 @@ MALARMHP = /EMERGEN;
 ; para que decida cuando terminar el ciclo de trabajo, sin dañar la máquina
 IREGTEMP OR ISPOVLOA OR ISPPOWAL OR ISPALAR = MALARMLP;
 ;
+; estados de alarma que requieren temporización
 DFU ISENAIR = TG1 7 TIMELOWA;
-T7 = MLOWAIRP;
+DFU T7 = MLOWAIRP;
+;
+; clampeo y descampleo de herramienta
+DFU MTCHANGE OR DFU MTHOME OR DFU MANCLAMP = TG1 8 TIMEUNMA
+DFD MTCHANGE OR DFD MTHOME OR DFD MANCLAMP = TG1 9 TIMEUNMA
+DFU T8 AND NOT OSERONT = MSGUNCLA
+DFU T9 AND ICLAMP = MSGCLAM
+;
 ;
 ; alarmas generales
 DFD T7 AND NOT ISENAIR = MSGLOAIR; mostrar que tenemos poco aire

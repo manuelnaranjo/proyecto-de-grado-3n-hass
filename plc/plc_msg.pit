@@ -7,3 +7,10 @@
 6 Baja presión en el sistema de lubricación 2
 7 No se logro desclampear torre
 8 No se logro camplear torre
+9 No hay pieza en el cabezal previo al arranque
+10 Debe presionar Machine ON previo al arranque
+11 Error detectado en el Servo del eje X
+12 Error detectado en el Servo del eje Z
+13 Error detectado en el Servo del cambiador de herramientas
+14 Alarma en el inversor del usillo
+15 Baja presión del sistema Hidráulico

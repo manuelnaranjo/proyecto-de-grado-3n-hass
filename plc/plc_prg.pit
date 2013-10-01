@@ -328,7 +328,7 @@ REA                     ; VALORES REALES
 ;
 ; alarma de alta prioridad, si se da esta condición el ciclo de mecanizado se
 ; detiene al instante.
-IEMER OR NOT ILOWHID = MALARMHP;
+IEMER OR NOT ILOWHIDR = MALARMHP;
 MALARMHP = /EMERGEN;
 ;
 ; alarmas de baja prioridad, si se da cualquier condición entonces el ciclo de
@@ -353,7 +353,7 @@ DFD IREGTEMP = MSGREGTE; sobre-calentamiento del regenerador del spindle
 DFD ISPOVLOA = MSGSPOVL; spindle sobre cargado
 DFD ISPPOWAL = MSGSPPOW; spindle con problema de suministro de energía
 DFD ISPALAR  = MSGSPALA; spindle alarma general
-DFD ILOWHID  = MSGLOHID; baja presión en el usillo y contra punta
+DFD ILOWHIDR = MSGLOHID; baja presión en el usillo y contra punta
 DFD ILLUB190 = MSGLLUB1; baja presión en el sistema de lubricación 1
 DFD ILLUB960 = MSGLLUB2; baja presión en el sistema de lubricación 2
 DFD IEJEXOK = MSGEJEX; problema en eje X

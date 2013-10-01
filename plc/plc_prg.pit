@@ -109,7 +109,7 @@ DEF OLUZROJA O47
 ;   ============
 DEF SPVMIN 500000
 ; spindle velocidad minima, por abajo de 50rpm no regula el driver
-DEF DISTTOOL -36
+DEF DISTTOOL 36
 ; una herramienta cada 36 grados, sentido negativo
 ;
 DEF TIMECLA  100

@@ -131,6 +131,9 @@ DEF TAILZON2 3
 DEF TAILFIN3 4
 ; contra punta en fin 3
 ;
+DEF TIMELOWA 700
+; si se detecta baja presión de aire por 700ms entonces mostramos mensaje
+;
 ;   MARCAS
 ;   ============
 DEF MTEMP    M1000
@@ -204,6 +207,12 @@ DEF MPARTCAT M1090
 ; usado para operaciones que retienen auxend
 DEF MAUXEND  M1091
 ;
+; usados para marcar estados de alarma
+DEF MALARMLP M1092
+DEF MALARMHP M1093
+DEF MLOWAIRP M1094
+;
+;
 ;   REGISTROS
 ;   ============
 DEF RSREAL   R10
@@ -249,9 +258,28 @@ DEF RAPOSY   R203
 ;   T5 usado para control de tiempo del part-catcher
 ;   T6 usado para control de AUXEND en aquellos comandos que sólo cambian el
 ;   estado interno del plc
+;   T7 usado para verificar si la presión de aire es baja de manera sostenida
+;   y no sólo durante la operación
 ;
 ;   CONTADORES
 ;   ============
+;
+;   MENSAJES
+;   ============
+DEF MSGLOAIR MSG001;
+DEF MSGREGTE MSG002;
+DEF MSGSPOVL MSG003;
+DEF MSGSPPOW MSG004;
+DEF MSGSPALA MSG005;
+DEF MSGLOHID MSG006;
+DEF MSGLLUB1 MSG007;
+DEF MSGLLUB2 MSG008;
+DEF MSGEJEX  MSG009;
+DEF MSGEJEZ  MSG010;
+DEF MSGTORRE MSG011;
+;
+DEF MSGNOPAR ERR001;
+DEF MSGNOMAC ERR002;
 ;
 ; ******************** PROGAMA INICIAL **************************
 CY1                     ; CICLO INICIAL
@@ -283,14 +311,47 @@ END                     ; FIN DEL CICLO INICIAL
 PRG                     ; PROGAMA PRINCIPAL
 REA                     ; VALORES REALES
 ;
-; plc status
-IEMER = /EMERGEN;
+; --------- control de alarmas -----------
+;
+; alarma de alta prioridad, si se da esta condición el ciclo de mecanizado se
+; detiene al instante.
+IEMER OR NOT ILOWHID = MALARMHP;
+MALARMHP = /EMERGEN;
+;
+; alarmas de baja prioridad, si se da cualquier condición entonces el ciclo de
+; mecanizado se deja terminar, pero se alerta al usuario de que algo esta mal
+; para que decida cuando terminar el ciclo de trabajo, sin dañar la máquina
+IREGTEMP OR ISPOVLOA OR ISPPOWAL OR ISPALAR = MALARMLP;
+;
+DFU ISENAIR = TG1 7 TIMELOWA;
+T7 = MLOWAIRP;
+;
+; alarmas generales
+DFD T7 AND NOT ISENAIR = MSGLOAIR; mostrar que tenemos poco aire
+DFD IREGTEMP = MSGREGTE; sobre-calentamiento del regenerador del spindle
+DFD ISPOVLOA = MSGSPOVL; spindle sobre cargado
+DFD ISPPOWAL = MSGSPPOW; spindle con problema de suministro de energía
+DFD ISPALAR  = MSGSPALA; spindle alarma general
+DFD ILOWHID  = MSGLOHID; baja presión en el usillo y contra punta
+DFD ILLUB190 = MSGLLUB1; baja presión en el sistema de lubricación 1
+DFD ILLUB960 = MSGLLUB2; baja presión en el sistema de lubricación 2
+DFD IEJEXOK = MSGEJEX; problema en eje X
+DFD IEJEZOK = MSGEJEZ; problema en eje Z
+DFD IEJETOK = MSGTORRE; problema en torreta
+;
+; mostrar al usuario que no se pudo iniciar el ciclo
+START AND NOT MPARTCLA = MSGNOPAR; no tenemos pieza no podemos arrancar
+START AND NOT IMACHON  = MSGNOMAC; el usuario no puede apretar inicio de ciclo
+                                 ; sin prender la máquina
+;
+;
 ; canal plc en stop
 ()    = /STOP
 ; habilitar avance de ejes
 ()    = /FEEDHOL;
 ; no permitir iniciar programa a menos que la pieza se encuentra agarrada
-START AND MPARTCLA = CYSTART;
+START AND MPARTCLA AND SERVOXON AND SERVOZON = CYSTART;
+;
 INCYCLE = TIMERON;
 ;
 ; habilitar ejes si es posible

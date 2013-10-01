@@ -1,4 +1,4 @@
-% Taller v0.1.0 mensajes, MX-O,
+%Taller v0.1.0 mensajes, MX-O,
 1 Baja presion del sistema neumatico
 2 Sobre calentamiento del regenerador del usillo
 3 Usillo sobre cargado
@@ -14,3 +14,4 @@
 13 Error detectado en el Servo del cambiador de herramientas
 14 Alarma en el inversor del usillo
 15 Baja presion del sistema Hidraulico
+16 Lubricando ejes y usillo

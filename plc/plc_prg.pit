@@ -140,6 +140,17 @@ DEF TIMECLMA 1000
 ; si no se logra camplear en Xms entonces mostramos mensaje
 ;
 ;
+DEF LUBSTART 120000
+; cuando se enciende la máquina lubricar por 2 minutos
+DEF LUBMANUA 300000
+; cuando se solicita lubricación manual por teclado hacerlo por 5 minutos
+DEF LUB1HOUR 300000
+; cuando los ejes se han movido una hora lubricar por 5 minutos
+DEF LUBDISTA 240000
+; distancia acumulada por los ejes para activar lubricacion
+DEF ONEHOUR  3600000
+; 1 hora en ms 60m = 360 * 1000ms
+;
 ;   MARCAS
 ;   ============
 DEF MTEMP    M1000
@@ -247,6 +258,16 @@ DEF ROPMODE  R16
 ; modo de operacion
 DEF RHANDWHE R17
 ; multiplicador volate
+DEF RMAXDISX R20
+; maxima distancia recorrida en X antes de lubricar
+DEF RMAXDISZ R21
+; maxima distancia recorrida en Z antes de lubricar
+DEF RDISTX   R22
+; distancia recorrida en X desde ultimo reincio
+DEF RDISTZ   R23
+; distancia recorrida en Z desde ultimo reinicio
+DEF RDISTTEM R24
+; registro temporal usado para borrar contadores
 DEF RPOSTAIL R300
 ; posicion contra punta
 ;          posibles valores:
@@ -262,6 +283,7 @@ DEF RFLWEY   R201
 DEF RTPOSY   R202
 ; debug posicion teorica torreta
 DEF RAPOSY   R203
+;
 ;
 ;   TIMERS
 ;   ============
@@ -280,7 +302,11 @@ DEF RAPOSY   R203
 ;   la torre de herramientas en el tiempo estipulado
 ;   T9 usado para alertar al usuario si por alguna razón no se logro camplear en
 ;   el tiempo estipulado
-;
+;   T10 usado para lubricacion al arranque
+;   T11 usado para lubricacion manual
+;   T12 usado para acumular tiempo de movimiento
+;   T13 usado para lubricacion automatica por tiempo
+;   T14 usado para lubricacion automatica por distancia
 ;
 ;   CONTADORES
 ;   ============
@@ -302,6 +328,7 @@ DEF MSGEJEZ  ERR12;
 DEF MSGTORRE ERR13;
 DEF MSGSPALA ERR14;
 DEF MSGLOHID ERR15;
+DEF MSGLUBRI MSG16;
 ;
 ; ******************** PROGAMA INICIAL **************************
 CY1                     ; CICLO INICIAL
@@ -324,6 +351,8 @@ CY1                     ; CICLO INICIAL
 =     RES OPARTCAT      ; desactivar part catcher
 =     RES OLUBAIR       ; desactivar lubricación
 =     SET OSPSTOP       ; frenar spindle
+=     TG1 10 LUBSTART   ; activar lubricación en inicio
+=     TG2 12 ONEHOUR    ; contador de 1h
 END                     ; FIN DEL CICLO INICIAL
 ;
 ;
@@ -362,7 +391,7 @@ DFD MT9 AND ICLAMP = SET MSGCLAM
 DFD ICLAMP = RES MSGCLAM
 ;
 ;
-; alarmas generales
+; alarmas y mensajes generales
 DFD MT7 AND NOT ISENAIR = MSGLOAIR; mostrar que tenemos poco aire
 DFD IREGTEMP = MSGREGTE; sobre-calentamiento del regenerador del spindle
 DFD ISPOVLOA = MSGSPOVL; spindle sobre cargado
@@ -374,6 +403,7 @@ DFD ILLUB960 = MSGLLUB2; baja presión en el sistema de lubricación 2
 DFD IEJEXOK = MSGEJEX; problema en eje X
 DFD IEJEZOK = MSGEJEZ; problema en eje Z
 DFD IEJETOK = MSGTORRE; problema en torreta
+OLUBAIR = MSGLUBRI; mostrar al usuario que estamos lubricando
 ;
 ; mostrar al usuario que no se pudo iniciar el ciclo
 START AND NOT MPARTCLA = MSGNOPAR; no tenemos pieza no podemos arrancar
@@ -407,10 +437,10 @@ IREF0T=DECELY;
 = SPENAS
 = DRENAS
 = SERVOSON
-; TODO: agregar codigo para M19 luego de comprobar si el inversor
-;       se lo banca
-; TODO: agegar codigo delay de inicializacion si fuese necesario
 ;
+;
+; ------- manejo de teclado izq pantalla ------------------------
+DFU B6R563 = TG1 11 LUBMANUA ; pedido manual lubricacion
 ;
 ; -----------Marcas enviadas por el CNC --------------------
 ;DFU MSTROBE AND CPS MBCD* EQ $0 =  M0    ; parada programada
@@ -450,7 +480,7 @@ DFU MSTROBE AND CPS MBCD* EQ $204 = M204 ; avance rapido contra punto -
 ; fin de TODO
 ;
 ;
-; control contra punta
+; ---------------- control contra punta --------------------------
 ; retroceso rapido
 DFU MSTROBE AND CPS MBCD* EQ $300 = SET M300 ; hasta tope 1
 DFU MSTROBE AND CPS MBCD* EQ $301 = SET M301 ; hasta tope 2
@@ -460,8 +490,27 @@ DFU MSTROBE AND CPS MBCD* EQ $310 = SET M310 ; rapido hasta tope 1
 DFU MSTROBE AND CPS MBCD* EQ $311 = SET M311 ; rapido hasta tope 2
 DFU MSTROBE AND CPS MBCD* EQ $312 = SET M312 ; lento
 ;
+; ----------------- control de sistema de lubricacion ------------
+ENABLEX OR ENABLEZ = TEN 12; solo acumular tiempo cuando se mueven X o Z
+T12 = TG1 13 LUB1HOUR ; activar lubricacion una vez transcurrida 1h de trabajo
+T13 = TRS 12 = TG2 12 ONEHOUR; reiniciar contador de 1 hora
 ;
-; -------- Control manual de la torreta de herramientas ---------
+; cargar parametros configurables por el usuario para setear distancias a
+; recorrer en X y en Z antes de lubricar
+() = CNCRD(2001, RMAXDISX, MTEMP) = CNCRD(GUP 2000, RMAXDISZ, MTEMP)
+() = CNCRD(DISTX, RDISTX, MTEMP) = CNCRD(DISTZ, RDISTZ, MTEMP)
+CPS RDISTX GE RMAXDISX OR CPS RDISTZ GE RMAXDISZ
+= TG1 14 LUBDISTA ; activar en monostable para lubricar
+= MOV 0 RDISTTEM
+= CNCWR(RDISTTEM,DISTX,MTEMP) = CNCWR(RDISTTEM,DISTZ,MTEMP);reiniciar distancias
+;
+;
+;
+; activación de lubricacion
+T10 OR T11 OR T13 OR T14 = OLUBAIR
+DFD OLUBAIR = TRS10 = TRS11 = TRS13 = TRS14 ; reiniciar timers
+;
+; -------- Control manual de la torreta de herramientas ----------
 DFU M201 = RES M202
 DFU M202 = RES M201
 IMA DFD M201 = SET MANCLAMP = SET MANCLAAU
@@ -491,10 +540,11 @@ IMA DFD M205 AND MANCLAMP = SET MANTAU ; avance rapido -
 MANTAU AND IMA DFU INPOSY = SET  AUXEND
 = RES MANTAU
 ;
+;
+;
+;
 ; -------- Control temporal por teclado de torreta manual -------
 ; TODO: esto tiene que desaparacer en el codigo final
-DFU B6R563 = SET M201
-DFD B6R563 = RES M201
 DFU B5R563 = SET M202
 DFD B5R563 = RES M202
 DFU B4R563 = SET M203

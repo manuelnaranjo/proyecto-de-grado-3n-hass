@@ -117,6 +117,8 @@ DEF TIMECLA  100
 DEF TIMEUCLA 50
 ; 50 ms timeout al desclampear
 ;
+DEF TIMEPACA 1500
+; part catcher tarda 1500ms en realizar todo el recorrido
 ;
 DEF TIMETAIL 5500
 ; tiempo a velocidad lenta entre que pasa fin1 y llega al usillo
@@ -194,6 +196,8 @@ DEF MPARTCLA M1081
 ; spindle quieto
 DEF MSPINDEA M1082
 ;
+; usado para el control temporazidor del part-catcher
+DEF MPARTCAT M1090
 ;
 ;
 ;   REGISTROS
@@ -598,7 +602,10 @@ NOT MTAILPRO AND DFD IPEDALTAI
 DFU M53 AND NOT OPARTCAT = SET OPARTCAT
 DFU M63 AND OPARTCAT = RES OPARTCAT
 DFU M53 OR DFU M63 = RES AUXEND
-DFD M53 OR DFD M63 = SET AUXEND
+DFD M53 OR DFD M63 = TG1 5 TIMEPACA
+T5 = MPARTCAT
+DFD MPARTCAT = SET AUXEND
+;
 ;
 ; ------------------------- fin programa pricipal --------------
 END

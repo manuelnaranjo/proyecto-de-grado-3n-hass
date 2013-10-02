@@ -393,14 +393,14 @@ DFD ICLAMP = RES MSGCLAM
 ;
 ;
 ; alarmas y mensajes generales
-DFD MT7 AND NOT ISENAIR = MSGLOAIR; mostrar que tenemos poco aire
-DFD IREGTEMP = MSGREGTE; sobre-calentamiento del regenerador del spindle
-DFD ISPOVLOA = MSGSPOVL; spindle sobre cargado
-DFD ISPPOWAL = MSGSPPOW; spindle con problema de suministro de energía
+NOT MT7 AND NOT ISENAIR = MSGLOAIR; mostrar que tenemos poco aire
+NOT IREGTEMP = MSGREGTE; sobre-calentamiento del regenerador del spindle
+ISPOVLOA = MSGSPOVL; spindle sobre cargado
+ISPPOWAL = MSGSPPOW; spindle con problema de suministro de energía
 DFD ISPALAR  = MSGSPALA; spindle alarma general
 DFD ILOWHIDR = MSGLOHID; baja presión en el usillo y contra punta
-DFD ILLUB190 = MSGLLUB1; baja presión en el sistema de lubricación 1
-DFD ILLUB960 = MSGLLUB2; baja presión en el sistema de lubricación 2
+NOT ILLUB190 = MSGLLUB1; bajo nivel de aceite
+NOT ILLUB960 AND OLUBAIR = MSGLLUB2; baja presión de aire para lubricar
 DFD IEJEXOK = MSGEJEX; problema en eje X
 DFD IEJEZOK = MSGEJEZ; problema en eje Z
 DFD IEJETOK = MSGTORRE; problema en torreta

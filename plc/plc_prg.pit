@@ -233,11 +233,12 @@ DEF MPARTCAT M1090
 ;
 ; usado para operaciones que retienen auxend
 DEF MAUXEND  M1091
+DEF MAUXEND2 M1092
 ;
 ; usados para marcar estados de alarma
-DEF MALARMLP M1092
-DEF MALARMHP M1093
-DEF MLOWAIRP M1094
+DEF MALARMLP M1093
+DEF MALARMHP M1094
+DEF MLOWAIRP M1095
 ;
 ; marcas temporizadores
 DEF MT1  M1101
@@ -561,24 +562,24 @@ MANTAU AND IMA DFU INPOSY = SET  AUXEND
 = RES MANTAU
 ;
 ;
-;
 ; -------- Control de saca viruta ------------------------------
-DFU B4R563 = SET M203
-DFD B4R563 = RES M203
+;DFU B2R563 = ; activar/desactivar hacia adelante
+;DFU B1R563 = ; temporalmente hacia atras
 ;
 ;
 ; -------- Control de refrigerante -----------------------------
-DFU B2R563 = SET M205
-DFD B2R563 = RES M205
-DFU B1R563 = SET M206
-DFD B1R563 = RES M206
+DFU B4R563 = CPL OCOOLANT; control por teclado
+DFU M8 = SET OCOOLANT; control por codigo ISO
+DFU M9 = RES OCOOLANT;
+DFU M8 OR DFU M9 = RES AUXEND;
+;
 ;
 ; -------- Control temporal por teclado de torreta manual ------
 ; TODO: esto tiene que desaparacer en el codigo final
-DFU B5R563 = SET M202
-DFD B5R563 = RES M202
-DFU B3R563 = SET M204
-DFD B3R563 = RES M204
+;DFU B5R563 = SET M202
+;DFD B5R563 = RES M202
+;DFU B3R563 = SET M204
+;DFD B3R563 = RES M204
 ;
 ;
 ;--------- Control manual de contra punta -----------------------
@@ -758,8 +759,11 @@ DFD ICLAMP AND MTHOMEA1 = SET AUXEND; esperar clampeo
 ; ------------------------- control modo de fijación ----------
 DFU M50 = SET MDIAMINT
 DFU M51 = RES MDIAMINT
-DFD M50 OR DFD M51 = TG1 6 20 = RES AUXEND ; retener auxend por 20ms
-T6 = MAUXEND
+;
+; ---------- retención de auxend para comandos M lógicos ------
+M50 OR M51 OR M8 OR M9 = MAUXEND2
+DFD MAUXEND2 = TG1 6 20 = RES AUXEND
+T6 = MAUXEND ; conectar timer a marca
 DFU MAUXEND = SET AUXEND
 ;
 ; ------------------------- control por pedales ---------------

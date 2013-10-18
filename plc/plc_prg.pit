@@ -105,6 +105,16 @@ DEF OLUZVERD O45
 DEF OLUZROJA O47
 ; Prender en caso de alarma
 ;
+DEF OCHIPENA O43
+; activar recolector de viruta
+DEF OCHIPREV O45;
+; invertir sentido de giro del recolector de virtua
+;
+DEF OCOOLANT O08;
+; activar salida de aceite soluble refrigerante
+;
+;
+;
 ;   CONSTANTES
 ;   ============
 DEF SPVMIN 500000
@@ -240,6 +250,13 @@ DEF MT7  M1107
 DEF MT8  M1108
 DEF MT9  M1109
 DEF MT10 M1110
+;
+;
+DEF MT31 M1111
+DEF MT32 M1112
+DEF MT33 M1113
+;
+;
 ;
 ;   REGISTROS
 ;   ============
@@ -465,7 +482,9 @@ DFU MSTROBE AND CPS MBCD* EQ $29 = M29
 DFU MSTROBE AND CPS MBCD* EQ $30 = M30   ; fin de programa
 ;
 ; ------------ comandos macro personalizados --------------------------
-; comandos
+DFU MSTROBE AND CPS MBCD* EQ $31  = M31   ; activar saca viruta sentido directo
+DFU MSTROBE AND CPS MBCD* EQ $32  = M32   ; activar saca viruta sentido reverso
+DFU MSTROBE AND CPS MBCD* EQ $33  = M33   ; desactivar saca viruta
 DFU MSTROBE AND CPS MBCD* EQ $53  = M53  ; activar part catcher
 DFU MSTROBE AND CPS MBCD* EQ $63  = M63  ; desactivar part catcher
 DFU MSTROBE AND CPS MBCD* EQ $200 = M200 ; inicializar torreta
@@ -543,19 +562,23 @@ MANTAU AND IMA DFU INPOSY = SET  AUXEND
 ;
 ;
 ;
-;
-; -------- Control temporal por teclado de torreta manual -------
-; TODO: esto tiene que desaparacer en el codigo final
-DFU B5R563 = SET M202
-DFD B5R563 = RES M202
+; -------- Control de saca viruta ------------------------------
 DFU B4R563 = SET M203
 DFD B4R563 = RES M203
-DFU B3R563 = SET M204
-DFD B3R563 = RES M204
+;
+;
+; -------- Control de refrigerante -----------------------------
 DFU B2R563 = SET M205
 DFD B2R563 = RES M205
 DFU B1R563 = SET M206
 DFD B1R563 = RES M206
+;
+; -------- Control temporal por teclado de torreta manual ------
+; TODO: esto tiene que desaparacer en el codigo final
+DFU B5R563 = SET M202
+DFD B5R563 = RES M202
+DFU B3R563 = SET M204
+DFD B3R563 = RES M204
 ;
 ;
 ;--------- Control manual de contra punta -----------------------

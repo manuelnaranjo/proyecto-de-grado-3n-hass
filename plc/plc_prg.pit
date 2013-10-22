@@ -189,6 +189,9 @@ DEF MTCHANA1 M1032
 ; cambio de herramienta en progreso por comando T auxiliar 1
 DEF MTCHANA2 M1033
 ; cambio de herramienta en progreso por comando T auxiliar 2
+DEF MKCHAN   M1034
+; cambio de herramienta pedido por teclado
+;
 ;
 DEF MCLAMPED M1040
 ; torreta clampeada
@@ -562,10 +565,19 @@ MANTAU AND IMA DFU INPOSY = SET  AUXEND
 = RES MANTAU
 ;
 ;
-; -------- Control de saca viruta ------------------------------
-;DFU B2R563 = ; activar/desactivar hacia adelante
-;DFU B1R563 = ; temporalmente hacia atras
+; -------- Control por teclado de cambio de herramienta --------
+; usuario presiono tecla, no hay código en ejecución y torre clampeada
+DFU B3R563 AND NOT CYSTART AND NOT ICLAMP = SET MKCHAN
+= CNCRD(TOOL, RTOOL, MTEMP) ; leer herramienta
+= MOV RTOOL RTOOL 1032 ; bcd a bin
+= ADS RTOOL 1 RTOOL
 ;
+; mandar a herramienta 1 si desborda
+DFU MKCHAN AND CPS RTOOL GT 10 = MOV 1 RTOOL
+;
+IMA DFU MKCHAN = CNCWR(RTOOL,GUP 200,MTEMP) ; pasar a CNC
+= CNCEX1(G91 TP200, MTEMP); realizar cambio
+= RES MKCHAN; dejar listo para repetir ciclo
 ;
 ; -------- Control de refrigerante -----------------------------
 DFU B4R563 = CPL OCOOLANT; control por teclado

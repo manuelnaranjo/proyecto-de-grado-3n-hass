@@ -105,9 +105,9 @@ DEF OLUZVERD O45
 DEF OLUZROJA O47
 ; Prender en caso de alarma
 ;
-DEF OCHIPENA O43
+DEF OCHIPENA O41
 ; activar recolector de viruta
-DEF OCHIPREV O45
+DEF OCHIPREV O43
 ; invertir sentido de giro del recolector de virtua
 ;
 DEF OCOOLANT O08;

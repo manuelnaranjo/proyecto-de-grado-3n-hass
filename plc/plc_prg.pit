@@ -466,7 +466,7 @@ IREF0T=DECELY;
 DFU B6R563 = TG1 11 LUBMANUA ; pedido manual lubricacion
 ;
 ; -----------Marcas enviadas por el CNC --------------------
-DFU MSTROBE AND CPS MBCD* EQ $0 =  M0    ; parada programada
+;DFU MSTROBE AND CPS MBCD* EQ $0 =  M0    ; parada programada
 DFU MSTROBE AND CPS MBCD* EQ $1 =  M1    ; parada opcional
 DFU MSTROBE AND CPS MBCD* EQ $2 =  M2    ; simil m30
 DFU MSTROBE AND CPS MBCD* EQ $3 =  M3    ; spindle a favor reloj

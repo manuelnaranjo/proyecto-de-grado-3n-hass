@@ -1,5 +1,5 @@
 * [0/3] Tareas para recibirse
-** TODO [21/25] Tareas para que la máquina funcione
+** TODO [24/28] Tareas para que la máquina funcione
 *** DONE alinear usillo
 *** DONE alinear eje Z
 *** DONE alinear eje X
@@ -17,10 +17,9 @@
 *** DONE [2/2] romperle las pelotas para que Nico ponga las chapas
 **** DONE soporte
 **** DONE resto
-*** TODO [2/3] hacer piezas
+*** DONE [2/2] hacer piezas
 **** DONE tornear barra de grillon
 **** DONE tornear barra larga acero para controlar alineación
-**** TODO hacer ruedas
 *** DONE conectar pedales
 *** DONE etiquetar cables
 *** DONE programar pedal de contra punta
@@ -36,9 +35,10 @@
 *** DONE soluble
 *** TODO recoge viruta, falta control automatico de destrabado
 *** DONE con modo handwheel eje X tiene que moverse en x1 diametro y no x2, no se puede hacer, avanza en +1 radio no en +1 diametro con volante
-*** TODO verificar FPRMAN (P75) seteado a YES
-*** TODO verificar DIRESET (P77) seteado a YES
-***
+*** DONE verificar FPRMAN (P75) seteado a YES
+*** DONE verificar DIRESET (P77) seteado a YES
+*** TODO desactivar pedal de contra-punta
+*** TODO alarmas del inversor deberían desernergizar etapa de potencia
 ** TODO [0/4] Informe final
 *** TODO [ ] esqueleto
 *** TODO [ ] esquematicos

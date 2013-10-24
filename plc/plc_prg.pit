@@ -488,9 +488,9 @@ DFU MSTROBE AND CPS MBCD* EQ $29 = M29
 DFU MSTROBE AND CPS MBCD* EQ $30 = M30   ; fin de programa
 ;
 ; ------------ comandos macro personalizados --------------------------
-DFU MSTROBE AND CPS MBCD* EQ $31  = M31  ; activar saca viruta sentido directo
-DFU MSTROBE AND CPS MBCD* EQ $32  = M32  ; activar saca viruta sentido reverso
-DFU MSTROBE AND CPS MBCD* EQ $33  = M33  ; desactivar saca viruta
+DFU MSTROBE AND CPS MBCD* EQ $31  = SET M31 ; activar saca viruta sentido directo
+DFU MSTROBE AND CPS MBCD* EQ $32  = SET M32 ; activar saca viruta sentido reverso
+DFU MSTROBE AND CPS MBCD* EQ $33  = SET M33 ; desactivar saca viruta
 DFU MSTROBE AND CPS MBCD* EQ $53  = M53  ; activar part catcher
 DFU MSTROBE AND CPS MBCD* EQ $63  = M63  ; desactivar part catcher
 DFU MSTROBE AND CPS MBCD* EQ $200 = M200 ; inicializar torreta
@@ -549,15 +549,14 @@ DFU M9 = RES OCOOLANT;
 DFU M8 OR DFU M9 = RES AUXEND;
 ;
 ; -------- Control de saca viruta ------------------------------
-DFU B2R563 = CPL OCHIPREV ; cambiar sentido
-DFU B1R563 AND IMA NOT OCHIPENA = SET OCHIPENA
-= SET OCHIPREV ; activar hacia adelante
+DFU B2R563 AND IMA OCHIPREV = SET M32; cambiar sentido
+DFU B2R563 AND IMA NOT OCHIPREV = SET M31; cambiar sentido
+DFU B1R563 AND IMA NOT OCHIPENA = SET M31 ; activar hacia adelante
+DFU B1R563 AND IMA OCHIPENA = SET M33 ; desactivar
 ;
-DFU B1R563 AND IMA OCHIPENA = RES OCHIPENA ; desactivar
-;
-DFU M31 = SET OCHIPENA = SET OCHIPREV ; activar hacia adelante
-DFU M32 = SET OCHIPENA = RES OCHIPREV ; activar hacia atras
-DFU M33 = RES OCHIPENA = RES OCHIPREV ; desactivar
+DFU M31 = SET OCHIPENA = SET OCHIPREV = RES M32 = RES M33; activar hacia adelante
+DFU M32 = SET OCHIPENA = RES OCHIPREV = RES M31 = RES M33; activar hacia atras
+DFU M33 = RES OCHIPENA = RES OCHIPREV = RES M31 = RES M33; desactivar
 ;
 ;
 ;--------- Control manual de contra punta -----------------------
@@ -746,7 +745,7 @@ DFU M50 = SET MDIAMINT
 DFU M51 = RES MDIAMINT
 ;
 ; ---------- retención de auxend para comandos M lógicos ------
-M50 OR M51 OR M8 OR M9 OR MTOOLF = MAUXEND2
+(M50 OR M51 OR M8 OR M9 OR MTOOLF OR M31 OR M32 OR M33) AND MSTROBE = MAUXEND2
 DFD MAUXEND2 = TG1 6 20 = RES AUXEND
 T6 = MAUXEND ; conectar timer a marca
 DFU MAUXEND = SET AUXEND

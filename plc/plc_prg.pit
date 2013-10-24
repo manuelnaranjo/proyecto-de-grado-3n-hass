@@ -191,6 +191,8 @@ DEF MTCHANA2 M1033
 ; cambio de herramienta en progreso por comando T auxiliar 2
 DEF MKCHAN   M1034
 ; cambio de herramienta pedido por teclado
+DEF MTOOLF   M1025
+; auxiliar de cambio de herramienta a misma herramienta
 ;
 ;
 DEF MCLAMPED M1040
@@ -725,9 +727,16 @@ DFD MCLAMPED = RES OUNCLAMP   ; clampear
 ;
 ; ------ control por comando T ---------------------------------
 DFU TSTROBE = RES AUXEND
-= SET MTCHANGE ; descamplear
+= MOV TBCD RTBCD 1032       ; copiar proxima herramienta origen bcd destino bin
+= CNCRD(TOOL, RTOOL, MTEMP) ; leer herramienta actual
+;
+; si se mantiene la herramienta entonces no realizar proceso
+IMA DFU TSTROBE AND CPS RTBCD EQ RTOOL = SET MTOOLF; retener auxend
+IMA DFU MTOOLF AND CPS RTBCD EQ RTOOL = RES MTOOLF;
+;
+; si hay un cambio real de herramienta entonces realizar proceso de cambio
+IMA DFU TSTROBE AND CPS RTBCD NE RTOOL = SET MTCHANGE ; descamplear
 = SET MTCHANA2 ; proceso en ejecucion
-= MOV TBCD RTBCD 1032     ; copiar origen bcd destino bin
 = SBS RTBCD 1 RTBCD       ; restar 1
 = MLS RTBCD DISTTOOL RTBCDD; pasar a grados
 ;
@@ -779,7 +788,7 @@ DFU M50 = SET MDIAMINT
 DFU M51 = RES MDIAMINT
 ;
 ; ---------- retención de auxend para comandos M lógicos ------
-M50 OR M51 OR M8 OR M9 = MAUXEND2
+M50 OR M51 OR M8 OR M9 OR MTOOLF = MAUXEND2
 DFD MAUXEND2 = TG1 6 20 = RES AUXEND
 T6 = MAUXEND ; conectar timer a marca
 DFU MAUXEND = SET AUXEND

@@ -1,0 +1,48 @@
+* [0/3] Tareas para recibirse
+** TODO [21/25] Tareas para que la máquina funcione
+*** DONE alinear usillo
+*** DONE alinear eje Z
+*** DONE alinear eje X
+*** DONE ajustar ganancia usillo
+*** DONE ajustar ganancia X
+*** DONE ajustar ganancia Z
+*** DONE ajustar ganancia torreta herramientas
+*** DONE [2/2] mejorsias usillo
+**** DONE [#] probar absolutador preciso en entrada de control de usillo
+     no se puede realizar porque el driver no lo soporta
+**** DONE [#] si lo anterior funciona armar detector de signo para controlar
+     sentido
+     armado y no funca
+     probe con entrada en corriente y mismo problema, fmin ruido .5Hz~30rpm
+*** DONE [2/2] romperle las pelotas para que Nico ponga las chapas
+**** DONE soporte
+**** DONE resto
+*** TODO [2/3] hacer piezas
+**** DONE tornear barra de grillon
+**** DONE tornear barra larga acero para controlar alineación
+**** TODO hacer ruedas
+*** DONE conectar pedales
+*** DONE etiquetar cables
+*** DONE programar pedal de contra punta
+*** DONE poner tapas
+*** DONE programar alarmas
+*** DONE no permitir desclampeo de pieza miéntras pieza gira a más de X rpm
+*** TODO definir zonas de trabajo seguro para herramienta con contra punta
+*** DONE controlar que luego de encender la máquina el sistema recuerda última ubicación de contra punta
+*** DONE plato abierto no ejecuta
+*** DONE opcion diametro interior, exterior
+*** TODO luces
+*** DONE part catcher
+*** DONE soluble
+*** TODO recoge viruta, falta control automatico de destrabado
+*** DONE con modo handwheel eje X tiene que moverse en x1 diametro y no x2, no se puede hacer, avanza en +1 radio no en +1 diametro con volante
+*** TODO verificar FPRMAN (P75) seteado a YES
+*** TODO verificar DIRESET (P77) seteado a YES
+***
+** TODO [0/4] Informe final
+*** TODO [ ] esqueleto
+*** TODO [ ] esquematicos
+*** TODO [ ] manuales
+*** TODO [ ] cuerpo
+** TODO [0/1] Presentación
+*** TODO [ ] arrancar

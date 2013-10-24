@@ -466,7 +466,7 @@ IREF0T=DECELY;
 DFU B6R563 = TG1 11 LUBMANUA ; pedido manual lubricacion
 ;
 ; -----------Marcas enviadas por el CNC --------------------
-;DFU MSTROBE AND CPS MBCD* EQ $0 =  M0    ; parada programada
+DFU MSTROBE AND CPS MBCD* EQ $0 =  M0    ; parada programada
 DFU MSTROBE AND CPS MBCD* EQ $1 =  M1    ; parada opcional
 DFU MSTROBE AND CPS MBCD* EQ $2 =  M2    ; simil m30
 DFU MSTROBE AND CPS MBCD* EQ $3 =  M3    ; spindle a favor reloj
@@ -541,11 +541,15 @@ IMA DFU MKCHAN = CNCWR(RTOOL,GUP 200,MTEMP) ; pasar a CNC
 = CNCEX1(G91 TP200, MTEMP); realizar cambio
 = RES MKCHAN; dejar listo para repetir ciclo
 ;
+;
+; -------- control de parada en casos de alarma o bajo pedido --
+DFU RESETOUT OR DFD /ALARM OR DFU M30 OR DFU M2 = RES OCOOLANT; desactivar soluble
+= SET M33 ; desactivar sacar viruta
+;
 ; -------- Control de refrigerante -----------------------------
 DFU B4R563 = CPL OCOOLANT; control por teclado
 DFU M8 = SET OCOOLANT; control por codigo ISO
 DFU M9 = RES OCOOLANT;
-DFU M8 OR DFU M9 = RES AUXEND;
 ;
 ; -------- Control de saca viruta ------------------------------
 DFU B2R563 AND M31 = SET M32; cambiar sentido

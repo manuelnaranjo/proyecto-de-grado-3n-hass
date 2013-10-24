@@ -238,12 +238,11 @@ DEF MPARTCAT M1090
 ;
 ; usado para operaciones que retienen auxend
 DEF MAUXEND  M1091
-DEF MAUXEND2 M1092
 ;
 ; usados para marcar estados de alarma
-DEF MALARMLP M1093
-DEF MALARMHP M1094
-DEF MLOWAIRP M1095
+DEF MALARMLP M1094
+DEF MALARMHP M1095
+DEF MLOWAIRP M1096
 ;
 ; marcas temporizadores
 DEF MT1  M1101
@@ -549,14 +548,14 @@ DFU M9 = RES OCOOLANT;
 DFU M8 OR DFU M9 = RES AUXEND;
 ;
 ; -------- Control de saca viruta ------------------------------
-DFU B2R563 AND IMA OCHIPREV = SET M32; cambiar sentido
-DFU B2R563 AND IMA NOT OCHIPREV = SET M31; cambiar sentido
+DFU B2R563 AND M31 = SET M32; cambiar sentido
+DFU B2R563 AND M32 = SET M31; cambiar sentido
 DFU B1R563 AND IMA NOT OCHIPENA = SET M31 ; activar hacia adelante
 DFU B1R563 AND IMA OCHIPENA = SET M33 ; desactivar
 ;
 DFU M31 = SET OCHIPENA = SET OCHIPREV = RES M32 = RES M33; activar hacia adelante
 DFU M32 = SET OCHIPENA = RES OCHIPREV = RES M31 = RES M33; activar hacia atras
-DFU M33 = RES OCHIPENA = RES OCHIPREV = RES M31 = RES M33; desactivar
+DFU M33 = RES OCHIPENA = RES OCHIPREV = RES M31 = RES M32; desactivar
 ;
 ;
 ;--------- Control manual de contra punta -----------------------
@@ -689,7 +688,9 @@ DFU TSTROBE = RES AUXEND
 ;
 ; si se mantiene la herramienta entonces no realizar proceso
 IMA DFU TSTROBE AND CPS RTBCD EQ RTOOL = SET MTOOLF; retener auxend
-IMA DFU MTOOLF AND CPS RTBCD EQ RTOOL = RES MTOOLF;
+DFU MTOOLF = TG1 6 20 = RES AUXEND
+T6 = MAUXEND ; conectar timer a marca
+DFU MAUXEND = SET AUXEND = RES MTOOLF; liberar MTOOLF
 ;
 ; si hay un cambio real de herramienta entonces realizar proceso de cambio
 IMA DFU TSTROBE AND CPS RTBCD NE RTOOL = SET MTCHANGE ; descamplear
@@ -745,10 +746,6 @@ DFU M50 = SET MDIAMINT
 DFU M51 = RES MDIAMINT
 ;
 ; ---------- retención de auxend para comandos M lógicos ------
-(M50 OR M51 OR M8 OR M9 OR MTOOLF OR M31 OR M32 OR M33) AND MSTROBE = MAUXEND2
-DFD MAUXEND2 = TG1 6 20 = RES AUXEND
-T6 = MAUXEND ; conectar timer a marca
-DFU MAUXEND = SET AUXEND
 ;
 ; ------------------------- control por pedales ---------------
 ;

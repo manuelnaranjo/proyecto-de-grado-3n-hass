@@ -488,9 +488,9 @@ DFU MSTROBE AND CPS MBCD* EQ $29 = M29
 DFU MSTROBE AND CPS MBCD* EQ $30 = M30   ; fin de programa
 ;
 ; ------------ comandos macro personalizados --------------------------
-DFU MSTROBE AND CPS MBCD* EQ $31  = M31   ; activar saca viruta sentido directo
-DFU MSTROBE AND CPS MBCD* EQ $32  = M32   ; activar saca viruta sentido reverso
-DFU MSTROBE AND CPS MBCD* EQ $33  = M33   ; desactivar saca viruta
+DFU MSTROBE AND CPS MBCD* EQ $31  = M31  ; activar saca viruta sentido directo
+DFU MSTROBE AND CPS MBCD* EQ $32  = M32  ; activar saca viruta sentido reverso
+DFU MSTROBE AND CPS MBCD* EQ $33  = M33  ; desactivar saca viruta
 DFU MSTROBE AND CPS MBCD* EQ $53  = M53  ; activar part catcher
 DFU MSTROBE AND CPS MBCD* EQ $63  = M63  ; desactivar part catcher
 DFU MSTROBE AND CPS MBCD* EQ $200 = M200 ; inicializar torreta

@@ -586,11 +586,11 @@ DFU M9 = RES OCOOLANT;
 DFU M8 OR DFU M9 = RES AUXEND;
 ;
 ; -------- Control de saca viruta ------------------------------
-DFU B1R563 = CPL OCHIPREV ; cambiar sentido
-DFU B2R563 AND IMA NOT OCHIPENA = SET OCHIPENA
-= RES OCHIPREV ; activar hacia adelante
+DFU B2R563 = CPL OCHIPREV ; cambiar sentido
+DFU B1R563 AND IMA NOT OCHIPENA = SET OCHIPENA
+= SET OCHIPREV ; activar hacia adelante
 ;
-DFU B2R563 AND IMA OCHIPENA = RES OCHIPENA ; desactivar
+DFU B1R563 AND IMA OCHIPENA = RES OCHIPENA ; desactivar
 ;
 ; -------- Control temporal por teclado de torreta manual ------
 ; TODO: esto tiene que desaparacer en el codigo final

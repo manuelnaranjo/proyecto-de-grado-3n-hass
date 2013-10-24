@@ -497,14 +497,6 @@ DFU MSTROBE AND CPS MBCD* EQ $200 = M200 ; inicializar torreta
 DFU MSTROBE AND CPS MBCD* EQ $50  = M50  ; fijación interna
 DFU MSTROBE AND CPS MBCD* EQ $51  = M51  ; fijación externa
 ;
-; --------------------
-; TODO: estos comandos tienen que volar de la version final
-DFU MSTROBE AND CPS MBCD* EQ $201 = M201 ; descamplear torreta
-DFU MSTROBE AND CPS MBCD* EQ $202 = M202 ; camplear torreta
-DFU MSTROBE AND CPS MBCD* EQ $203 = M203 ; avance lento contra punta +
-DFU MSTROBE AND CPS MBCD* EQ $204 = M204 ; avance rapido contra punto -
-; fin de TODO
-;
 ;
 ; ---------------- control contra punta --------------------------
 ; retroceso rapido
@@ -536,37 +528,6 @@ CPS RDISTX GE RMAXDISX OR CPS RDISTZ GE RMAXDISZ
 T10 OR T11 OR T13 OR T14 = OLUBAIR
 DFD OLUBAIR = TRS 10 = TRS 11 = TRS 13 = TRS 14; reiniciar timers
 ;
-; -------- Control manual de la torreta de herramientas ----------
-DFU M201 = RES M202
-DFU M202 = RES M201
-IMA DFD M201 = SET MANCLAMP = SET MANCLAAU
-IMA DFD M202 = RES MANCLAMP = SET MANCLAAU
-;
-; si usuario solicito clampeo manual esperar a que termine de
-; cambiar el actuador previo a permitir al CNC continuar
-IMA MANCLAAU AND ( DFD ICLAMP OR DFD IUNCLAMP ) = SET AUXEND
-= RES MANCLAAU
-DFU MANCLAAU = RES AUXEND
-;
-; control de avance manual, se setea marca de control, se resetea
-; auxend y se setea una vez que se alcanzo la posicion
-IMA DFD M203 AND MANCLAMP = SET MANTAU ; avance lento +
-= RES AUXEND
-= CNCEX(G1 G91 Y.125 F700., MTEMP)
-IMA DFD M204 AND MANCLAMP = SET MANTAU ; avance lento -
-= RES AUXEND
-= CNCEX(G1 G91 Y-.125 F700, MTEMP)
-IMA DFD M206 AND MANCLAMP = SET MANTAU ; avance rapido +
-= RES AUXEND
-= CNCEX(G91 G0 Y36, MTEMP)
-IMA DFD M205 AND MANCLAMP = SET MANTAU ; avance rapido -
-= RES AUXEND
-= CNCEX(G91 G0 Y-36, MTEMP)
-; cuando servo alcance posicion
-MANTAU AND IMA DFU INPOSY = SET  AUXEND
-= RES MANTAU
-;
-;
 ; -------- Control por teclado de cambio de herramienta --------
 ; usuario presiono tecla, no hay código en ejecución y torre clampeada
 DFU B3R563 AND NOT CYSTART AND NOT ICLAMP = SET MKCHAN
@@ -594,12 +555,9 @@ DFU B1R563 AND IMA NOT OCHIPENA = SET OCHIPENA
 ;
 DFU B1R563 AND IMA OCHIPENA = RES OCHIPENA ; desactivar
 ;
-; -------- Control temporal por teclado de torreta manual ------
-; TODO: esto tiene que desaparacer en el codigo final
-;DFU B5R563 = SET M202
-;DFD B5R563 = RES M202
-;DFU B3R563 = SET M204
-;DFD B3R563 = RES M204
+DFU M31 = SET OCHIPENA = SET OCHIPREV ; activar hacia adelante
+DFU M32 = SET OCHIPENA = RES OCHIPREV ; activar hacia atras
+DFU M33 = RES OCHIPENA = RES OCHIPREV ; desactivar
 ;
 ;
 ;--------- Control manual de contra punta -----------------------

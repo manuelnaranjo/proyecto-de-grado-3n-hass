@@ -193,9 +193,11 @@ DEF MKCHAN   M1034
 ; cambio de herramienta pedido por teclado
 DEF MTOOLF   M1025
 ; auxiliar de cambio de herramienta a misma herramienta
-DEF MTOOLDEL M1026
+DEF MDELTAT  M1026
 ; auxiliar para marcar que la diferencia entre la posición real y la teoríca
 ; cumple con los requisitos
+DEF MTSTROBE M1027
+; permite recordar que se encuentra en un ciclo de cambio de herramienta
 ;
 DEF MCLAMPED M1040
 ; torreta clampeada
@@ -380,6 +382,9 @@ CY1                     ; CICLO INICIAL
 =     SET OSPSTOP       ; frenar spindle
 =     TG1 10 LUBSTART   ; activar lubricación en inicio
 =     TG2 12 ONEHOUR    ; contador de 1h
+=     CNCRD(ATPOSY, RPOST, MTEMP); cargar posicion eje torre
+=     DVS RPOST 10000 RPOST; pasar a grados
+=     MOV RPOST RTBCDD  ; inicializar registro de posicion de torreta
 END                     ; FIN DEL CICLO INICIAL
 ;
 ;
@@ -537,12 +542,9 @@ DFD OLUBAIR = TRS 10 = TRS 11 = TRS 13 = TRS 14; reiniciar timers
 DFU B3R563 AND NOT CYSTART AND NOT ICLAMP = SET MKCHAN
 = CNCRD(TOOL, RTOOL, MTEMP) ; leer herramienta
 = MOV RTOOL RTOOL 1032 ; bcd a bin
-= ADS RTOOL 1 RTOOL
-;
-; mandar a herramienta 1 si desborda
-DFU MKCHAN AND CPS RTOOL GT 10 = MOV 1 RTOOL
-;
-IMA DFU MKCHAN = CNCWR(RTOOL,GUP 200,MTEMP) ; pasar a CNC
+= MDS RTOOL 10 RTOOL   ; modulo base 10
+= ADS RTOOL 1 RTOOL    ; sumar 1
+= CNCWR(RTOOL,GUP 200,MTEMP) ; pasar a CNC
 = CNCEX1(G91 TP200, MTEMP); realizar cambio
 = RES MKCHAN; dejar listo para repetir ciclo
 ;
@@ -556,6 +558,7 @@ DFD /ALARM OR DFU LOPEN = RES OUNCLAMP
 = RES MTCHANGE = RES MTHOME = RES MUCLAMPE
 = RES MCLAMPED = RES MTCHANA2 = RES MTCHANA1
 = RES MTCHANA0 = RES MTHOMEA1 = RES MTHOMEA2
+= RES MTSTROBE ; liberar cambio manual de herramienta
 = SET PLCABORT ; abortar cualquier movimiento pendiente del eje T
 = SET OLUZROJA ; mostrar alarma con la luz
 = RES OCOOLANT = SET M33 ; desactivar saca viruta y soluble
@@ -700,30 +703,36 @@ DFD MCLAMPED = RES OUNCLAMP   ; clampear
 ;() = CNCRD(FLWEY, RFLWEY, MTEMP)
 ;= CNCRD(TPOSY, RTPOSY, MTEMP)
 ;= CNCRD(APOSY, RAPOSY,MTEMP)
+;= CNCRD(POSY,R210,MTEMP)
+;= CNCRD(ATPOSY,R211,MTEMP)
+;= CNCRD(DPLYY,R212,MTEMP)
 ;
 ; ------ control por comando T ---------------------------------
 DFU TSTROBE = RES AUXEND
 = MOV TBCD RTBCD 1032       ; copiar proxima herramienta origen bcd destino bin
 = SBS RTBCD 1 RTBCD         ; restar 1
 = MLS RTBCD DISTTOOL RTBCDD ; pasar a grados
-= CNCRD(TPOSY, RPOST, MTEMP); leer posición actual de torreta
-= SBS RPOST 1000 RPOST      ; pasar a grados
-= SBS RTBCDD RPOST RDELTAT  ; calcular delta de posición
+= CNCRD(ATPOSY, RPOST, MTEMP); leer posición actual de torreta
+= DVS RPOST 10000 RPOST     ; pasar a grados
+= MDS RPOST 360 RPOST       ; pasar a 0<=X<=360
+= SET MTSTROBE
 ;
-; marcar si la diferencia de posición esta dentro de lo esperado para no realizar
-; cambio de herramienta
-CPS REDELTAT GE -100 AND CPS RDELTAT LE 100 = MTOOLDEL;
+DFU MTSTROBE = SBS RTBCDD RPOST RDELTAT  ; calcular delta de posición
+CPS RDELTAT LE 3 AND CPS RDELTAT GE -3 = MDELTAT
 ;
 ; si la posición de la torreta es menor a la necesaria para cambiar evitar
 ; desclampeo
-DFU TSTROBE AND MTOOLDEL = SET MTOOLF
-= TG1 6 20 ; retener auxend por 20ms
-= RES AUXEND
+IMA DFU MTSTROBE AND MDELTAT = SET MTOOLF ; dar tiempo a TG6
+= RES AUXEND ; reiniciar auxend
+MTOOLF = TG1 6 40 ; retener auxend por 40ms
 T6 = MAUXEND ; conectar timer a marca
-DFU MAUXEND = SET AUXEND = RES MTOOLF; liberar MTOOLF
+DFD MAUXEND = SET AUXEND
+= RES MTOOLF; liberar MTOOLF
+= RES MTSTROBE; liberarl cambio de herramienta
+;
 ;
 ; si hay un cambio real de herramienta entonces realizar proceso de cambio
-DFU TSTROBE AND NOT MTOOLDEL = SET MTCHANGE ; descamplear
+IMA DFU MTSTROBE AND NOT MDELTAT = SET MTCHANGE ; descamplear
 = SET MTCHANA2 ; proceso en ejecucion
 ;
 DFU OSERONT AND MTCHANGE = RES MTCHANA1 ; esperar que servo este listo
@@ -737,6 +746,7 @@ DFD ICLAMP AND MTCHANA2 = SET AUXEND; esperar clampeo
 = RES MTCHANA2; proceso terminado
 = RES MTCHANA1
 = RES MTCHANA0
+= RES MTSTROBE ; liberar proceso de cambio de herramienta
 ;= CNCEX(G92 YP200, MTEMP)          ; setear eje
 ;
 ;

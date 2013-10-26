@@ -440,6 +440,7 @@ START AND NOT IMACHON  = MSGNOMAC; el usuario no puede apretar inicio de ciclo
 ()    = /FEEDHOL;
 ; no permitir iniciar programa a menos que la pieza se encuentra agarrada
 START AND MPARTCLA AND SERVOXON AND SERVOZON = CYSTART;
+= OLUZVERDE ; indicación luminica de proceso en ciclo
 ;
 INCYCLE = TIMERON;
 ;
@@ -542,9 +543,21 @@ IMA DFU MKCHAN = CNCWR(RTOOL,GUP 200,MTEMP) ; pasar a CNC
 = RES MKCHAN; dejar listo para repetir ciclo
 ;
 ;
-; -------- control de parada en casos de alarma o bajo pedido --
-DFU RESETOUT OR DFD /ALARM OR DFU M30 OR DFU M2 = RES OCOOLANT; desactivar soluble
-= SET M33 ; desactivar sacar viruta
+; -------- control de parada bajo pedido -----------------------
+DFU RESETOUT OR DFU M30 OR DFU M2 = RES OCOOLANT; desactivar soluble
+= SET M33      ; desactivar saca viruta
+;
+; -------- control de parada en caso de alarma -----------------
+DFD /ALARM OR DFU LOPEN = RES OUNCLAMP
+= RES MTCHANGE = RES MTHOME = RES MUNCLAMPE
+= RES MCLAMPED = RES MTCHANA2 = RES MTCHANA1
+= RES MTCHANA0 = RES MTHOMEA1 = RES MTHOMEA2
+= SET PLCABORT ; abortar cualquier movimiento pendiente del eje T
+= SET OLUZROJA ; mostrar alarma con la luz
+= RES OCOOLANT = SET M33 ; desactivar saca viruta y soluble
+;
+DFU /ALARM OR DFD LOPEN = RES OLUZROJA ; desactivar señal de alarma
+;
 ;
 ; -------- Control de refrigerante -----------------------------
 DFU B4R563 = CPL OCOOLANT; control por teclado

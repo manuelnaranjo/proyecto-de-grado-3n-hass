@@ -193,7 +193,9 @@ DEF MKCHAN   M1034
 ; cambio de herramienta pedido por teclado
 DEF MTOOLF   M1025
 ; auxiliar de cambio de herramienta a misma herramienta
-;
+DEF MTOOLDEL M1026
+; auxiliar para marcar que la diferencia entre la posición real y la teoríca
+; cumple con los requisitos
 ;
 DEF MCLAMPED M1040
 ; torreta clampeada
@@ -299,13 +301,15 @@ DEF RPOSTAIL R300
 ;                   2 - Fin 1
 ;                   3 - Fin 2
 ;                   4 - Fin 3
-DEF RPOSY    R200
-; debug posicion torreta
-DEF RFLWEY   R201
+DEF RPOST    R200
+; posicion real de torreta
+DEF RDELTAT  R201
+; diferencia de posicion de torreta
+DEF RFLWEY   R202
 ; debug error posicion torreta
-DEF RTPOSY   R202
+DEF RTPOSY   R203
 ; debug posicion teorica torreta
-DEF RAPOSY   R203
+DEF RAPOSY   R204
 ;
 ;
 ;   TIMERS
@@ -693,27 +697,34 @@ DFD MCLAMPED = RES OUNCLAMP   ; clampear
 ;
 ;
 ; cargar registros de depuracion
-() = CNCRD(POSY, RPOSY, MTEMP)
-= CNCRD(FLWEY, RFLWEY, MTEMP)
-= CNCRD(TPOSY, RTPOSY, MTEMP)
-= CNCRD(APOSY, RAPOSY,MTEMP)
+;() = CNCRD(FLWEY, RFLWEY, MTEMP)
+;= CNCRD(TPOSY, RTPOSY, MTEMP)
+;= CNCRD(APOSY, RAPOSY,MTEMP)
 ;
 ; ------ control por comando T ---------------------------------
 DFU TSTROBE = RES AUXEND
 = MOV TBCD RTBCD 1032       ; copiar proxima herramienta origen bcd destino bin
-= CNCRD(TOOL, RTOOL, MTEMP) ; leer herramienta actual
+= SBS RTBCD 1 RTBCD         ; restar 1
+= MLS RTBCD DISTTOOL RTBCDD ; pasar a grados
+= CNCRD(TPOSY, RPOST, MTEMP); leer posición actual de torreta
+= SBS RPOST 1000 RPOST      ; pasar a grados
+= SBS RTBCDD RPOST RDELTAT  ; calcular delta de posición
 ;
-; si se mantiene la herramienta entonces no realizar proceso
-IMA DFU TSTROBE AND CPS RTBCD EQ RTOOL = SET MTOOLF; retener auxend
-DFU MTOOLF = TG1 6 20 = RES AUXEND
+; marcar si la diferencia de posición esta dentro de lo esperado para no realizar
+; cambio de herramienta
+CPS REDELTAT GE -100 AND CPS RDELTAT LE 100 = MTOOLDEL;
+;
+; si la posición de la torreta es menor a la necesaria para cambiar evitar
+; desclampeo
+DFU TSTROBE AND MTOOLDEL = SET MTOOLF
+= TG1 6 20 ; retener auxend por 20ms
+= RES AUXEND
 T6 = MAUXEND ; conectar timer a marca
 DFU MAUXEND = SET AUXEND = RES MTOOLF; liberar MTOOLF
 ;
 ; si hay un cambio real de herramienta entonces realizar proceso de cambio
-IMA DFU TSTROBE AND CPS RTBCD NE RTOOL = SET MTCHANGE ; descamplear
+DFU TSTROBE AND NOT MTOOLDEL = SET MTCHANGE ; descamplear
 = SET MTCHANA2 ; proceso en ejecucion
-= SBS RTBCD 1 RTBCD       ; restar 1
-= MLS RTBCD DISTTOOL RTBCDD; pasar a grados
 ;
 DFU OSERONT AND MTCHANGE = RES MTCHANA1 ; esperar que servo este listo
 = CNCWR(RTBCDD,GUP 200, MTEMP)

@@ -337,9 +337,9 @@ DEF RAPOSY   R203
 ;   MENSAJES
 ;   ============
 DEF MSGLOAIR MSG1;
-DEF MSGREGTE MSG2;
-DEF MSGSPOVL MSG3;
-DEF MSGSPPOW MSG4;
+DEF MSGREGTE ERR2;
+DEF MSGSPOVL ERR3;
+DEF MSGSPPOW ERR4;
 DEF MSGLLUB1 MSG5;
 DEF MSGLLUB2 MSG6;
 DEF MSGUNCLA MSG7;
@@ -386,34 +386,6 @@ PRG                     ; PROGAMA PRINCIPAL
 REA                     ; VALORES REALES
 ;
 ; --------- control de alarmas -----------
-;
-; alarma de alta prioridad, si se da esta condición el ciclo de mecanizado se
-; detiene al instante.
-IEMER OR NOT ILOWHIDR = MALARMHP;
-MALARMHP = /EMERGEN;
-;
-; alarmas de baja prioridad, si se da cualquier condición entonces el ciclo de
-; mecanizado se deja terminar, pero se alerta al usuario de que algo esta mal
-; para que decida cuando terminar el ciclo de trabajo, sin dañar la máquina
-IREGTEMP OR ISPOVLOA OR ISPPOWAL OR NOT ISPALAR = MALARMLP;
-;
-; estados de alarma que requieren temporización
-DFD ISENAIR = TG1 7 TIMELOWA;
-T7 = MT7;
-DFD MT7 = SET MLOWAIRP;
-DFU ISENAIR = RES MLOWAIRP;
-;
-; clampeo y descampleo de herramienta
-DFU MTCHANGE OR DFU MTHOME OR DFU MANCLAMP = TG1 8 TIMEUNMA
-DFD MTCHANGE OR DFD MTHOME OR DFD MANCLAMP = TG1 9 TIMEUNMA
-T8 = MT8;
-T9 = MT9;
-DFD MT8 AND NOT OSERONT = SET MSGUNCLA
-DFU OSERONT = RES MSGUNCLA
-DFD MT9 AND ICLAMP = SET MSGCLAM
-DFD ICLAMP = RES MSGCLAM
-;
-;
 ; alarmas y mensajes generales
 NOT MT7 AND NOT ISENAIR = MSGLOAIR; mostrar que tenemos poco aire
 NOT IREGTEMP = MSGREGTE; sobre-calentamiento del regenerador del spindle
@@ -432,6 +404,33 @@ OLUBAIR = MSGLUBRI; mostrar al usuario que estamos lubricando
 START AND NOT MPARTCLA = MSGNOPAR; no tenemos pieza no podemos arrancar
 START AND NOT IMACHON  = MSGNOMAC; el usuario no puede apretar inicio de ciclo
                                  ; sin prender la máquina
+;
+; alarma de alta prioridad, si se da esta condición el ciclo de mecanizado se
+; detiene al instante.
+IEMER OR NOT ILOWHIDR OR NOT ISPOVLOA OR NOT ISPALAR = MALARMHP;
+MALARMHP = /EMERGEN;
+;
+; alarmas de baja prioridad, si se da cualquier condición entonces el ciclo de
+; mecanizado se deja terminar, pero se alerta al usuario de que algo esta mal
+; para que decida cuando terminar el ciclo de trabajo, sin dañar la máquina
+IREGTEMP OR ISPPOWAL = MALARMLP;
+;
+; estados de alarma que requieren temporización
+DFD ISENAIR = TG1 7 TIMELOWA;
+T7 = MT7;
+DFD MT7 = SET MLOWAIRP;
+DFU ISENAIR = RES MLOWAIRP;
+;
+; clampeo y descampleo de herramienta
+DFU MTCHANGE OR DFU MTHOME OR DFU MANCLAMP = TG1 8 TIMEUNMA
+DFD MTCHANGE OR DFD MTHOME OR DFD MANCLAMP = TG1 9 TIMEUNMA
+T8 = MT8;
+T9 = MT9;
+DFD MT8 AND NOT OSERONT = SET MSGUNCLA
+DFU OSERONT = RES MSGUNCLA
+DFD MT9 AND ICLAMP = SET MSGCLAM
+DFD ICLAMP = RES MSGCLAM
+;
 ;
 ;
 ; canal plc en stop

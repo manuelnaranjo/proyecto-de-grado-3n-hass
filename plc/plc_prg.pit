@@ -453,7 +453,7 @@ START AND MPARTCLA AND SERVOXON AND SERVOZON = CYSTART;
 INCYCLE = TIMERON ; activar temporizador
 = OLUZVERD        ; indicar correctamente al usuario
 ;
-CNCREADY AND /ALARM = OEMER;
+CNCREADY AND /ALARM AND IEMER = OEMER;
 ;
 ; habilitar ejes si es posible
 ( IEJEXOK AND IMACHON AND NOT LOPEN ) = SERVOXON = OSERONX

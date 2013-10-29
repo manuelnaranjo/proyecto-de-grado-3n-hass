@@ -796,7 +796,7 @@ NOT (OSPCLAMP XOR MDIAMINT) = MPARTCLA
 ; leer velocidad
 () = CNCRD(SREAL, RSREAL, MTEMP )
 ; guardar si cabezal gira a menos de 10rpm
-CPS RSREAL LE 100000 = MSPINDEA
+CPS RSREAL LE 100000 AND NOT M3 AND NOT M4 = MSPINDEA
 ; por cuestiones de seguridad solo se tiene que poder atrapar o
 ; liberar la pieza cuando no hay velocidad de giro real
 DFU IPEDALCLA AND MSPINDEA AND OSPCLAMP = RES OSPCLAMP

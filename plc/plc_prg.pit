@@ -191,6 +191,10 @@ DEF MTCHANA2 M1033
 ; cambio de herramienta en progreso por comando T auxiliar 2
 DEF MKCHAN   M1034
 ; cambio de herramienta pedido por teclado
+DEF MKCHAN1  M1035
+; marca auxiliar 1 para cambio de herramienta por teclado
+DEF MKCHAN2  M1036
+; marca auxiliar 2 para cambio de herramienta pedido por teclado
 DEF MTOOLF   M1025
 ; auxiliar de cambio de herramienta a misma herramienta
 DEF MDELTAT  M1026
@@ -303,15 +307,18 @@ DEF RPOSTAIL R300
 ;                   2 - Fin 1
 ;                   3 - Fin 2
 ;                   4 - Fin 3
-DEF RPOST    R200
+DEF RPOST    R25
 ; posicion real de torreta
-DEF RDELTAT  R201
+DEF RDELTAT  R26
 ; diferencia de posicion de torreta
+DEF RPOSTM   R27
+; usado para cambio de herramienta manual
 DEF RFLWEY   R202
 ; debug error posicion torreta
 DEF RTPOSY   R203
 ; debug posicion teorica torreta
 DEF RAPOSY   R204
+;
 ;
 ;
 ;   TIMERS
@@ -539,15 +546,25 @@ DFD OLUBAIR = TRS 10 = TRS 11 = TRS 13 = TRS 14; reiniciar timers
 ;
 ; -------- Control por teclado de cambio de herramienta --------
 ; usuario presiono tecla, no hay código en ejecución y torre clampeada
-DFU B3R563 AND NOT CYSTART AND NOT ICLAMP = SET MKCHAN
-= CNCRD(TOOL, RTOOL, MTEMP) ; leer herramienta
-= MOV RTOOL RTOOL 1032 ; bcd a bin
-= MDS RTOOL 10 RTOOL   ; modulo base 10
-= ADS RTOOL 1 RTOOL    ; sumar 1
-= CNCWR(RTOOL,GUP 200,MTEMP) ; pasar a CNC
-= CNCEX1(G91 TP200, MTEMP); realizar cambio
-= RES MKCHAN; dejar listo para repetir ciclo
+DFU B3R563 AND NOT CYSTART = SET MKCHAN = SET MKCHAN2
 ;
+; una vez desclampeado y mientras el usuario presione el boton realizar avance
+; mientras el usuario siga presionando
+OSERONT AND MKCHAN AND B3R563 AND NOT MKCHAN1 = SET MKCHAN1
+= CNCEX(G91 G0 Y 36, MTEMP) ; avanzar 36 grados
+= CNCEX((PLCMM 1035=0), MTEMP) ; bajar marca cuando se produce ciclo
+;
+DFD MKCHAN1 AND NOT B3R563 AND MKCHAN = RES MKCHAN2; clampear
+;
+; esperar que clampee
+DFD ICLAMP AND MKCHAN = CNCRD(ATPOSY, RPOSTM, MTEMP);cargar posicion de herramienta
+= DVS RPOSTM 10000 RPOSTM; pasar a grados
+= MDS RPOSTM 360   RPOSTM  ; pasar a rango 0 <= X <= 360
+= DVS RPOSTM 36    RPOSTM  ; pasar a numero de herramienta -1
+= ADS RPOSTM 1     RPOSTM  ; pasar a numero de herramienta
+= CNCWR(RPOSTM,GUP 201, MTEMP);
+= CNCEX1(G91 TP201, MTEMP); actualizar número de herramienta en cnc
+= RES MKCHAN; finalizar cambio manual
 ;
 ; -------- control de parada bajo pedido -----------------------
 DFU RESETOUT OR DFU M30 OR DFU M2 = RES OCOOLANT; desactivar soluble
@@ -562,6 +579,7 @@ DFD /ALARM OR DFU LOPEN = RES OUNCLAMP
 = SET PLCABORT ; abortar cualquier movimiento pendiente del eje T
 = SET OLUZROJA ; mostrar alarma con la luz
 = RES OCOOLANT = SET M33 ; desactivar saca viruta y soluble
+= RES MKCHAN = RES MKCHAN1 = RES MKCHAN2; cancelar cambio manual
 ;
 DFU /ALARM OR DFD LOPEN = RES OLUZROJA ; desactivar señal de alarma
 ;
@@ -679,7 +697,7 @@ NOT T3 AND MACKSPIN = SET AUXEND
 ;
 ; control con retardos para evitar que lazo de control se active durante
 ; proceso de cambio de estado del actuador
-DFU MTCHANGE OR DFU MTHOME OR DFU MANCLAMP = SET OUNCLAMP; descamplear
+DFU MTCHANGE OR DFU MTHOME OR DFU MANCLAMP OR DFU MKCHAN2=SET OUNCLAMP;descamplear
 DFD IUNCLAMP = SET MUCLAMPE       ; marcar cuando se detecta desclampe
 MUCLAMPE = TG4 1 TIMEUCLA         ; esperar Xms luego de descamplear
 NOT IUNCLAMP AND NOT T1 AND MUCLAMPE = RES MUCLAMPE ; limpiar marca
@@ -691,7 +709,8 @@ DFD LOPEN AND OUNCLAMP = SET OSERONT; LOPEN cambia de estado y debemos
 ; desenergizar los ejes, para que los mismos no se mueven
 ;
 ;
-DFD MTCHANGE OR DFD MTHOME OR DFD MANCLAMP = RES OSERONT ; desenergizar servo
+; desenergizar servo
+DFD MTCHANGE OR DFD MTHOME OR DFD MANCLAMP OR DFD MKCHAN2 = RES OSERONT
 IMA DFD OSERONT AND IMA NOT LOPEN = SET MCLAMPED ; servo se desenergiza
 MCLAMPED = TG4 2 TIMECLA      ; esperar Xms previo a clampear
 NOT OSERONT AND NOT T2 AND MCLAMPED = RES MCLAMPED ; descamplear
@@ -716,8 +735,7 @@ DFU TSTROBE = RES AUXEND
 = DVS RPOST 10000 RPOST     ; pasar a grados
 = MDS RPOST 360 RPOST       ; pasar a 0<=X<=360
 = SET MTSTROBE
-;
-DFU MTSTROBE = SBS RTBCDD RPOST RDELTAT  ; calcular delta de posición
+= SBS RTBCDD RPOST RDELTAT  ; calcular delta de posición
 CPS RDELTAT LE 3 AND CPS RDELTAT GE -3 = MDELTAT
 ;
 ; si la posición de la torreta es menor a la necesaria para cambiar evitar
@@ -767,8 +785,8 @@ DFU OSERONT AND MTHOME = RES MTHOMEA2; esperar servo listo
 ;
 DFU MTHOMEA2 = RES MTHOMEA3 ; home encontrado,
 ; llevar a herramienta seleccionada en CNC
-= CNCWR(RTOOLD,GUP 200, MTEMP)
-= CNCEX(G1 YP200 F600. , MTEMP)
+= CNCWR(RTOOLD,GUP 203, MTEMP)
+= CNCEX(G1 YP203 F600. , MTEMP)
 = CNCEX((PLCMM 1023=1), MTEMP) ; avisar plc termino cnc MTHOMEA3
 DFU MTHOMEA3 AND MTHOME = RES MTHOME; iniciar proceso de clampeo
 ;
@@ -776,7 +794,7 @@ DFD ICLAMP AND MTHOMEA1 = SET AUXEND; esperar clampeo
 = RES MTHOMEA1; proceso terminado
 = RES MTHOMEA2
 = RES MTHOMEA3
-= CNCEX(G92 YP200, MTEMP)          ; setear eje
+= CNCEX(G92 YP203, MTEMP)          ; setear eje
 ;
 ;
 ; ------------------------- control modo de fijación ----------

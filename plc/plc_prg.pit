@@ -585,7 +585,7 @@ DFU /ALARM OR DFD LOPEN = RES OLUZROJA ; desactivar señal de alarma
 ;
 ;
 ; -------- Control de refrigerante -----------------------------
-DFU B4R563 = CPL OCOOLANT; control por teclado
+DFU B10R563 = CPL OCOOLANT; control por teclado
 DFU M8 = SET OCOOLANT; control por codigo ISO
 DFU M9 = RES OCOOLANT;
 ;

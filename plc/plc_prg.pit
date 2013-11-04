@@ -105,9 +105,9 @@ DEF OLUZVERD O45
 DEF OLUZROJA O47
 ; Prender en caso de alarma
 ;
-DEF OCHIPENA O41
+DEF OCHIPFW O41
 ; activar recolector de viruta
-DEF OCHIPREV O43
+DEF OCHIPRW O43
 ; invertir sentido de giro del recolector de virtua
 ;
 DEF OCOOLANT O08;
@@ -592,12 +592,12 @@ DFU M9 = RES OCOOLANT;
 ; -------- Control de saca viruta ------------------------------
 DFU B2R563 AND M31 = SET M32; cambiar sentido
 DFU B2R563 AND M32 = SET M31; cambiar sentido
-DFU B1R563 AND IMA NOT OCHIPENA = SET M31 ; activar hacia adelante
-DFU B1R563 AND IMA OCHIPENA = SET M33 ; desactivar
+DFU B1R563 AND IMA NOT OCHIPFW = SET M31 ; activar hacia adelante
+DFU B1R563 AND IMA OCHIPFW = SET M33 ; desactivar
 ;
-DFU M31 = SET OCHIPENA = SET OCHIPREV = RES M32 = RES M33; activar hacia adelante
-DFU M32 = SET OCHIPENA = RES OCHIPREV = RES M31 = RES M33; activar hacia atras
-DFU M33 = RES OCHIPENA = RES OCHIPREV = RES M31 = RES M32; desactivar
+DFU M31 = SET OCHIPFW = RES OCHIPRW = RES M32 = RES M33; activar hacia adelante
+DFU M32 = SET OCHIPRW = RES OCHIPFW = RES M31 = RES M33; activar hacia atras
+DFU M33 = RES OCHIPFW = RES OCHIPRW = RES M31 = RES M32; desactivar
 ;
 ;
 ;--------- Control manual de contra punta -----------------------

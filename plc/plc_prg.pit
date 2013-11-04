@@ -33,7 +33,7 @@ DEF ILLUB190 I67
 ; Sensor de bajo lubricante 190
 DEF ILLUB960 I69
 ; Sensor de bajo lubricante 960
-DEF IDOOR    I65
+;DEF IDOOR    I65
 ; Sensor de puerta cerrada
 DEF ISPOVLOA I71
 ; Spindle Sobrecarga

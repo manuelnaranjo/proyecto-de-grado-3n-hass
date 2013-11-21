@@ -768,6 +768,8 @@ DFD ICLAMP AND MTCHANA2 = SET AUXEND; esperar clampeo
 ;= CNCEX(G92 YP200, MTEMP)          ; setear eje
 ;
 ;
+; TODO: comprobar que herramienta mostrada coinicide con posicion de torreta
+;
 ; ----- reiniciar torreta - M200 -------------------------------
 DFU M200 = RES AUXEND
 = SET MTHOMEA1; proceso en ejecucion

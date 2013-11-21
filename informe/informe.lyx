@@ -129,6 +129,306 @@ Para poder comenzar se considera fundamental realizar una breve introducción
  el resultado final, un resumen de motores eléctricos y control de los mismos.
 \end_layout
 
+\begin_layout Standard
+Básicamente fue llevar la máquina del estado mostrado en la figura
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:iniciales"
+
+\end_inset
+
+ al mostrado en las imágenes .
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="25col%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/fotos/APDC0708.JPG
+	lyxscale 2
+	width 24col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="25col%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/fotos/APDC0709.JPG
+	lyxscale 2
+	width 24col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="25col%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/fotos/APDC0710.JPG
+	lyxscale 2
+	width 24col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="25col%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/fotos/APDC0711.JPG
+	lyxscale 2
+	width 24col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:iniciales"
+
+\end_inset
+
+Estado inicial de la máquina
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="25col%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/fotos/IMG_20130926_180946.jpg
+	lyxscale 2
+	width 24col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="25col%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/fotos/IMG_20131026_120240.jpg
+	lyxscale 2
+	width 24col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="25col%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/fotos/IMG_20131018_145929.jpg
+	lyxscale 3
+	width 24col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="25col%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/fotos/IMG_20130824_112703.jpg
+	lyxscale 3
+	width 24col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:final-1"
+
+\end_inset
+
+Estado actual de la máquina
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Máquina Torno
 \end_layout
@@ -188,6 +488,36 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename imagenes/wikipedia/Torno/300px-HwacheonCentreLathe_460x1000.jpg
+	width 150bp
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -197,14 +527,7 @@ name "fig-torno-paralelo"
 
 \end_inset
 
-
-\begin_inset Graphics
-	filename imagenes/wikipedia/Torno/300px-HwacheonCentreLathe_460x1000.jpg
-	width 150bp
-
-\end_inset
-
-
+Torno Paralelo
 \end_layout
 
 \end_inset
@@ -224,6 +547,36 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename imagenes/wikipedia/Torno/200px-Small_CNC_Turning_Center.jpg
+	width 150bp
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -233,14 +586,7 @@ name "fig-wikipedia-cnc"
 
 \end_inset
 
-
-\begin_inset Graphics
-	filename imagenes/wikipedia/Torno/200px-Small_CNC_Turning_Center.jpg
-	width 150bp
-
-\end_inset
-
-
+Torno CNC
 \end_layout
 
 \end_inset
@@ -422,6 +768,36 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename imagenes/monografias/trabajos38/torneado-excentrico/Image9428-mine.gif
+	width 50page%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -431,14 +807,7 @@ name "fig-monografias-plato"
 
 \end_inset
 
-
-\begin_inset Graphics
-	filename imagenes/monografias/trabajos38/torneado-excentrico/Image9428-mine.gif
-	width 50page%
-
-\end_inset
-
-
+Esquema de plato universal
 \end_layout
 
 \end_inset
@@ -546,6 +915,36 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename imagenes/wikipedia/Torno_CNC/300px-BallScrews-with-detail-insets.jpg
+	width 30page%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -555,14 +954,7 @@ name "fig-wikipedia-ballscrew"
 
 \end_inset
 
-
-\begin_inset Graphics
-	filename imagenes/wikipedia/Torno_CNC/300px-BallScrews-with-detail-insets.jpg
-	width 30page%
-
-\end_inset
-
-
+Tornillo de precisión con tuerca anti backslash
 \end_layout
 
 \end_inset
@@ -667,6 +1059,36 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename imagenes/wikipedia/Torno_CNC/300px-MoriSeiki-examples.jpg
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -676,14 +1098,7 @@ name "pic-wikipedia-porta"
 
 \end_inset
 
-
-\begin_inset Graphics
-	filename imagenes/wikipedia/Torno_CNC/300px-MoriSeiki-examples.jpg
-	width 4cm
-
-\end_inset
-
-
+Porta Herramientas
 \end_layout
 
 \end_inset
@@ -865,9 +1280,13 @@ ad de simular y programar on-site, y la comunicación del PLC.
  En este proyecto se utilizo una controladora Fagor 8035-T, la cual cuenta
  con la posibilidad de comandar 3 ejes, permite simular y editar on-site
  vía un pequeño teclado, y cuenta con un PLC integrado.
- El código de programación de pieza se basa en un standard de la ISO el
- cuál asiga ciertos mnemonicos a operaciones comunes a todas las máquinas
- CNC, y permite a los fábricantes extenderlo con sus propias caracteristicas
+ 
+\end_layout
+
+\begin_layout Standard
+El código de programación de pieza se basa en un standard de la ISO el cuál
+ asiga ciertos mnemonicos a operaciones comunes a todas las máquinas CNC,
+ y permite a los fábricantes extenderlo con sus propias caracteristicas
  distintivas.
  A la vez los fabricantes permiten a las empresas/particulares que ajustan
  controladoras CNC a maquinas extender aún más dicho lenguaje, una introducción
@@ -899,6 +1318,317 @@ key "wiki-torno"
 \begin_inset CommandInset citation
 LatexCommand cite
 key "wiki-torno-cnc"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Organización y realización del proyecto
+\end_layout
+
+\begin_layout Standard
+El proyecto comenzo luego de que comenzado el refactoring, un técnico previament
+e había seleccionado el controlador CNC, los motores de los ejes con sus
+ respectivos drivers, incluso realizado un primer cableado el cuál estaba
+ lleno de problemas.
+ Dado que la tarea resultaba complicada o imposible si se atacaba todo el
+ problema en conjunto, y que el alumno no tenía nada de experiencia al respecto,
+ se decidio realizar una hoja de ruta en la cual se dividió el sistema en
+ subsistemas y se trato de asignar fechas límites para realizar cada una.
+ Si bien dicha predicción no fue del todo acertada, permitió organizar el
+ comienzo del proyecto.
+\end_layout
+
+\begin_layout Subsection
+Diagramación inicial
+\end_layout
+
+\begin_layout Standard
+Inicialmente se supusieron las siguientes etapas:
+\end_layout
+
+\begin_layout Itemize
+Relevamiento de la máquina original y de componentes de reemplazo disponibles.
+\end_layout
+
+\begin_layout Itemize
+Investigación de la documentación disponible y consulta a operarios expertos
+ respecto de la funcionalidad esperada.
+\end_layout
+
+\begin_layout Itemize
+Verificación, realización e identificación del cableado interno.
+\end_layout
+
+\begin_layout Itemize
+Análisis y selección de protecciones necesarias.
+\end_layout
+
+\begin_layout Itemize
+Actualización del diagrama eléctrico para futuros mantenimientos.
+\end_layout
+
+\begin_layout Itemize
+Puesta en marcha de la máquina, ajuste de los parámetros del controlador
+ según especificiaciones.
+\end_layout
+
+\begin_layout Itemize
+Modificación del código del PLC incluído dentro de la controladora a fin
+ de adaptarlo para la tarea específica.
+\end_layout
+
+\begin_layout Itemize
+Realización de pruebas pertinentes a fin de verificar que la máquina cumple
+ con requerimientos.
+\end_layout
+
+\begin_layout Itemize
+Ajustes iterativos.
+\end_layout
+
+\begin_layout Subsection
+Desarrollo real del proyecto
+\end_layout
+
+\begin_layout Standard
+A continuación se enumeran las etapas reales necesarias para completar el
+ proyecto:
+\end_layout
+
+\begin_layout Itemize
+Relevamiento de la máquina original y de componentes de reemplazo disponibles.[
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Relevamiento-inicial"
+
+\end_inset
+
+]
+\end_layout
+
+\begin_layout Itemize
+Investigación de la documentación disponible y consulta a operarios expertos
+ respecto de la funcionalidad esperada.
+ [
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Relevamiento-inicial"
+
+\end_inset
+
+]
+\end_layout
+
+\begin_layout Itemize
+Relevamiento e identificación del cableado realizado por técnico anterior.
+\end_layout
+
+\begin_layout Itemize
+Primer borrador de conexionado interno.
+\end_layout
+
+\begin_layout Itemize
+Remoción del conexionado previamente realizado, y conexionado interno que
+ permitise prender todos los módulos de control según especificaciones del
+ borrador.
+\end_layout
+
+\begin_layout Itemize
+Conexionado del circuito de encendido de la etapa lógica, accionado de la
+ controladora y análisis de la misma.
+\end_layout
+
+\begin_layout Itemize
+Conexionado del circuito de distribución de potencia.
+\end_layout
+
+\begin_layout Itemize
+Conexionado de la etapa de potencia y etapa lógica de los drivers de los
+ ejes y cambiador de herramientas.
+\end_layout
+
+\begin_layout Itemize
+Desacople de los servos de los ejes y cambiador de herramientas, encendido
+ de los drivers, movimientos iniciales en modo jog.
+\end_layout
+
+\begin_layout Itemize
+Ajuste del sentido de giro de los servos de los ejes y cambiador de herramientas
+, y de las ganancias para minimizar la cantidad de vueltas por minuto de
+ los motores, primeras modificaciones al ćodigo del plc, ajuste de offset,
+ movimiento del motor del cambiador de herramientas sin disco porta herramientas.
+\end_layout
+
+\begin_layout Itemize
+Acoplamiento de los servos a los ejes, ajuste del paso de los tornillos,
+ ajuste de ganancia inicial.
+\end_layout
+
+\begin_layout Itemize
+Control de los ejes vía los botones de jog en el panel de usuario.
+\end_layout
+
+\begin_layout Itemize
+Aumento de las velocidades máximas de avance, ajuste de ganancia para que
+ el movimiento sea fluido.
+\end_layout
+
+\begin_layout Itemize
+Corrección del sentido de avance de los ejes respecto al sistema de referencias,
+ accidente tornillo de eje X.
+\end_layout
+
+\begin_layout Itemize
+Conexionado de sensores de referencia en ejes, seteo de las zonas máximas
+ de movimiento del eje Z.
+\end_layout
+
+\begin_layout Itemize
+Conexionado tanto de la etapa de potencia, como de control de los selenoides
+ del actuador neumático del cambiador de herramientas, control del mismo
+ via PLC, conexionado de los sensores de acople y desacople del cambiador
+ de herramientas.
+\end_layout
+
+\begin_layout Itemize
+Agregado del disco porta herramientas, ajuste de las velocidades del cambiador
+ de herramientas, ajuste del código del PLC para un correcto cambio de herramien
+tas, teniendo en cuenta el acople y desacople del cambiador.
+\end_layout
+
+\begin_layout Itemize
+Conexionado básico del driver del usillo, circuito de control y circuito
+ de potencia.
+\end_layout
+
+\begin_layout Itemize
+Encendido del motor del usillo, ajuste de cruce por cero, ajuste de velocidades
+ máximas y sentido de giro.
+\end_layout
+
+\begin_layout Itemize
+Conexionado de bomba hidráulica.
+\end_layout
+
+\begin_layout Itemize
+Conexionado de la etapa de control y de la etapa de potencia de las selenoides
+ de agarre de pieza en el usillo, y de la contra punta.
+\end_layout
+
+\begin_layout Itemize
+Conexionado de pedales de usuario y realización de comando via pedales tanto
+ de contra punta como de cabezal de pieza.
+\end_layout
+
+\begin_layout Itemize
+Conexionado y puesta a punta del tornillo de eje X luego de ser reparado,
+ ajuste de ganancias.
+\end_layout
+
+\begin_layout Itemize
+Con la ayuda de un osciloscopio ajuste de ganancias de los drivers de los
+ ejes X y Z y del cambiador de herramientas, a fin de obtener un movimiento
+ fluido y preciso.
+\end_layout
+
+\begin_layout Itemize
+Primeras pruebas de torneado con barras plásticas, grillon, luego de barras
+ de metal.
+ Alineación de los ejes para reducir desvíos sobre la superficie mecanizada.
+ Primeros ajustes globales del código del PLC.
+\end_layout
+
+\begin_layout Itemize
+Pruebas más avanzadas de torneado probando algunos comandos más avanzados.
+\end_layout
+
+\begin_layout Itemize
+Conexionado, control y verificación del sistema automatizado de lubricación
+ de ejes y cabezal.
+\end_layout
+
+\begin_layout Itemize
+Identificación final del cableado y mejoras en la disposición del mismo,
+ agregado de caja de protección externa para etapa neumática.
+\end_layout
+
+\begin_layout Itemize
+Colocación de las placas metálicas de soporte de la máquina con su respectiva
+ alineación, lubricación e impervialización donde fuese necesario.
+ Conexionado de lámpara interna y ventiladores de refrigeración.
+\end_layout
+
+\begin_layout Itemize
+Realizado de primeros mecanizados reales sobre barras en bruto, probando
+ distintos ciclos de mecanizado avanzados.
+ Constatación de las medidas obtenidas.
+\end_layout
+
+\begin_layout Itemize
+Re-ingenería del código del PLC resultante a fin de organizarlo y documentarlo
+ al mismo.
+\end_layout
+
+\begin_layout Itemize
+Conexionado y control de la bomba hidráulica de refrigerante.
+\end_layout
+
+\begin_layout Itemize
+Conexionado y control del sistema de recolección de viruta.
+\end_layout
+
+\begin_layout Itemize
+Conexionado de todas las señales de alarma y manejo de las mismas por el
+ PLC.
+\end_layout
+
+\begin_layout Itemize
+Primeras piezas reales producidas, primer ronda de devolución de los operarios.
+ Cambios tanto al código del PLC como a la interfaz de usuario.
+\end_layout
+
+\begin_layout Itemize
+Entranimento on-site de los operarios.
+\end_layout
+
+\begin_layout Itemize
+Realización de piezas de producción, segunda ronda de devolución.
+ Cambios al código del PLC, cambios en la forma de manejar las distintas
+ alarmas.
+\end_layout
+
+\begin_layout Itemize
+Actualización y verificación del diagrama eléctrico.
+\end_layout
+
+\begin_layout Itemize
+Documentación del informe.
+\end_layout
+
+\begin_layout Standard
+Estas distintas etapas descriptas no están en exactamente el mismo orden
+ en que fueron realizadas, hay que tener en cuenta que muchas fueron realizadas
+ en paralelo, el inicio de tareas fue el primer día del mes de Mayo de 2013
+ y la máquina se encuentra en producción de forma estable desdé mediados
+ del mes de Octubre del mismo mes, trabajando entre 2 y 3 días por semana.
+ En las proximas secciones se describirán las distintas mencionadas etapas.
+\end_layout
+
+\begin_layout Section
+Relevamiento inicial y recolección de documentación
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Relevamiento-inicial"
 
 \end_inset
 

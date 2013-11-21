@@ -1,0 +1,947 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass report
+\use_default_options true
+\maintain_unincluded_children false
+\language spanish
+\language_package default
+\inputencoding default
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Reacondicionamiento de torno CNC
+\end_layout
+
+\begin_layout Author
+Naranjo Manuel Francisco - N-0621/1
+\end_layout
+
+\begin_layout Date
+Rosario, Noviembre 2013
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+El presente informe describe las tareas realizadas por el alumno Naranjo
+ Manuel Francisco para el reacondicionamiento, conocido en la industria
+ como refitting, de un torno CNC marca Hass modelo HL-2.
+ El proceso de refitting consiste en el reemplazo tanto mecánico como eléctrico
+ de una máquina en funcionamiento, con su correspondiente puesta a punto.
+ En este caso en particular se reemplazaron la controladora CNC por una
+ de otro proovedor, los motores de los ejes y sus respectivos moduladores
+ de potencia (drivers de potencia), todo el circuito eléctrico, el tornillo
+ de precisión del eje X, como así también algunos cambios secundarios que
+ fueron necesarios al ir poniendo en marcha la máquina.
+ Dicha máquina se encuentra en funcionamiento en un taller de mecanizado,
+ el cuál cuenta de 3 máquinas automáticas más.
+\end_layout
+
+\begin_layout Chapter
+Introducción
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Introducción"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Como se expuso en el resumen del informe el presente informe abarca la puesta
+ en marcha de una máquina la cual previo al refitting se encontraba funcinando,
+ pero por diversas causas se encontró aproximadamente un año fuera de servicio.
+ 
+\end_layout
+
+\begin_layout Standard
+Para poder comenzar se considera fundamental realizar una breve introducción
+ respecto de que es una máquina tipo torno, una máquina CNC, explicando
+ particularmente qué se entiende por torno CNC, luego se realizará una descripci
+ón de algunas las funcionalidades básicas de los substistemas que componen
+ el resultado final, un resumen de motores eléctricos y control de los mismos.
+\end_layout
+
+\begin_layout Subsection
+Máquina Torno
+\end_layout
+
+\begin_layout Standard
+Se denomina torno (del latín tornus, giro, vuelta) a un conjunto de máquinas
+ y herramientas que permiten mecanizar piezas de forma geométrica de revolución.
+ Estas máquinas-herramienta operan haciendo girar la pieza a mecanizar (sujeta
+ en el cabezal o fijada entre los puntos de centraje) mientras una o varias
+ herramientas de corte son empujadas en un movimiento regulado de avance
+ contra la superficie de la pieza, cortando la viruta de acuerdo con las
+ condiciones tecnológicas de mecanizado adecuadas.
+ Desde el inicio de la revolución industrial, el torno se ha convertido
+ en una máquina básica en el proceso industrial de mecanizado.
+\end_layout
+
+\begin_layout Standard
+La herramienta de corte va montada sobre un carro que se desplaza sobre
+ unas guías o rieles paralelos al eje de giro de la pieza que se tornea,
+ llamado eje Z, sobre este carro hay otro que se mueve según el eje X, en
+ dirección radial a la pieza que se tornea, sobre el cual se monta la torre
+ portaherramientas.
+ Cuando el carro principal desplaza la herramienta a lo largo del eje de
+ rotación, produce el cilindrado de la pieza, y cuando el carro transversal
+ se desplaza de forma perpendicular al eje de simetría de la pieza se realiza
+ la operación denominada refrentado, cuando ambos ejes se mueven simultaneamente
+ se pueden realizar cilindrados cónicos y esféricos.
+\end_layout
+
+\begin_layout Standard
+En la figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig-torno-paralelo"
+
+\end_inset
+
+ se puede ver un torno paralelo con control númerico, miéntras que en la
+ figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig-wikipedia-cnc"
+
+\end_inset
+
+ se puede observar un torno CNC.
+ A simple vista se ve una de las tantas ventajas de un torno CNC respecto
+ a un torno paralelo, y es es hecho de que el operario no entra en contacto
+ con la pieza a mecanizar salvo cuando abre la puerta, lo cuál le brinda
+ un grado mayor de seguridad.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide true
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig-torno-paralelo"
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename imagenes/wikipedia/Torno/300px-HwacheonCentreLathe_460x1000.jpg
+	width 150bp
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide true
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig-wikipedia-cnc"
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename imagenes/wikipedia/Torno/200px-Small_CNC_Turning_Center.jpg
+	width 150bp
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Torno de control númerico
+\end_layout
+
+\begin_layout Standard
+El torno de control numérico es un ejemplo de automatización programable.
+ Se diseñó para adaptar las variaciones en la configuración de los productos.
+ Su principal aplicación se centra en volúmenes de producción medios de
+ piezas sencillas y en volúmenes de producción medios y bajos de piezas
+ complejas.
+ Uno de los ejemplos más importantes de automatización programable es el
+ control numérico en la fabricación de partes metálicas.
+ El control numérico (CN) es una forma de automatización programable en
+ la cual el equipo de procesado se controla a través de números, letras
+ y otros símbolos.
+ Estos números, letras y símbolos están codificados en un formato apropiado
+ para definir un programa de instrucciones para desarrollar una tarea concreta.
+ Cuando la tarea en cuestión cambia, se cambia el programa de instrucciones.
+ La capacidad de cambiar el programa hace que el CN sea apropiado para volúmenes
+ de producción bajos o medios, dado que es más fácil escribir nuevos programas
+ que realizar cambios en los equipos de procesado.
+\end_layout
+
+\begin_layout Subsubsection
+Torno de control númerico computarizado
+\end_layout
+
+\begin_layout Standard
+El torno CNC es un torno dirigido por control numérico por computadora.
+ Ofrece una gran capacidad de producción y precisión en el mecanizado por
+ su estructura funcional y porque la trayectoria de la herramienta de torneado
+ es controlada por un ordenador que lleva incorporado, el cual procesa las
+ órdenes de ejecución contenidas en un software que previamente ha confeccionado
+ un programador conocedor de la tecnología de mecanizado en torno.
+ Es una máquina que resulta rentable para el mecanizado de grandes series
+ de piezas sencillas, sobre todo piezas de revolución, y permite mecanizar
+ con precisión superficies curvas coordinando los movimientos axial y radial
+ para el avance de la herramienta.
+\end_layout
+
+\begin_layout Standard
+La velocidad de giro del cabezal portapiezas, el avance de los carros longitudin
+al y transversal y las cotas de ejecución de la pieza están programadas,
+ herramientas a utilizar para cada operación, control de los sistemas refrigeran
+tes, control de la recolección de desperdicios de mecanizado, incluso cuenta
+ de la cantidad de piezas realizas.
+ Y por tanto, exentas de fallos imputables al operario de la máquina.
+\end_layout
+
+\begin_layout Subsection
+Estructura de un torno CNC
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Estructura-de-un"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Usillo"
+
+\end_inset
+
+Usillo
+\end_layout
+
+\begin_layout Standard
+Es la parte encargada de sujetar la pieza y hacerla girar.
+ Se compone de un motor eléctrico de corriente alterna trifásico, al cual
+ se le controla la potencia via un inversor trifásico, normalmente denominado
+ 
+\series bold
+Driver
+\series default
+.
+ Dicho motor se suele acoplar al usillo sobre el cual se monta la pieza
+ vía poleas, algunos cabezales cuentan con cajas de reducción lo cual permite
+ diferentes relaciones entre la velocidad del motor y la del cabezal, la
+ cuál puede ser seleccionada vía el código que el programador del CNC realiza,
+ funcionalidad no disponible en el torno utilizado para el proyecto por
+ lo cuál no se ahondará en el tema.
+\end_layout
+
+\begin_layout Standard
+El usillo cuenta con un 
+\series bold
+plato
+\series default
+, en esté caso en particular se cuenta con un 
+\series bold
+plato de garras universa
+\series default
+l, el cuál se compone de un sistema hidráulico con 3 puntos de apoyo regulables
+ denominados mordazas, los cuales se adaptan según la pieza a mecanizar,
+ y se mueven hacia adentro y afuera del plato con la fuerza realizada por
+ la presión de una 
+\series bold
+bomba hidráulica
+\series default
+, la cuál permite variar la presión según el peso y velocidad máxima de
+ corte a utilizar.
+ Son caracterisiticas de la bomba hidráulica y del tamaño del plato el 
+\series bold
+diámetro máximo 
+\series default
+que se puede mecanizar, y la 
+\series bold
+velocidad máxima
+\series default
+ de trabajo la cuál depende de la máxima presión que puede entregar la bomba.
+ Es una característica constructiva también el largo máximo de pieza que
+ se puede tornear sin que sea necesario utilizar un segundo punto de apoyo
+ denominado 
+\series bold
+contra punta.
+\end_layout
+
+\begin_layout Standard
+En la figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig-monografias-plato"
+
+\end_inset
+
+ se muestra un esquema de un cabezal similar al encontrado en la máquina
+ utilizada en el proyecto.
+ La apartura y el cierre de las mordazas de dicho plato se controlan vía
+ unas selenoides de paso hidráulicas las cuales se acoplan a la salida de
+ la bomba hidráulica, el operario dispone de un pedal bajo la máquina el
+ cual permite abrir y cerrar las mordazas cuando la máquina no se encuentra
+ trabajando.
+ Las mordazas suelen tornearse para ajustarse lo mejor posible al tamaño
+ de pieza a trabajar, de forma que el material excedente no haga girar la
+ pieza muy alejada de su eje de simétria por un lado, y por el otro que
+ no se marque la pieza por la presión de la bomba.
+\end_layout
+
+\begin_layout Standard
+Solidario al usillo se acopla un 
+\series bold
+encoder
+\series default
+ el cuál permite realimentar al sistema de control la velocidad de giro,
+ en algúnos sistemas más complejos incluso se puede ubicar el usillo en
+ una posición en grados precisa, pero no es el caso de la máquina utilizada
+ durante el proyecto.
+ En la máquina en cuestión se cuenta con un 
+\series bold
+encoder de 10 bits
+\series default
+ lo cual equivale
+\series bold
+ 
+\series default
+a 0.3515 grados entre pulso y pulso.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig-monografias-plato"
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename imagenes/monografias/trabajos38/torneado-excentrico/Image9428-mine.gif
+	width 50page%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Bancada y Carro desplazable 
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Bancada-y-Carro"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Se entiende por bancada de la máquina a las guías y al soporte mecánico
+ sobre la cual luego se mueve la 
+\series bold
+torre
+\series default
+ con el 
+\series bold
+portaherramientas
+\series default
+, dichas 
+\series bold
+guías
+\series default
+ son construídas de un material duro con exigentes tolerancias ya que son
+ las encargadas de que la 
+\series bold
+torre
+\series default
+ se mueva paralela al eje de giro de la pieza también conocido como 
+\series bold
+eje Z
+\series default
+.
+ Dado que se requiere un movimiento preciso de dicho eje, en la máquina
+ en cuestión se persiguen precisiones de 0.01mm, se acopla a un 
+\series bold
+motor eléctrico
+\series default
+, denominado en la jerga 
+\series bold
+servo
+\series default
+, un tornillo sin fin de precisión, el cuál tiene un paso constante y preciso,
+ en este caso en particular se utilizo un tornillo de paso 6mm+-0.0001mm
+\series bold
+.
+\end_layout
+
+\begin_layout Standard
+Esté último 
+\series bold
+motor eléctrico
+\series default
+ nombrado se controla vía un inversor trifásico, comunmente conocido como
+ 
+\series bold
+driver
+\series default
+, el cual recibe señales analógicas del sistema de control, y modula su
+ potencia de salida a fin de lograr una conversión tensión velocidad precisa.
+ Al eje del motor se acopla un encoder de precisión, 
+\series bold
+16 bits+bit de signo
+\series default
+ en el caso particular de está máquina, lo cual equivale a un paso de 0.0055
+ grados, sumado a esto la precisión del tornillo se logra una precisión
+ máxima de 9.15e-05mm, la cuál es muy superior a la requerida, por lo cual
+ en el driver se baja la resolución a valores más manejables.
+\end_layout
+
+\begin_layout Standard
+En la figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig-wikipedia-ballscrew"
+
+\end_inset
+
+ se pueden apreciar tornillos similares a los utilizados en el torno en
+ cuestión.
+ El mismo se compone de 2 partes el tornillo propiamente dicho, barra larga,
+ y una tuerca auto lubricada por la cual se mueven munisiones de precisión.
+ La tuerca esta diseñada de tal forma que las municiones recirculen y se
+ lubriquen através de unos dosificadores.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig-wikipedia-ballscrew"
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename imagenes/wikipedia/Torno_CNC/300px-BallScrews-with-detail-insets.jpg
+	width 30page%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+El carro desplazable es un bloque de acero el cuál se mueve sobre la bancada
+ vía el tornillo del 
+\series bold
+eje Z
+\series default
+, pero además cuenta con otro tornillo perpendicular a este último, el cuál
+ conforma el 
+\series bold
+eje X
+\series default
+.
+ Solidario al carro se mueve el porta herramientas.
+ Las caracterísiticas constructivas del
+\series bold
+ eje X
+\series default
+ son similares a las del 
+\series bold
+eje Z
+\series default
+, salvo que esté último suele tener mucho más recorrido que el primero,
+ en la máquina del proyecto en particular el recorrido del eje Z es cercano
+ a los 450mm miéntras que el del X a los 110mm.
+ Otra diferencia constructiva entre un eje y otro en el caso particular
+ de está máquina es que el tornillo del eje X es de un paso de 5+-0.001mm,
+ dicha diferencia se debe a que el tornillo fue cambiado previo al comienzo
+ del proyecto, y no se encontraba en mercado uno de paso similar.
+\end_layout
+
+\begin_layout Standard
+En la figura
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "pic-bancada-1"
+
+\end_inset
+
+ se puede apreciar la bancada y el carro desplazable previo a colocar el
+ porta herramientas.
+\end_layout
+
+\begin_layout Subsubsection
+Porta herramientas
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Porta-herramientas"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Una de las características destacadas de una máquina CNC respecto de una
+ máquina sin control númerico es la posibilidad de intercambiar herramientas
+ sin la intervención del operario, para ello los tornos CNC suelen contar
+ de un plato porta herramientas tipo revolver como el de la figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "pic-wikipedia-porta"
+
+\end_inset
+
+, dichos platos suelen tener capacidad de 6 a 20 herramientas, en particular
+ la máquina del proyecto contaba con 10.
+\end_layout
+
+\begin_layout Standard
+El plato del proyecto es un sistema complejo el cuál se explica en la sección
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec-porta"
+
+\end_inset
+
+, pero básicamente consta de un servo motor como los utilizados en los ejes
+ X y Z acoplados vía una caja de reducción a un gran plato.
+ Dicho plato se desacopla y acopla a un sistema de sujeción preciso vía
+ un actuador neumático.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "pic-wikipedia-porta"
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename imagenes/wikipedia/Torno_CNC/300px-MoriSeiki-examples.jpg
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Contra punta
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Contra-punta"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Como se menciono en la sección 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sub:Usillo"
+
+\end_inset
+
+ el largo máximo de la pieza a tornear se encuentra limitado por caracterísitica
+s constructivas, básicamente si el peso de la pieza es muy grande entonces
+ el brazo de palanca producido por este hace que la pieza oscile miéntras
+ gira, reduciendo la presición, pudiendo llegar incluso a ser un riesgo
+ de seguridad si la pieza se a soltase.
+ Para evitar dicho incoveniente se suele dotar a los tornos de un segundo
+ punto de apoyo móvil 
+\series bold
+llamado contra punta
+\series default
+, incluso en algunas máquinas grandes dicho punto se encuentra motorizado,
+ pero no es el caso de está máquina en particular.
+\end_layout
+
+\begin_layout Standard
+La contra punta se mueve sobre unas guías de precisión paralelas al eje
+ Z y cuenta con un cono de precisión estandar, al cual se pueden acoplar
+ dispositivos con formas similares a la pieza que se quiere lograr de forma
+ de mejorar la superfecie de contacto.
+ Dicha contra punta se mueve gracias a un actuador hidráulico de 2 direcciones.
+ En la máquina del proyecto la presión de trabajo de la contra punta es
+ regulable en la bomba hidráulica, la dirección de moviemiento de la contra
+ punta se controla vía dos selenoides, y se cuenta con una tercer selenoide
+ la cual permite realizar el movimiento a una mayor velocidad.
+\end_layout
+
+\begin_layout Subsubsection
+Sistema de control - Controladora CNC
+\end_layout
+
+\begin_layout Standard
+Es el cerebro de la máquina CNC, se encarga de automatizar muchas de las
+ tareas a realizar, y provee una interfaz hombre-máquina sencilla para poder
+ operar el sistema.
+ Entre las funciones principales de la controladora se incluyen:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:Control-preciso-del"
+
+\end_inset
+
+Control preciso del movimiento de los ejes X y Z.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:Control-de-la"
+
+\end_inset
+
+Control de la velocidad y dirección de giro del usillo.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:Ejecución-del-código"
+
+\end_inset
+
+Ejecución del código de pieza previamente programado.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:Proveer-al-usuario"
+
+\end_inset
+
+Proveer al usuario de códigos no estandarizados para comandar opcionales
+ de la máquina.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:Simulación-del-código"
+
+\end_inset
+
+Simulación del código de pieza.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:Programación-on-site-del"
+
+\end_inset
+
+Programación on-site del código pieza.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:Supervisición-de-las"
+
+\end_inset
+
+Supervisición de las alarmas básicas y supervisión del PLC
+\end_layout
+
+\begin_layout Standard
+Para lograr el objetivo
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:Control-preciso-del"
+
+\end_inset
+
+las controladoras suelen contar con salidas análogicas o CAN para comandar
+ los drivers de los servos de los distintos motores descriptos en 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sub:Bancada-y-Carro"
+
+\end_inset
+
+, a la vez que cuenta con realimentación de la posición de dichos ejes a
+ fin de lograr la precisión requerida.
+ En el caso particular del proyecto se utilizaron salidas analógicas y la
+ realimentación de posición fue del tipo binaria.
+ Para lograr 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:Control-de-la"
+
+\end_inset
+
+se utilizo una salida análogica y el 
+\series bold
+inversor 
+\series default
+habilita un sentido de giro u el otro dependiendo de una entrada digital
+ al mismo, la realimentación es nuevamente digital.
+\end_layout
+
+\begin_layout Standard
+Una característica distintiva entre las diversas marcas y modelos de controlador
+as CNC es la cantidad de ejes a controlar, los códigos disponibles, la posibilid
+ad de simular y programar on-site, y la comunicación del PLC.
+ En este proyecto se utilizo una controladora Fagor 8035-T, la cual cuenta
+ con la posibilidad de comandar 3 ejes, permite simular y editar on-site
+ vía un pequeño teclado, y cuenta con un PLC integrado.
+ El código de programación de pieza se basa en un standard de la ISO el
+ cuál asiga ciertos mnemonicos a operaciones comunes a todas las máquinas
+ CNC, y permite a los fábricantes extenderlo con sus propias caracteristicas
+ distintivas.
+ A la vez los fabricantes permiten a las empresas/particulares que ajustan
+ controladoras CNC a maquinas extender aún más dicho lenguaje, una introducción
+ a la programación CNC se hace en el cápitulo 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Programación"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Más información 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wiki-torno"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wiki-torno-cnc"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "Torno - Wikipedia, la enciclopedia libre"
+key "wiki-torno"
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "http://es.wikipedia.org/wiki/Torno"
+target "http://es.wikipedia.org/wiki/Torno"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "Torno CNC - Wikipedia, la enciclopedia libre"
+key "wiki-torno-cnc"
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "http://es.wikipedia.org/wiki/Torno_CNC"
+target "http://es.wikipedia.org/wiki/Torno_CNC"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

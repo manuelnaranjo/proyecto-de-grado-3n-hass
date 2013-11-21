@@ -1,0 +1,90 @@
+\documentclass[12pt,spanish,twocolumn]{article}
+\usepackage[spanish,activeacute]{babel}
+\usepackage{setspace}
+\usepackage[latin1]{inputenc}
+\oddsidemargin 0in
+\textwidth 6.75in
+\topmargin 0in
+\textheight 8.5in
+\parindent 0em
+\parskip 2ex
+
+\pagestyle{empty} % sin encabezado ni pie de página %
+
+\author{
+    \small Alumno: Naranjo, Manuel Francisco N-0621/1\\
+    \small Director: A determinar, preferencia Ing. Sosa, Ignacio
+}
+
+\date {
+  \small Rosario, Abril 2013
+}
+
+\title {
+  \centering
+  {
+    {
+      \small
+      Presentaci\'{o}n de anteproyecto\\
+    }
+    {
+      \bf
+      \large
+      Reingener\'{i}a y puesta en marcha de\\
+      Torno CNC Hass Serie HL
+    }
+  }
+}
+
+
+\begin{document}
+  \noindent
+  \maketitle
+{
+  El objetivo de este proyecto es lograr el correcto acondicionamiento de la
+  parte el'ectrica, con su posterior puesta en marcha de un torno CNC marca Hass
+  Serie HL, al cual luego de varios a'nos de actividad se le decidi'o realizar
+  un reacondicionamiento tanto el'ectrico como mec'anico.
+
+  Dicha m'aquina fue adquirida en el exterior, y ha estado en servicio en un
+  taller de torner'ia de nuestra ciudad, desde el a'no 2003, Durante el a'no
+  2012 la gerencia tom'o la decisi'on de invertir en el reacondicionamiento de
+  dicha m'aquina. Para ello se procedi'o rectificar todos los componentes
+  mec'anicos que influyen en la precisi'on de la misma, como as'i tambi'en
+  a reemplazar la etapa el'ectrica casi en su totalidad, incluyendo partes
+  sensibles como por ejemplo la controladora, el plc y los drivers de los ejes.
+
+  En una etapa preliminar ser'a necesario hacer un relevamiento sobre la m'aquina,
+  componentes disponibles y elegidos como reemplazos, tambi'en una
+  investigaci'on sobre la documentaci'on disponible. Dada la falta de conocimientos
+  sobre este tipo de maquinarias por el alumno, ser'a necesario consultar
+  tanto a los operarios del mismo, como a docentes, profesionales del a'rea,
+  proovedores, etc.
+
+  Luego ser'a necesario analizar y restablecer el cableado interno de la
+  m'aquina, con su correcta identificaci'on y elecci'on adecuada de los
+  componentes a utilizar. An'alisis, selecci'on y reemplazo de protecciones
+  necesarias para un correcto funcionamiento. Tambi'en se dejar'a constanciia
+  sobre el sistema el'ectrico para simplificar futuros mantenimientos.
+
+  Una vez realizado el conexionado acorde, y verificado el mismo, se proceder'a a
+  la etapa de puesta en marcha. Durante esta etapa ser'a necesario ajustar
+  cada uno de los par'ametros del controlador seg'un especificaciones, utilizando
+  mediciones en el aparato. Luego ser'a necesario modificar el c'odigo
+  del PLC incluido dentro de la controladora, para adaptarlo a los requerimientos
+  de est'a m'aquina en particular, dado que el c'odigo inclu'ido de f'abrica es
+  gen'erico y probablemente no ajuste completamente a este caso particular.
+
+  Finalmente se realizar'an las pruebas pertinentes para verificar que durante el
+  proceso de reingener'ia no hayan empeorado las capacidades de la m'aquina, en caso
+  de ser necesario se realizar'an los ajustes necesarios de forma iterativa hasta
+  lograr los requerimientos esperados.
+
+  Durante todas las etapas del trabajo se llevar'a un registro del proceso a fin
+  de poder realizar un adecuado mantenimiento de la m'aquina por la empresa en el
+  futuro, y en caso de ser necesario repetir la experiencia en otras m'aquinas
+  similares.
+
+}
+
+\end{document}

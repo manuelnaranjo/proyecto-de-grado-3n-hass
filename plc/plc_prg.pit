@@ -119,6 +119,9 @@ DEF OCOOLANT O08;
 ;   ============
 DEF SPVMIN 500000
 ; spindle velocidad minima, por abajo de 50rpm no regula el driver
+DEF SPVERR   50000
+DEF NSPVERR -50000
+; spindle error de velocidad tolerable al momento del cambio de velocidad 5rpm
 DEF DISTTOOL 36
 ; una herramienta cada 36 grados, sentido negativo
 ;
@@ -210,6 +213,12 @@ DEF MUCLAMPE M1041
 ;
 DEF MACKSPIN M1050
 ; usado para hacer el ACK de los comandos del spindle M03, M04, M05, M19
+DEF MACKM5   M1051
+; usado para hacer ACK de M5
+DEF MACKMSTR M1052
+; usado para hacer ACK a comandos M3, M4, o cambio de velocidad
+DEF MREVOK   M1053
+; usado para marcar que velocidad de spindle llego a valor aceptable
 ;
 ;
 DEF MTIMTAIL M1060
@@ -277,17 +286,20 @@ DEF RSREAL   R10
 ; Registro utilizado para guardar SREAL del CNC
 DEF RSPEED   R11
 ; Registro utilizado para guardar velocidad programada del spindle
-DEF RTOOL    R12
+DEF RSTEMP   R12
+; Registro utilizado para almacenar el promedio entre SREAL y SPEED cuando hay
+; cambios de velocidad
+DEF RTOOL    R13
 ; Registro utilizado para guardar la herramienta seleccionada -1
-DEF RTOOLD   R13
+DEF RTOOLD   R14
 ; herramienta seleccionada en grados
-DEF RTBCD    R14
+DEF RTBCD    R15
 ; proxima herramienta pasada por comando T
-DEF RTBCDD   R15
+DEF RTBCDD   R16
 ; proxima herramienta pasada por comando T en gradosx
-DEF ROPMODE  R16
+DEF ROPMODE  R17
 ; modo de operacion
-DEF RHANDWHE R17
+DEF RHANDWHE R18
 ; multiplicador volate
 DEF RMAXDISX R20
 ; maxima distancia recorrida en X antes de lubricar
@@ -392,6 +404,7 @@ CY1                     ; CICLO INICIAL
 =     CNCRD(ATPOSY, RPOST, MTEMP); cargar posicion eje torre
 =     DVS RPOST 10000 RPOST; pasar a grados
 =     MOV RPOST RTBCDD  ; inicializar registro de posicion de torreta
+=     SET MREVOK        ; avisar que velocidad esta dentro de rango
 END                     ; FIN DEL CICLO INICIAL
 ;
 ;
@@ -451,8 +464,8 @@ DFD ICLAMP = RES MSGCLAM
 ;
 ; canal plc en stop
 ()    = /STOP
-; habilitar avance de ejes
-()    = /FEEDHOL;
+; habilitar avance de ejes siempre que velocidad este alcanzada
+MREVOK  = /FEEDHOL;
 ; no permitir iniciar programa a menos que la pieza se encuentra agarrada
 START AND MPARTCLA AND SERVOXON AND SERVOZON = CYSTART;
 ;
@@ -682,14 +695,28 @@ MTIMTAIL = TG4 4 TIMETAIL
 ;
 ; -------- Control Direccion Spindle ----------------------------
 () = CNCRD(SPEED, RSPEED, MTEMP )
-( DM03 OR DM19 ) AND ( CPS RSPEED GE SPVMIN ) = OSPFW
+( DM03 ) AND ( CPS RSPEED GE SPVMIN ) = OSPFW
 ( DM05 ) OR ( CPS RSPEED LT SPVMIN ) = OSPSTOP
 ( DM04 ) AND ( CPS RSPEED GE SPVMIN ) = OSPRW
-DFU M3 OR DFU M4 OR DFU M5 OR DFU M19 OR DFU SSTROBE = SET MACKSPIN
+;
+DFU M5 OR ((DFU M3 OR DFU M4) AND OSPSTOP) = SET MACKM5
+= RES AUXEND ; si el usuario solicita M5 o M3 o M4 con velocidad menor a la mínima
+; esperar hasta que el usillo baje su velocidad debajo del mínimo, y responder
+; via auxend
+MACKM5 AND CPS RSREAL LT SPVMIN = SET AUXEND = RES MACKM5
+;
+DFU M3 OR DFU M4 OR DFU M19 AND REVOK = SET MACKSPIN = RES MREVOK
 = RES AUXEND
-MACKSPIN = TG1 3 20         ; por 20 ms auxend es mio
+MACKSPIN = TG1 3 20 ;  por 20ms retener auxend
 NOT T3 AND MACKSPIN = SET AUXEND
 = RES MACKSPIN
+DFU REVOK = SET MREVOK ; no reiniciar hasta que se alcance nueva velocidad
+;
+; si usuario solicita cambio de velocidad esperar hasta que la diferencia entre
+; la velocidad solicitada y la real sea menor al 5%
+;DFU M3 OR DFU M4 OR DFU M19 = SET MACKMSTR = RES AUXEND
+;DFD REVOK = RES AUXEND ; cambio de velocidad, no dejar seguir bloque
+;DFU REVOK = SET AUXEND
 ;
 ; -------- Control automatico Torreta herramientas --------------
 ( IEJETOK AND IMACHON AND NOT LOPEN ) = SERVOYON; habilitar lazo eje salvo

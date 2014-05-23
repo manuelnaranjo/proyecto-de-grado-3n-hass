@@ -2781,7 +2781,7 @@ Conexionado Salidas - Conector X7
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -3173,14 +3173,238 @@ name "sub:Intercambiador-de-herramientas"
 Intercambiador de herramientas
 \end_layout
 
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Agregar fotos del cambiador con notación de las partes principales
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+El cambiador de herramientas se compone de varias partes:
+\end_layout
+
 \begin_layout Itemize
-El cambiador de herramientas se compone de varias partes, una de las partes
- importantes es una traba mecánica la cual garantiza que el cambiador se
- mantiene en posición durante el mecanizado, para ello es necesario poder
- acoplar y desacoplar el plato cambiador de herramientas, con el fin de
- sincronizar tanto el acople como el desacople el sistema utiliza las entradas
- ICLAMP y IUNCLAMP respectivamente, para pasar de un estado al otro sólo
- es necesario realizar el cambio de estado de OUNCLAMP
+Plato porta-herramientas.
+\end_layout
+
+\begin_layout Itemize
+Bancada porta-herramientas
+\end_layout
+
+\begin_layout Itemize
+Sistema de traba mecánica o clamp.
+\end_layout
+
+\begin_layout Itemize
+Caja reductora.
+\end_layout
+
+\begin_layout Itemize
+Servo motor.
+\end_layout
+
+\begin_layout Itemize
+Actuador neumático de dos vías controlado vía válvula neumática de 2 vías.
+\end_layout
+
+\begin_layout Itemize
+Sensor de fin de carrera de traba mecánica (clamp).
+\end_layout
+
+\begin_layout Itemize
+Sensor de fin de carrera de liberación mecánica (unclamp).
+\end_layout
+
+\begin_layout Itemize
+Sensor de referencia de inicio de giro del plato porta-herramientas (IREF0T)
+\end_layout
+
+\begin_layout Standard
+El sistema mecánico de traba se compone de varias clavijas metálicas calibradas
+ las cuales se encuentran distribuidas geométricamente tanto en el plato
+ como en la bancada, dichas clavijas se distribuyen en contraposición, dónde
+ se ubica un agujero en el plato se coloca una clavija de la bancada, de
+ tal forma que cuando el sistema se somete al trabajo realizado por la presión
+ neumática tanto las clavijas de la bancada como las del plato formen una
+ corona metálica casi perfecta, sin espacios vacios.
+ Dicha disposición permite que al momento de trabajar la herramienta sobre
+ la pieza de corte los torques resultantes por el desbaste sean absorvidos
+ mecánicamente por la traba mecánica y no por el servo motor.
+\end_layout
+
+\begin_layout Standard
+Este sistema calibrado mecánicamente junto con el hecho de que el sistema
+ cuenta con una caja reductora de relación 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Agregar relación de la caja!
+\end_layout
+
+\end_inset
+
+ permite con poca precisión en el movimiento del motor que tracciona el
+ plato una gran precisión en la ubicación final de la herramienta, al punto
+ de permitir errores tolerables mayores a +/- 1 grado garantizando la ubicación
+ de la herramienta.
+ 
+\end_layout
+
+\begin_layout Standard
+Pero para que ello funcione es necesario contar con un punto de referencia
+ (homing) solidario al plato (IREF0T), una vez detectado dicha referencia
+ la ubicación de las herramientas queda determinada sencillamente con la
+ siguiente ecuación:
+\begin_inset CommandInset label
+LatexCommand label
+name "formula-cambio-herramienta"
+
+\end_inset
+
+ 
+\begin_inset Formula $\phi=(T-1)*36^{º}$
+\end_inset
+
+, dónde T es la herramienta a seleccionar.
+ La controladora permite no sólo trabajar con coordenadas circulares lo
+ cual evita tener que llevar la cuenta de pasos en el código del PLC sino
+ que sencillamente permite pasarle la cantidad de grados deseados y la controlad
+ora calcula el camino más corto realizando el movimiento controlado, sino
+ que también permite configurar la relación de transformación de vueltas
+ del eje del motor a vueltas del plato vía la relación de transformación.
+ La puesta a punto de este motor y la configuración de dichas constantes
+ es explicada en la sección 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:puesta-eje-t"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+El sistema cuenta básicamente de 2 estados: estado inmobilizado (clamped)
+ y estado de cambio de herramienta o destrabado (unclamped), habíendo estados
+ de transición en los cuales hay que tener ciertas precaciones respecto
+ de los movimientos posibles.
+ Para pasar de un estado al otro la máquina cuenta con un actuador neumático
+ de doble vía, el cuál es controlado por la salida OUNCLAMP, para garantizar
+ la sincronización de los movimientos también se cuenta con 2 detectores
+ de fin de carrera ICLAMP y IUNCLAMP los cuales respectivamente permiten
+ saber cuándo el sistema se encuentra completamente bloqueado con la herramienta
+ posicionada, y cuándo se encuentra liberado para que el movimiento pueda
+ ser realizado, el estado de dichos sensores es muy importante a fin de
+ evitar daños mecánicos en la máquina y evitar movimientos oscilatorios
+ en el motor por movimientos propios de la transición de estados.
+\end_layout
+
+\begin_layout Standard
+En la 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "fig:petri-cambiador"
+
+\end_inset
+
+ se presenta un diagrama simplificado de operación del cambiador de herramientas
+, en el mismo se observa que partiendo del estado de traba mecánica (clamped)
+ se espera a alguna de las señales de liberación del plato como ser: cambio
+ manual de herramienta, cambio programado de herramienta, calibración de
+ cambiador de herramientas, una vez detectada dicha señal se libera el actuador
+ neumático (OUNCLAMP=1), se espera a que se alcance el estado de liberación
+ (flanco alto de IUNCLAMP), se activa el motor de control del cambiador
+ (OSERONT=1), se pide a la controladora que avance el eje de la herramienta
+ a TG dónde TG es calculado con 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "formula-cambio-herramienta"
+
+\end_inset
+
+ (CNC Y=TG), se espera a que se alcance la posición y finalmente se alcanza
+ el estado unclamped.
+ Por el contrario la transición del estado unclamped al clamped es más sencilla
+ se desactiva el motor de control del cambiador (OSERONT=0) y se traba el
+ actuador neumático (OUNCLAMP=0) por último se espera a la señal de fijación
+ (flanco positivo en ICLAMP).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/petri/diagrama-cambiador.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:petri-cambiador"
+
+\end_inset
+
+Esquema simplificado subsistema cambiador de herramientas
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+En realidad el estado unclamped es mayormente de transició forn el cuál
+ fue utilizado sólo en desarrollo y no forma parte del sistema final, ya
+ que se pasa por el sin esperar señal alguna.
+ En el caso de cambio manual de herramienta el usuario preciona el botón
+ de avance y el sistema avanza la herramienta en 1 posición, si se detecta
+ que el botón se solto se clampea caso contrario se vuelve a avanzar hasta
+ que el usuario libere el botón.
+ En el caso de cambio programado una vez alcanzada la posición deseada se
+ procede automáticamente a clampear a fin de reducir tiempos muertos, y
+ finalmente en el caso de calibración del cambiador una vez encontrada la
+ referencia (sistema resuelto automáticamente por la controladora) se vuelve
+ la posición del cambiador a la correspondiente a la herramienta seleccionada
+ en la controladora y se clampea.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+agregar diagrama simplificado de cambio programado, cambio manual, busqueda
+ de referencia
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -3289,6 +3513,40 @@ name "sec:Información-al-operario"
 \end_inset
 
 Información al operario
+\end_layout
+
+\begin_layout Chapter
+Puesta a punto y configuración de los subsistemas
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:puesta-eje-x"
+
+\end_inset
+
+Puesta a punto y configuración del sistema eje X
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:puesta-eje-y"
+
+\end_inset
+
+Puesta a punto y configuración del sistema eje Y
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:puesta-eje-t"
+
+\end_inset
+
+Puesta a punto y configuración del cambiador de herramientas
 \end_layout
 
 \begin_layout Chapter

@@ -693,9 +693,9 @@ plato
 \series default
 , en esté caso en particular se cuenta con un 
 \series bold
-plato de garras universa
+plato de garras universal
 \series default
-l, el cuál se compone de un sistema hidráulico con 3 puntos de apoyo regulables
+, el cuál se compone de un sistema hidráulico con 3 puntos de apoyo regulables
  denominados mordazas, los cuales se adaptan según la pieza a mecanizar,
  y se mueven hacia adentro y afuera del plato con la fuerza realizada por
  la presión de una 
@@ -2742,7 +2742,7 @@ Conexionado Entradas - Conector X2
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -3342,7 +3342,7 @@ reference "formula-cambio-herramienta"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -3417,6 +3417,82 @@ name "sub:subsistemas-Contra-punta"
 Contra punta
 \end_layout
 
+\begin_layout Standard
+La contra punta o tailstock en inglés, es un sistema mecánico que provee
+ de un apoyo extra a la pieza a ser trabajada, cuando dicha pieza es de
+ dimensiones considerables y se produce un movimiento respecto del eje vertical,
+ al cuál se le suele denominar doblez o bending en inglés, lo cuál produce
+ piezas cónicas si el mismo no es corregido.
+ Para ello se utiliza una contrapunta que se compone de un cono metálico
+ calibrado el cuál se desplaza sobre un eje paralelo al eje de rotación
+ de la pieza, y se ubica de forma tal de apoyar sobre el punto de rotación
+ de la pieza, para garantizar dicho punto se realiza un agujero en la pieza
+ una vez que la misma se encuentra centrada, y luego se apoya la contrapunta.
+\end_layout
+
+\begin_layout Standard
+Existen diversos tipos de contrapuntas, algunas con movimiento manual, otras
+ con movimiento automático, en el caso particular de las máquinas CNC se
+ utilizan sólo aquellas que son automáticas, las cuales cuentan con diversos
+ sistemas para el control del movimiento, siendo en su mayoría propulsadas
+ con actuadores hidráulicos, a los cuáles el operario puede controlar la
+ presión hidráulica dependiendo de la pieza y operación a fin de no dañar
+ la pieza o el cono de la contrapunta.
+\end_layout
+
+\begin_layout Standard
+En el caso particular de la máquina reparada se disponse de un cilindro
+ hidráulico, una válvula hidráulica de doble dirección, otra válvula hidráulica
+ la cuál permite momentaneamente aumentar el caudal hidráulico aumentando
+ la velocidad de desplazamiento, y 3 sensores de fin de carrera dispuestos
+ sobre la guía dónde se mueva la contra punta.
+ La máquina originalmente tenía una regla dentada la cuál permitía medir
+ la ubicación actual de la contrapunta, pero dado que su utilización era
+ muy compleja, ningúno de los programadores la utilizaba, y se decidió reemplaza
+rlo por los detectores de fin de carrera.
+\end_layout
+
+\begin_layout Standard
+Los detectores se disponen uno en la punta de la guía alejada de la pieza,
+ otro a una distancia de unos 50cm del cabezal dónde se trabaja la pieza
+ y otra en un punto intermedio, lo cuál permite al operario en función de
+ la pieza a mecanizar elegir a que punto retornar una vez terminada la operación.
+ A la vez el hecho de contar con la posibilidad de aumentar el flujo hidráulico
+ se utiliza como sensor de posición para pasar de velocidad rápida a velocidad
+ lenta al acercarse a la pieza (el retorno es siempre a velocidad máxima).
+ El operario cuenta con instrucciones de código que le permiten ir en velocidad
+ rápida hasta cada uno de los sensores y luego continuar con velocidad lenta.
+ 
+\end_layout
+
+\begin_layout Standard
+Es importante destacar que no se programo en el control un area de trabajo
+ seguro de la contrapunta con lo cuál es el operario el responsable de verificar
+ que cuándo se ejecute el código no se produzcan coliciones entre la pieza,
+ la contra punta y el carro porta herramientas.
+\end_layout
+
+\begin_layout Standard
+Existen a la vez 3 formas de accionar la contra punta: por código, por teclado
+ en el panel de usuario y por pedal de usuario, aunque el control por pedal
+ de usuario fue anulado por requerimiento de los propios usuarios a fin
+ de evitar accidentes, al confundir el pedal de la contra punta con el pedal
+ del cabezal de la pieza.
+\end_layout
+
+\begin_layout Standard
+Se intento lograr un control preciso de la contra punta basada en tiempos
+ (avanzar tal cantidad de milli segundos a velocidad rápida, luego seguir
+ a velocidad lenta) pero el mismo demostro ser muy complicado y de poca
+ útilidad, dada las características particulares de la empresa y el uso
+ que se le daba a está máquina la contra punta no era un sistema importante
+ por lo cuál no tenía mucho sentido invertir demasiados recursos en ello,
+ un empleado de más de 5 años en la empresa dijo haber usado la contrapunta
+ sólo en un tipo de pieza de todas las producidas, con lo cuál optimizar
+ los tiempos muertos por utilización de contra punta no iba a reducir considerab
+lemente los tiempos de producción generales.
+\end_layout
+
 \begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
@@ -3427,18 +3503,173 @@ name "sub:subsitemas-Ejes-X-y-z"
 Ejes X y Z
 \end_layout
 
-\begin_layout Itemize
-el sistema de medición para control se compone por cada eje de 2 entradas,
- una entrada fija solidaria a la máquina y un encoder el cuál da una distancia
- relativa, a fin de garantizar repetitividad diarimente se envía la máquina
- a buscar la referencia fija.
- Las entradas IREF0X, IREF0Z e IREF0T son justamente utilizadas para obtener
- dicha referencia, un accidente grave se debio al no utilizar dichos sensores
- en el proceso inicial, el accidente se encuentra descripto en la sección
- 
+\begin_layout Standard
+Los subsitemas del eje X y el Z son bastante similares, ambos se conforman
+ por un motor trifásico con un encoder de alta resolución solidario al eje,
+ un sistema de transmisión mecánica el cuál permite desacoplar la carga
+ del motor a la vez que absorve determinadas vibraciones.
+ Siendo la transmisión a la carga realizada con un tornillo de bolas recirculant
+es el cual en su tuerca tiene acoplada mecánicamente el carro a mover, convirtie
+ndo el movimiento circular del motor en movimiento lineal del carro como
+ se muestra en la figura 
 \begin_inset CommandInset ref
-LatexCommand vref
-reference "sub:Daño-del-tornillo"
+LatexCommand ref
+reference "fig:Tornillo-1"
+
+\end_inset
+
+, el sistema también cuenta con rodamientos lineales de precisión en ambas
+ extremidades a fin de reducir la fricción.
+ 
+\end_layout
+
+\begin_layout Standard
+En la figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Tornillo-2"
+
+\end_inset
+
+ se muestra un esquema del tornillo de bolas con su respectiva tuerca, la
+ función de las bolas en el sistema es la de aumentar la superficie de apoyo
+ entre el tornillo y la rosca aumentando la tracción mecánica, tiene también
+ agregada la ventaja de generar un enlace cuasi rígido el cuál al momento
+ de un cambio de sentido de rotación en el motor previene el efecto de sobrepico
+ denominado backslash en la jerga de control cnc.
+ En el caso del eje X dado que el mismo se enuentra en un plano inclinado
+ el fábricante original de la máquina dispuso la ubicación de un resorte
+ resistente el cuál reduce la fuerza necesaria en el tornillo para mantener
+ la posición.
+\end_layout
+
+\begin_layout Standard
+El sistema de control del movimiento se complementa con un sensor de fin
+ de carrera por cada eje los cuales sirven de referencia para reducir por
+ software la excursión máxima del movimiento de translación de los carros,
+ dado que se conoce la distancia absoluta entre dicho sensor y ambos extremos
+ del recorrido del eje.
+ La controladora CNC cuenta con sistemas integrados de calibración los cuales
+ vienen preparados para 1 o varios finales de carrera.
+ Dado que los encoders brindan incremento relativo angular, es fundamental
+ para conocer una posición respecto del origen de coordenadas conocer el
+ paso del tornillo lo cual se traduce en X cantidad de milímetros por vuelta
+ de tornillo, saber la cantidad de cuentas por vuelta del eje del motor,
+ y tener un punto de referencia fijo.
+ El paso de los tornillos utilizados fue de 5 y 6mm dependiendo del eje,
+ con una tolerancia menor a 1 micro metro.
+ El sistema de calibración de la controladora es bastante preciso primero
+ intenta acercarse al fin de carrera a una velocidad alta hasta realizar
+ el primer contacto, y luego retorna en una velocidad menor hasta perder
+ el contacto, dichas velocidades son programables, y se suelen elegir bajas
+ dado que la calibración es realizada una vez por día o puesta a punto de
+ la máquina.
+ Es fundamental destacar que el operario debe verificar las piezas mecanizadas
+ de forma periódica para compenzar las derivas que se pudiecen ocacionar
+ por imperfecciones en el control.
+\end_layout
+
+\begin_layout Standard
+La controladora CNC permite programar errores máximos de seguimiento tanto
+ en distancia como en tiempo, lo cuál permite desdé el control detectar
+ casos de atoración de partes, los inversores de control de los motores
+ de los ejes también realizan un monitoreo constante de la corriente entregada
+ a los motores, emitiendo alarmas las cuales desenergizan los motores en
+ caso de que se detecten sobre cargas, esto tuvo una utilidad muy grande
+ durante el desarrollo del proyecto ya que permitió reducir las posibilidades
+ de daño mecánico al sistema cuándo el mismo se movía a pequeñas velocidades,
+ no fue así el caso cuándo el eje X se movió a velocidad máxima hacía uno
+ de los extremos por un error humano, previo a que se configuren los sensores
+ de fin de carrera, y la posición relativa a los extremos de la guia.
+\end_layout
+
+\begin_layout Standard
+También es importante destacar que la controladora está preparada para implement
+ar distintos tipos de control: P, PI, PID, PD, FeedForward, Feed-Back-Forward,
+ Wind-up, se probó con varios sistemas de control aplicando la teoría aprendida
+ en la materia Control II de la carrera, y si bien el rendimiento del control
+ aumento, el sistema producía ruidos extraños los cuales denotaban un desgaste
+ mecánico importante, lo cuál hacía presuponer que la vida útil de las partes
+ mecánicas iba a ser considerabemente reducida, siendo la mejora de performance
+ muy pequeña como para justificar el cambio, por ello es que se decidió
+ realizar un control PI sensillo.
+ Con la ayuda de un osciloscopio y escuchando la respuesta mecánica del
+ sistema se ajustaron los parámetros de forma tal que el sistema respondiese
+ con buenos tiempos sin producir ruidos demasiado extraños.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/tecnoficio.com/www.tecnoficio.com_electricidad_images_ballscrew4.jpg
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Tornillo-1"
+
+\end_inset
+
+Esquema de tornillo y carro
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/html.rincondelvago.com_000295334.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Tornillo-2"
+
+\end_inset
+
+Esquema de tornillo de bolas y tuerca
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -3452,17 +3683,132 @@ name "sub:substitemas-Usillo"
 
 \end_inset
 
-Usillo
+Usillo y cabezal
 \end_layout
 
-\begin_layout Section
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:subsistemas-Cabezal"
+\begin_layout Standard
+Como se menciono anteriormente la pieza se coloca en un cabezal de 3 mordazas
+ el cuál es accionado hidraulicamente bajo pedido del operario (o por programaci
+ón).
+ En la figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Cabezal"
 
 \end_inset
 
-Cabezal
+se observa una pieza montada sobre dicho cabezal.
+ Las mordazas son torneables y de hecho es fundamental adaptarlas al diámetro
+ exterior de la pieza a mecanizar, dado que de está forma se aumenta la
+ superficie de apoyo reduciendosé distribuyendosé la presión hidráulica
+ sobre la pieza de forma más homogenéa, reduciendo daños a la superficie
+ de la pieza.
+ La posición respecto del centro de las mordazas también es regulable lo
+ cuál permite trabajar con distintos diámetros, dependiendo de la operación
+ a realizar se ajustan las mordazas para que el agarre sea interior o exterior,
+ en el caso mostrado se trata de un agarre exterior.
+\end_layout
+
+\begin_layout Standard
+El código del PLC tiene que estar preparado para estas dos formas de tomar
+ la pieza antes mencionadas, y tiene que proveer al operario de cierta seguridad
+ a la hora de cambiar de estados, en el caso particular de este trabajo
+ se decidió que la pieza sólo pueda ser liberada cuándo la cantidad de vueltas
+ del usillo sea menor a 30rpm lo cuál sólo es posible si la pieza está siendo
+ actuada manulmente por el operario, esto se decidió porque al momento de
+ cambiar de pieza es prácticamente imposible lograr que la misma no se mueva.
+ El operario al momento de cambiar la pieza a mecanizar suele colocarla,
+ realizar un pequeño giro con la mano y de ser necesario liberar y volver
+ a ajustar la pieza, en dichos casos esperar a que la pieza se detenga completam
+ente puede conllevar un tiempo muerto considerable, lo cuál es no deseable.
+\end_layout
+
+\begin_layout Standard
+Para la apertura y cierre del cabezal se cuenta con un actuador hidráulico
+ el cuál dependiendo de si su respectiva selenoide está activada deja circular
+ el aceite desdé la bomba hacia el cabezal, o desdé el cabezal al tanque
+ de recolección.
+ Por seguridad el sistema hidráulico también dispone de un sensor de presión
+ hidráulica normal cerrado, el cuál si la presión desciende se abre, dicha
+ señal es manejada por el PLC a fin de detectar casos de error.
+ Es común que en casos de extremo trabajo, sí la presión seleccionada en
+ la bomba hidráulica no es lo suficientemente alta la presión del sistema
+ disminuya por períodos de tiempo muy pequeños activando la señal, por lo
+ cuál no sólo hay que tener en cuenta la presencia de dicha señal, sino
+ que también hay que comprobar que la misma no cambie de estado por una
+ cantidad determinada de tiempo.
+ Dado que la seguridad del operario está en juego, si dicha presión desaparece
+ por una cantidad prolongada de tiempo se supone lo peor, y es que la pieza
+ podría soltarse, por lo cuál se desenergizan todos los sistemas de potencias
+ de forma tal que el usillo deje de girar por carga mecánica y no por aplicación
+ de un cambio sentido de giro en el motor.
+\end_layout
+
+\begin_layout Standard
+En un principio se presuposo que el inversor del usillo iba a ser capaz
+ de regular frecuencia de salida a fin de obtener una velocidad de rotación
+ del motor menor a los 50rpm (como sí lo realizan otras máquinas de la empresa).
+ Pero al momento de hacer la puesta a punto se comprobo que esto no era
+ así, sino que por debajo de los 50 rpm la velocidad el moto oscilaba, con
+ lo cuál se presupuso que había presencia de ruido, pero luego de probar
+ de distintas formas se desistió, se probaron distintas configuraciones
+ de señales en tensión, corriente, amplificadores diferenciales de precisión,
+ pero ninguna demostro una mejora sustancial.
+\end_layout
+
+\begin_layout Standard
+En una página web se encontró que varios usuarios del inversor tenían el
+ mismo problema, y con el uso de la hoja de datos ello tuvo sentido.
+ El fabricante garantiza un control entre los 0.2 y 400 Hz, pero en efecto
+ la frecuencia mínima de salida es cercana a los 2 Hz lo cuál explica la
+ oscilación encontrada.
+\end_layout
+
+\begin_layout Standard
+La controladora CNC entrega una señal de control la cuál puede tomar tanto
+ valores positivos como negativos entre -10 y 10V, pero el inversor esperaba
+ señales entre 0 y 5V, con lo cuál hubo que preveer este caso y configurar
+ la controladora a fin de evitar daños.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/fotos/IMG_20130919_124828.jpg
+	lyxscale 20
+	width 50page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Cabezal"
+
+\end_inset
+
+Fotografía de cabezal morse
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section

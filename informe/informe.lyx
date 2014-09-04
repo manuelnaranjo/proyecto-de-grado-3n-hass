@@ -3887,7 +3887,7 @@ El agarra piezas o part-catcher, nombre en inglés, permite implementar tareas
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4109,7 +4109,9 @@ El proceso de desprendimiento de viruta, es un proceso el cuál inherentemente
  lo cuál no sólo disipa el calor producido por el proceso, sino que también
  mantiene al inserto lubricado disminuyendo el roce entre la pieza y dicho
  inserto.
- 
+ Está ventaja también es factible de aprovechar dado el hecho de que al
+ ser el proceso automatizado no es necesario que el operador tenga contacto
+ visual constante con el punto de corte.
 \end_layout
 
 \begin_layout Standard
@@ -4126,11 +4128,22 @@ Dicha mezcla, llamada refrigerante, se inyecta presión en el punto de trabajo
 \end_layout
 
 \begin_layout Standard
-Una de las ventajas fundamentales entre una máquina CNC y una de co
-\end_layout
-
-\begin_layout Standard
-El proceso de control del refrigerante está mayormente a control del operador,
+El proceso de control del refrigerante está mayormente a control del programador
+ del código CNC, o del operario el cuál puede detener la inyección de líquido
+ a fin de comprobar el estado actual.
+ El procedimiento usual para el control del refrigerante implica acercar
+ a gran velocidad la herramienta de corte hasta una distancia segura previa
+ al corte, encender el refrigerante, realizar el desbaste, retirar la herramient
+a a velocidad segura, detener la inyección de líquido y continuar con el
+ proceso, el encendido y apagado de la inyección se puede controlar con
+ 2 comandos macro puestos a disposición del programador CNC por el programa
+ PLC realizado.
+ En algunas ocasiones el operador puede desear anular el comando del programa
+ CNC y tomar control del sistema de refrigeración, para ello dispone de
+ 2 botones en el panel de usuario los cuales permiten encender y apagar
+ la inyección de refrigerante, en esté caso el control por parte del programa
+ CNC no se retoma hasta cuánto se vuelva a ejecutar alguno de los comandos
+ macro previamente mencionados.
  
 \end_layout
 
@@ -4142,6 +4155,220 @@ name "sec:Saca-virutas"
 \end_inset
 
 Saca virutas
+\end_layout
+
+\begin_layout Standard
+Como se menciono a lo largo del presente informe, los tornos son máquinas
+ de mecanizado por extracción de viruta, ello quiere decir partiendo de
+ un trozo de material con dimensiones mayores a las dimensiones deseadas,
+ se desbasta el material hasta lograr el objetivo.
+ Dicho trozo de material puede ser material en bruto en forma de barra,
+ o una pieza la cuál ha pasado por un proceso previo de amoldamiento como
+ ser el forjado.
+ 
+\end_layout
+
+\begin_layout Standard
+En ambos casos el proceso de mecanizado produce grandes cantidades de desperdici
+o generalmente del orden del 5% y en algunos casos superando el 50% del
+ peso bruto, siendo el caso de piezas tratadas previamente generalmente
+ la que produce menor desperdicio (sin embargo se trata de cantidades no
+ despreciables).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/titanconveyors.com/620_chipEX.jpg
+	lyxscale 40
+	width 40page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Saca-viruta-cinta"
+
+\end_inset
+
+Saca virutas con cinta transportadora de la marca Titan.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dado que el material de desperdicio obstruye el proceso de manufactura,
+ y el hecho de que en el caso de mecanizar metales el mismo puede ser reprocesad
+o para futuros usos, es que las máquinas por desprendimiento de viruta de
+ producción industrial cuentan con sistemas dedicados para la recolección
+ del desperdicio, a dicho sistema se lo suele denominar saca virutas (chip
+ conveyor en inglés).
+\end_layout
+
+\begin_layout Standard
+Los saca viruta suelen ser de distintos tipos, generalmente se componen
+ de un motor eléctrico dedicado y algún sistema de transporte siendo los
+ más utilizados los de cinta continua y los de tornillo sin fin, el saca
+ viruta es el encargado de recoger parte del desperdicio generado en la
+ zona de trabajo y llevarlo a algún contenedor el cuál luego es periódicamente
+ vaciado.
+\end_layout
+
+\begin_layout Standard
+En el caso particular de la máquina reacondicionada el sistema de transporte
+ es del tipo tornillo sin fin, se compone de un motor eléctrico de corriente
+ alterna trifásico, una caja reductora, un tornillo sin fin del largo de
+ la bancada, una cuba de recolección y un cono en el cuál se comprime la
+ viruta y da tiempo al escurrimiento del fluido refrigerante previo a ser
+ volcado al contenedor receptor.
+ El motor cuenta con protecciones térmicas internas, y además se dispuso
+ de una protección por cortocircuito trifásica la cuál permite detectar
+ rotor bloqueado al sensar incrementos rápidos de la corriente.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Actualizar copia codigo PLC falta la entrada de ICHIPBLO
+\end_layout
+
+\end_inset
+
+ En las fotografías 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "pic:Saca-viruta-hass-1"
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "pic:Saca-viruta-hass-2"
+
+\end_inset
+
+se puede observar tanto el tornillo, como el cono de recolección con un
+ deposito final.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/fotos/IMG_20131026_122700.jpg
+	lyxscale 40
+	width 40page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "pic:Saca-viruta-hass-1"
+
+\end_inset
+
+Fotografía del tornillo sin fin en acción.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/fotos/IMG_20131026_120240.jpg
+	lyxscale 20
+	width 40page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "pic:Saca-viruta-hass-2"
+
+\end_inset
+
+Fotografía del tornillo sin fin en acción.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Es interesante destacar que previo al reacondicionamiento el saca virutas
+ se encontraba fuera de funcionamiento, se presuponía que era un problema
+ eléctrico, pero el alumno pudo detectar que se trataba de una falla mecánica
+ en la caja de reducción, el cuál fue reparado, poniendo en funcionamiento
+ nuevamente el saca virutas.
+\end_layout
+
+\begin_layout Standard
+Al igual que en el caso del sistema refrigerante el sistema saca virutas
+ está a cargo tanto del programador CNC como del operario, disponiéndose
+ de comandos macro para poder activar y desactivar el sistema de extracción,
+ así cómo también la posibilidad de revertir el sentido de giro del extractor
+ para liberarlo de posibles bloqueos.
+ El saca virutas está diseñado para que su accionar no sea constante, sino
+ que activarlo por unos cuántos segundos cada X cantidad de tiempo, por
+ ello se suele preferir dejarlo a libre manejo del operador.
 \end_layout
 
 \begin_layout Section

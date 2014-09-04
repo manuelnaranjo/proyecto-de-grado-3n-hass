@@ -1,5 +1,5 @@
-#LyX 2.0 created this file. For more info see http://www.lyx.org/
-\lyxformat 413
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 478
 \begin_document
 \begin_header
 \textclass report
@@ -12,13 +12,13 @@
 \font_roman default
 \font_sans default
 \font_typewriter default
+\font_math auto
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
-
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -29,15 +29,24 @@
 \use_hyperref false
 \papersize default
 \use_geometry false
-\use_amsmath 1
-\use_esint 1
-\use_mhchem 1
-\use_mathdots 1
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
 \cite_engine basic
+\cite_engine_type default
+\biblio_style plain
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
+\justification true
 \use_refstyle 1
 \index Index
 \shortcut idx
@@ -95,7 +104,7 @@ El presente informe describe las tareas realizadas por el alumno Naranjo
  El proceso de refitting consiste en el reemplazo tanto mecánico como eléctrico
  de una máquina en funcionamiento, con su correspondiente puesta a punto.
  En este caso en particular se reemplazaron la controladora CNC por una
- de otro proovedor, los motores de los ejes y sus respectivos moduladores
+ de otro proveedor, los motores de los ejes y sus respectivos moduladores
  de potencia (drivers de potencia), todo el circuito eléctrico, el tornillo
  de precisión del eje X, como así también algunos cambios secundarios que
  fueron necesarios al ir poniendo en marcha la máquina.
@@ -116,7 +125,7 @@ name "chap:Introducción"
 
 \begin_layout Standard
 Como se expuso en el resumen del informe el presente informe abarca la puesta
- en marcha de una máquina la cual previo al refitting se encontraba funcinando,
+ en marcha de una máquina la cual previo al refitting se encontraba funcionando,
  pero por diversas causas se encontró aproximadamente un año fuera de servicio.
  
 \end_layout
@@ -125,7 +134,7 @@ Como se expuso en el resumen del informe el presente informe abarca la puesta
 Para poder comenzar se considera fundamental realizar una breve introducción
  respecto de que es una máquina tipo torno, una máquina CNC, explicando
  particularmente qué se entiende por torno CNC, luego se realizará una descripci
-ón de algunas las funcionalidades básicas de los substistemas que componen
+ón de algunas las funcionalidades básicas de los subsistemas que componen
  el resultado final, un resumen de motores eléctricos y control de los mismos.
 \end_layout
 
@@ -259,7 +268,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -400,7 +409,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -454,7 +463,7 @@ La herramienta de corte va montada sobre un carro que se desplaza sobre
  Cuando el carro principal desplaza la herramienta a lo largo del eje de
  rotación, produce el cilindrado de la pieza, y cuando el carro transversal
  se desplaza de forma perpendicular al eje de simetría de la pieza se realiza
- la operación denominada refrentado, cuando ambos ejes se mueven simultaneamente
+ la operación denominada refrentado, cuando ambos ejes se mueven simultáneamente
  se pueden realizar cilindrados cónicos y esféricos.
 \end_layout
 
@@ -466,7 +475,7 @@ reference "fig-torno-paralelo"
 
 \end_inset
 
- se puede ver un torno paralelo con control númerico, miéntras que en la
+ se puede ver un torno paralelo con control numérico, mientras que en la
  figura 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -499,7 +508,7 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -518,7 +527,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -544,7 +553,7 @@ Torno Paralelo
 \begin_inset Float figure
 wide true
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Box Frameless
@@ -577,7 +586,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -600,7 +609,7 @@ Torno CNC
 \end_layout
 
 \begin_layout Subsubsection
-Torno de control númerico
+Torno de control numérico
 \end_layout
 
 \begin_layout Standard
@@ -623,7 +632,7 @@ El torno de control numérico es un ejemplo de automatización programable.
 \end_layout
 
 \begin_layout Subsubsection
-Torno de control númerico computarizado
+Torno de control numérico computarizado
 \end_layout
 
 \begin_layout Standard
@@ -640,8 +649,8 @@ El torno CNC es un torno dirigido por control numérico por computadora.
 \end_layout
 
 \begin_layout Standard
-La velocidad de giro del cabezal portapiezas, el avance de los carros longitudin
-al y transversal y las cotas de ejecución de la pieza están programadas,
+La velocidad de giro del cabezal porta-piezas, el avance de los carros longitudi
+nal y transversal y las cotas de ejecución de la pieza están programadas,
  herramientas a utilizar para cada operación, control de los sistemas refrigeran
 tes, control de la recolección de desperdicios de mecanizado, incluso cuenta
  de la cantidad de piezas realizas.
@@ -662,23 +671,23 @@ name "sub:Estructura-de-un"
 \begin_layout Subsubsection
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Usillo"
+name "sub:husillo"
 
 \end_inset
 
-Usillo
+Husillo
 \end_layout
 
 \begin_layout Standard
 Es la parte encargada de sujetar la pieza y hacerla girar.
  Se compone de un motor eléctrico de corriente alterna trifásico, al cual
- se le controla la potencia via un inversor trifásico, normalmente denominado
+ se le controla la potencia vía un inversor trifásico, normalmente denominado
  
 \series bold
 Driver
 \series default
 .
- Dicho motor se suele acoplar al usillo sobre el cual se monta la pieza
+ Dicho motor se suele acoplar al husillo sobre el cual se monta la pieza
  vía poleas, algunos cabezales cuentan con cajas de reducción lo cual permite
  diferentes relaciones entre la velocidad del motor y la del cabezal, la
  cuál puede ser seleccionada vía el código que el programador del CNC realiza,
@@ -687,7 +696,7 @@ Driver
 \end_layout
 
 \begin_layout Standard
-El usillo cuenta con un 
+El husillo cuenta con un 
 \series bold
 plato
 \series default
@@ -704,7 +713,7 @@ bomba hidráulica
 \series default
 , la cuál permite variar la presión según el peso y velocidad máxima de
  corte a utilizar.
- Son caracterisiticas de la bomba hidráulica y del tamaño del plato el 
+ Son características de la bomba hidráulica y del tamaño del plato el 
 \series bold
 diámetro máximo 
 \series default
@@ -730,8 +739,8 @@ reference "fig-monografias-plato"
 
  se muestra un esquema de un cabezal similar al encontrado en la máquina
  utilizada en el proyecto.
- La apartura y el cierre de las mordazas de dicho plato se controlan vía
- unas selenoides de paso hidráulicas las cuales se acoplan a la salida de
+ La apertura y el cierre de las mordazas de dicho plato se controlan vía
+ unas solenoides de paso hidráulicas las cuales se acoplan a la salida de
  la bomba hidráulica, el operario dispone de un pedal bajo la máquina el
  cual permite abrir y cerrar las mordazas cuando la máquina no se encuentra
  trabajando.
@@ -742,12 +751,12 @@ reference "fig-monografias-plato"
 \end_layout
 
 \begin_layout Standard
-Solidario al usillo se acopla un 
+Solidario al husillo se acopla un 
 \series bold
 encoder
 \series default
  el cuál permite realimentar al sistema de control la velocidad de giro,
- en algúnos sistemas más complejos incluso se puede ubicar el usillo en
+ en algunos sistemas más complejos incluso se puede ubicar el husillo en
  una posición en grados precisa, pero no es el caso de la máquina utilizada
  durante el proyecto.
  En la máquina en cuestión se cuenta con un 
@@ -798,7 +807,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -845,7 +854,7 @@ portaherramientas
 \series bold
 guías
 \series default
- son construídas de un material duro con exigentes tolerancias ya que son
+ son construidas de un material duro con exigentes tolerancias ya que son
  las encargadas de que la 
 \series bold
 torre
@@ -875,7 +884,7 @@ Esté último
 \series bold
 motor eléctrico
 \series default
- nombrado se controla vía un inversor trifásico, comunmente conocido como
+ nombrado se controla vía un inversor trifásico, comúnmente conocido como
  
 \series bold
 driver
@@ -903,9 +912,9 @@ reference "fig-wikipedia-ballscrew"
  se pueden apreciar tornillos similares a los utilizados en el torno en
  cuestión.
  El mismo se compone de 2 partes el tornillo propiamente dicho, barra larga,
- y una tuerca auto lubricada por la cual se mueven munisiones de precisión.
+ y una tuerca auto lubricada por la cual se mueven municiones de precisión.
  La tuerca esta diseñada de tal forma que las municiones recirculen y se
- lubriquen através de unos dosificadores.
+ lubriquen a través de unos dosificadores.
 \end_layout
 
 \begin_layout Standard
@@ -945,7 +954,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -980,7 +989,7 @@ eje X
 \series default
 .
  Solidario al carro se mueve el porta herramientas.
- Las caracterísiticas constructivas del
+ Las características constructivas del
 \series bold
  eje X
 \series default
@@ -990,7 +999,7 @@ eje Z
 \series default
 , salvo que esté último suele tener mucho más recorrido que el primero,
  en la máquina del proyecto en particular el recorrido del eje Z es cercano
- a los 450mm miéntras que el del X a los 110mm.
+ a los 450mm mientras que el del X a los 110mm.
  Otra diferencia constructiva entre un eje y otro en el caso particular
  de está máquina es que el tornillo del eje X es de un paso de 5+-0.001mm,
  dicha diferencia se debe a que el tornillo fue cambiado previo al comienzo
@@ -1022,7 +1031,7 @@ name "sub:Porta-herramientas"
 
 \begin_layout Standard
 Una de las características destacadas de una máquina CNC respecto de una
- máquina sin control númerico es la posibilidad de intercambiar herramientas
+ máquina sin control numérico es la posibilidad de intercambiar herramientas
  sin la intervención del operario, para ello los tornos CNC suelen contar
  de un plato porta herramientas tipo revolver como el de la figura 
 \begin_inset CommandInset ref
@@ -1089,7 +1098,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -1126,16 +1135,16 @@ name "sub:Contra-punta"
 Como se menciono en la sección 
 \begin_inset CommandInset ref
 LatexCommand vref
-reference "sub:Usillo"
+reference "sub:husillo"
 
 \end_inset
 
- el largo máximo de la pieza a tornear se encuentra limitado por caracterísitica
-s constructivas, básicamente si el peso de la pieza es muy grande entonces
- el brazo de palanca producido por este hace que la pieza oscile miéntras
- gira, reduciendo la presición, pudiendo llegar incluso a ser un riesgo
+ el largo máximo de la pieza a tornear se encuentra limitado por características
+ constructivas, básicamente si el peso de la pieza es muy grande entonces
+ el brazo de palanca producido por este hace que la pieza oscile mientras
+ gira, reduciendo la precisión, pudiendo llegar incluso a ser un riesgo
  de seguridad si la pieza se a soltase.
- Para evitar dicho incoveniente se suele dotar a los tornos de un segundo
+ Para evitar dicho inconveniente se suele dotar a los tornos de un segundo
  punto de apoyo móvil 
 \series bold
 llamado contra punta
@@ -1146,13 +1155,13 @@ llamado contra punta
 
 \begin_layout Standard
 La contra punta se mueve sobre unas guías de precisión paralelas al eje
- Z y cuenta con un cono de precisión estandar, al cual se pueden acoplar
+ Z y cuenta con un cono de precisión estándar, al cual se pueden acoplar
  dispositivos con formas similares a la pieza que se quiere lograr de forma
- de mejorar la superfecie de contacto.
+ de mejorar la superficie de contacto.
  Dicha contra punta se mueve gracias a un actuador hidráulico de 2 direcciones.
  En la máquina del proyecto la presión de trabajo de la contra punta es
- regulable en la bomba hidráulica, la dirección de moviemiento de la contra
- punta se controla vía dos selenoides, y se cuenta con una tercer selenoide
+ regulable en la bomba hidráulica, la dirección de movimiento de la contra
+ punta se controla vía dos solenoides, y se cuenta con una tercer solenoide
  la cual permite realizar el movimiento a una mayor velocidad.
 \end_layout
 
@@ -1184,7 +1193,7 @@ name "enu:Control-de-la"
 
 \end_inset
 
-Control de la velocidad y dirección de giro del usillo.
+Control de la velocidad y dirección de giro del husillo.
 \end_layout
 
 \begin_layout Enumerate
@@ -1235,7 +1244,7 @@ name "enu:Supervisición-de-las"
 
 \end_inset
 
-Supervisición de las alarmas básicas y supervisión del PLC
+Supervisión de las alarmas básicas y supervisión del PLC
 \end_layout
 
 \begin_layout Standard
@@ -1246,7 +1255,7 @@ reference "enu:Control-preciso-del"
 
 \end_inset
 
-las controladoras suelen contar con salidas análogicas o CAN para comandar
+las controladoras suelen contar con salidas analógicas o CAN para comandar
  los drivers de los servos de los distintos motores descriptos en 
 \begin_inset CommandInset ref
 LatexCommand vref
@@ -1265,7 +1274,7 @@ reference "enu:Control-de-la"
 
 \end_inset
 
-se utilizo una salida análogica y el 
+se utilizo una salida analógica y el 
 \series bold
 inversor 
 \series default
@@ -1284,13 +1293,13 @@ ad de simular y programar on-site, y la comunicación del PLC.
 \end_layout
 
 \begin_layout Standard
-El código de programación de pieza se basa en un standard de la ISO el cuál
- asiga ciertos mnemonicos a operaciones comunes a todas las máquinas CNC,
- y permite a los fábricantes extenderlo con sus propias caracteristicas
+El código de programación de pieza se basa en un estándar de la ISO el cuál
+ asigna ciertos mnemónicos a operaciones comunes a todas las máquinas CNC,
+ y permite a los fabricantes extenderlo con sus propias características
  distintivas.
  A la vez los fabricantes permiten a las empresas/particulares que ajustan
  controladoras CNC a maquinas extender aún más dicho lenguaje, una introducción
- a la programación CNC se hace en el cápitulo 
+ a la programación CNC se hace en el capitulo 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:Programación"
@@ -1336,13 +1345,13 @@ Organización y realización del proyecto
 \end_layout
 
 \begin_layout Standard
-El proyecto comenzo luego de que comenzado el refactoring, un técnico previament
+El proyecto comenzó luego de que comenzado el refactoring, un técnico previament
 e había seleccionado el controlador CNC, los motores de los ejes con sus
  respectivos drivers, incluso realizado un primer cableado el cuál estaba
  lleno de problemas.
  Dado que la tarea resultaba complicada o imposible si se atacaba todo el
  problema en conjunto, y que el alumno no tenía nada de experiencia al respecto,
- se decidio realizar una hoja de ruta en la cual se dividió el sistema en
+ se decidió realizar una hoja de ruta en la cual se dividió el sistema en
  subsistemas y se trato de asignar fechas límites para realizar cada una.
  Si bien dicha predicción no fue del todo acertada, permitió organizar el
  comienzo del proyecto.
@@ -1379,11 +1388,11 @@ Actualización del diagrama eléctrico para futuros mantenimientos.
 
 \begin_layout Itemize
 Puesta en marcha de la máquina, ajuste de los parámetros del controlador
- según especificiaciones.
+ según especificaciones.
 \end_layout
 
 \begin_layout Itemize
-Modificación del código del PLC incluído dentro de la controladora a fin
+Modificación del código del PLC incluido dentro de la controladora a fin
  de adaptarlo para la tarea específica.
 \end_layout
 
@@ -1439,8 +1448,8 @@ Primer borrador de conexionado interno.
 
 \begin_layout Itemize
 Remoción del conexionado previamente realizado, y conexionado interno que
- permitise prender todos los módulos de control según especificaciones del
- borrador.
+ permitiese prender todos los módulos de control según especificaciones
+ del borrador.
 \end_layout
 
 \begin_layout Itemize
@@ -1465,7 +1474,7 @@ Desacople de los servos de los ejes y cambiador de herramientas, encendido
 \begin_layout Itemize
 Ajuste del sentido de giro de los servos de los ejes y cambiador de herramientas
 , y de las ganancias para minimizar la cantidad de vueltas por minuto de
- los motores, primeras modificaciones al ćodigo del plc, ajuste de offset,
+ los motores, primeras modificaciones al código del PLC, ajuste de offset,
  movimiento del motor del cambiador de herramientas sin disco porta herramientas.
 \end_layout
 
@@ -1489,14 +1498,14 @@ Corrección del sentido de avance de los ejes respecto al sistema de referencias
 \end_layout
 
 \begin_layout Itemize
-Conexionado de sensores de referencia en ejes, seteo de las zonas máximas
- de movimiento del eje Z.
+Conexionado de sensores de referencia en ejes, configuración de las zonas
+ máximas de movimiento del eje Z.
 \end_layout
 
 \begin_layout Itemize
-Conexionado tanto de la etapa de potencia, como de control de los selenoides
+Conexionado tanto de la etapa de potencia, como de control de los solenoides
  del actuador neumático del cambiador de herramientas, control del mismo
- via PLC, conexionado de los sensores de acople y desacople del cambiador
+ vía PLC, conexionado de los sensores de acople y desacople del cambiador
  de herramientas.
 \end_layout
 
@@ -1507,12 +1516,12 @@ tas, teniendo en cuenta el acople y desacople del cambiador.
 \end_layout
 
 \begin_layout Itemize
-Conexionado básico del driver del usillo, circuito de control y circuito
+Conexionado básico del driver del husillo, circuito de control y circuito
  de potencia.
 \end_layout
 
 \begin_layout Itemize
-Encendido del motor del usillo, ajuste de cruce por cero, ajuste de velocidades
+Encendido del motor del husillo, ajuste de cruce por cero, ajuste de velocidades
  máximas y sentido de giro.
 \end_layout
 
@@ -1521,12 +1530,12 @@ Conexionado de bomba hidráulica.
 \end_layout
 
 \begin_layout Itemize
-Conexionado de la etapa de control y de la etapa de potencia de las selenoides
- de agarre de pieza en el usillo, y de la contra punta.
+Conexionado de la etapa de control y de la etapa de potencia de las solenoides
+ de agarre de pieza en el husillo, y de la contra punta.
 \end_layout
 
 \begin_layout Itemize
-Conexionado de pedales de usuario y realización de comando via pedales tanto
+Conexionado de pedales de usuario y realización de comando vía pedales tanto
  de contra punta como de cabezal de pieza.
 \end_layout
 
@@ -1564,7 +1573,7 @@ Identificación final del cableado y mejoras en la disposición del mismo,
 
 \begin_layout Itemize
 Colocación de las placas metálicas de soporte de la máquina con su respectiva
- alineación, lubricación e impervialización donde fuese necesario.
+ alineación, lubricación e impermeabilización donde fuese necesario.
  Conexionado de lámpara interna y ventiladores de refrigeración.
 \end_layout
 
@@ -1575,7 +1584,7 @@ Realizado de primeros mecanizados reales sobre barras en bruto, probando
 \end_layout
 
 \begin_layout Itemize
-Re-ingenería del código del PLC resultante a fin de organizarlo y documentarlo
+Reingeniería del código del PLC resultante a fin de organizarlo y documentarlo
  al mismo.
 \end_layout
 
@@ -1598,7 +1607,7 @@ Primeras piezas reales producidas, primer ronda de devolución de los operarios.
 \end_layout
 
 \begin_layout Itemize
-Entranimento on-site de los operarios.
+Entrenamiento on-site de los operarios.
 \end_layout
 
 \begin_layout Itemize
@@ -1621,7 +1630,7 @@ Estas distintas etapas descriptas no están en exactamente el mismo orden
  en paralelo, el inicio de tareas fue el primer día del mes de Mayo de 2013
  y la máquina se encuentra en producción de forma estable desdé mediados
  del mes de Octubre del mismo año, trabajando entre 2 y 3 días por semana.
- En las proximas secciones se describirán las distintas mencionadas etapas.
+ En las próximas secciones se describirán las distintas mencionadas etapas.
 \end_layout
 
 \begin_layout Section
@@ -1662,7 +1671,7 @@ Lo primero que fue necesario realizar fue relevar tanto el estado actual
  como así también los datos que pudiese recabar de los distintos dispositivos
  electrónicos disponibles.
  Con ello conseguido recurrí a la internet y al manual entregado por el
- fábricante original del torno
+ fabricante original del torno
 \begin_inset CommandInset citation
 LatexCommand cite
 key "hass-manual"
@@ -1685,7 +1694,11 @@ TODO: Agregar fotos de las placas/motores si esta disponible, links a manuales,
 \end_layout
 
 \begin_layout Itemize
-Driver del usillo:
+Driver del husillo:
+\begin_inset Separator parbreak
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -1726,7 +1739,11 @@ key "mitsubishi-manual"
 
 \end_deeper
 \begin_layout Itemize
-Motor del usillo:
+Motor del husillo:
+\begin_inset Separator parbreak
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -1761,6 +1778,10 @@ Manual: Sin Datos
 \end_deeper
 \begin_layout Itemize
 Drivers ejes X y Z y cambiador de herramientas:
+\begin_inset Separator parbreak
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -1777,7 +1798,7 @@ Tipo: Sin Datos
 \end_layout
 
 \begin_layout Itemize
-Tensión Nominal: 200~230 VAC 50/60Hz - 3Ph
+Tensión Nominal: 200~230 V AC 50/60Hz - 3Ph
 \end_layout
 
 \begin_layout Itemize
@@ -1803,11 +1824,15 @@ Manual:
 \end_deeper
 \begin_layout Itemize
 Motores ejes X y Z y cambiador de herramientas:
+\begin_inset Separator parbreak
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Fábricante: Estun
+Fabricante: Estun
 \end_layout
 
 \begin_layout Itemize
@@ -1848,6 +1873,10 @@ Encoder: Incremental 131072P/R 17-bit
 
 \begin_layout Itemize
 Opcionales:
+\begin_inset Separator parbreak
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -1867,6 +1896,10 @@ Manual: Sin Datos
 \end_deeper
 \begin_layout Itemize
 Fuente de continua:
+\begin_inset Separator parbreak
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -1893,6 +1926,10 @@ Manual: Sin datos
 \end_deeper
 \begin_layout Itemize
 Controladora CNC:
+\begin_inset Separator parbreak
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -1952,7 +1989,7 @@ Linea serie RS232: Incluido
 \end_layout
 
 \begin_layout Itemize
-DNC (via RS232): Incluido
+DNC (vía RS232): Incluido
 \end_layout
 
 \begin_layout Itemize
@@ -1964,11 +2001,11 @@ I/O digital: 40 entradas (I), 24 salidas (O)
 \end_layout
 
 \begin_layout Itemize
-Entradas de realimentación para ejes y usillo: 4 tipo TTL/1Vpp
+Entradas de realimentación para ejes y husillo: 4 tipo TTL/1Vpp
 \end_layout
 
 \begin_layout Itemize
-Entradas de realimentación para volante de contol manual: 2 tipo TTL
+Entradas de realimentación para volante de control manual: 2 tipo TTL
 \end_layout
 
 \begin_layout Itemize
@@ -2028,6 +2065,10 @@ Monitor Color: Incluido
 \end_deeper
 \begin_layout Itemize
 Volante de control manual:
+\begin_inset Separator parbreak
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -2054,6 +2095,10 @@ Manual: Sin datos
 \end_deeper
 \begin_layout Itemize
 Interruptor principal:
+\begin_inset Separator parbreak
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -2066,7 +2111,7 @@ Modelo: Sin Dato
 \end_layout
 
 \begin_layout Itemize
-Tensión nominal: 240 VAC
+Tensión nominal: 240 V AC
 \end_layout
 
 \begin_layout Itemize
@@ -2075,6 +2120,10 @@ Corriente nominal: 80A
 
 \begin_layout Itemize
 Corriente de corte:
+\begin_inset Separator parbreak
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -2093,12 +2142,16 @@ RMS
 \end_deeper
 \end_deeper
 \begin_layout Itemize
-Transformador prinicipal:
+Transformador principal:
+\begin_inset Separator parbreak
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Fabricante: Electro Parana
+Fabricante: Electro Paraná
 \end_layout
 
 \begin_layout Itemize
@@ -2138,8 +2191,8 @@ Con la información recabada en dichos manuales logre armar un diagrama de
 \end_layout
 
 \begin_layout Standard
-El primer incoveniente se dio al momento de verificar dicho circuito, el
- encargado de planta tenía una idea erronea respecto de la utilización o
+El primer inconveniente se dio al momento de verificar dicho circuito, el
+ encargado de planta tenía una idea errónea respecto de la utilización o
  no de un transformador de 220V/110V trifásico, creía que el mismo no era
  más necesario, pero al verificar el conexionado de la fuente de 24V de
  continua la misma se encontraba conectada entre 2 fases, con lo cual si
@@ -2155,7 +2208,7 @@ El primer incoveniente se dio al momento de verificar dicho circuito, el
 \end_inset
 
  lo cual sí cumplía con las especificaciones.
- Con el interruptor prinicipal abierto, se encendió el interruptor de paso
+ Con el interruptor principal abierto, se encendió el interruptor de paso
  y medí la tensión de linea en la entrada del primer interruptor, 
 \begin_inset Note Note
 status open
@@ -2166,16 +2219,16 @@ verificar cual es la que va entre lineas
 
 \end_inset
 
- el voltímetro acusaba aproximadamente 190V con lo cual se comprobo que
+ el voltímetro acusaba aproximadamente 190V con lo cual se comprobó que
  el transformador de hecho se encontraba conectado y puesto en configuración
  reductora.
  Junto al interruptor principal se encontraba un cuarto cable proveniente
  del transformador, el cuál sin abrir la caja del mismo no se podía comprobar
  su forma de conexión, se conecto un voltímetro tensión entre dicho cable
- y cada una de las fases y se midio una tensión de 110V, con lo cual se
- comprobo que el secundario del transformador se encontraba conectado en
+ y cada una de las fases y se midió una tensión de 110V, con lo cual se
+ comprobó que el secundario del transformador se encontraba conectado en
  estrella y que por lo tanto se disponía del neutro del transformador.
- Dicho neutro a la vez se encuentra conectado a tierra através de una jabalina.
+ Dicho neutro a la vez se encuentra conectado a tierra a través de una jabalina.
 \end_layout
 
 \begin_layout Standard
@@ -2183,13 +2236,13 @@ A continuación procedí a realizar un conexionado simple que me permitiese
  activar la fuente de continua, para ello tome 2 fases a la salida del interrupt
 or principal, protegí a cada una con un fusible rápido de 10A, y los conecte
  a la entrada de la fuente de continua, desconecte toda la carga de la salida
- de la fuente de continua, y cerre el interruptor principal, medí la tensión
- de salida de la fuente de continua, y la misma era de aproximadamete 24V
+ de la fuente de continua, y cerré el interruptor principal, medí la tensión
+ de salida de la fuente de continua, y la misma era de aproximadamente 24V
  DC lo cual verifico que la fuente se encontraba en funcionamiento normal.
- Seguidamente abrí el interruptor prinicipal, y conecte la salida de la
- fuente de continua a la entrada de la controladora CNC en el panel del
- operario, cerre dicho interruptor principal y comprobé como la controladora
- iniciaba su ciclo de arranque 
+ Seguidamente abrí el interruptor principal, y conecte la salida de la fuente
+ de continua a la entrada de la controladora CNC en el panel del operario,
+ cerré dicho interruptor principal y comprobé como la controladora iniciaba
+ su ciclo de arranque 
 \begin_inset Note Note
 status open
 
@@ -2214,12 +2267,12 @@ Diseño del esquema de conexionado eléctrico.
 
 \begin_layout Standard
 El conexionado eléctrico es un sistema complejo en si mismo, el cuál interconect
-a los distintos subsistemas y ditribuye potencia a los mismos.
+a los distintos subsistemas y distribuye potencia a los mismos.
  Con la ayuda del manual original de la máquina, en el cuál se encontraba
  el diagrama original, el esquema eléctrico de otra máquina disponible en
  la empresa, el manual de la controladora, de los drivers y del inversor
- del usillo se procedio a realizar un diagrama de conexionado eléctrico,
- el diagrama final se encuentra adjunto en el Apendice 1, en esta sección
+ del husillo se procedió a realizar un diagrama de conexionado eléctrico,
+ el diagrama final se encuentra adjunto en el Apéndice 1, en esta sección
  se explicarán algunas partes consideradas importantes de dicho diagrama
  y por qué se decidió realizarlo de tal manera.
  Tal cual se ha mencionado anteriormente el proyecto fue realizado de forma
@@ -2256,7 +2309,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Esquema de distribución de potencia
@@ -2277,10 +2330,10 @@ El circuito de la figura muestra como se acopla y desacopla la etapa de
  potencia de la máquina a la red eléctrica.
  Su composición es sencilla por un lado para evitar que cualquiera de los
  motores se mueva, principalmente los ejes, previo a estar lista la controladora
-, del PLC se comanda al Rele KOEMER conectado a la salida O1, luego el operario
- dispone de 2 pulsadores en el panel de operaciones para controlar el estado
- de potencia de la máquina: Machine ON y Machine OFF (Power ON y Power OFF
- respectivamente en el diagrama).
+, del PLC se comanda al Relay KOEMER conectado a la salida O1, luego el
+ operario dispone de 2 pulsadores en el panel de operaciones para controlar
+ el estado de potencia de la máquina: Machine ON y Machine OFF (Power ON
+ y Power OFF respectivamente en el diagrama).
 \end_layout
 
 \begin_layout Standard
@@ -2298,7 +2351,7 @@ Con KOEMER cerrado, KRMACHON y POWERON abiertos y POWEROFF cerrado el operario
 
 \begin_layout Standard
 Dado que ya se contaba con un contactor de potencia de 75A por fase (KMACHON)
- se decidió conservarlo, el incovenitente de utilizar dicho componente es
+ se decidió conservarlo, el inconveniente de utilizar dicho componente es
  que la bobina del mismo es de 24V AC, pero dado que ya se contaba con un
  transformador de 200V/24V del diseño original no se tuvo que incurrir en
  aumento de costos, teniendo en cuenta que contactores para esa potencia
@@ -2318,7 +2371,7 @@ Se interpuso entre el interruptor principal y el paralelo formado entre
 \end_layout
 
 \begin_layout Subsubsection
-Alimentación panel frontal - encedido de controladora CNC.
+Alimentación panel frontal - encendido de controladora CNC.
 \end_layout
 
 \begin_layout Standard
@@ -2339,7 +2392,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Alimentación panel frontal
@@ -2365,7 +2418,7 @@ En el diseño de la máquina original la controladora se encendía cuando se
  Inicialmente el contactor KCNCON se encuentra abierto lo mismo que el pulsador
  CNCON, cuando el operario presiona dicho pulsador se energiza la bobina
  del relé KCNCON y se cierra el contactor KCNCON reteniendo el estado encendido
- de la controladora, hasta que se abrá el interruptor principal, o se pierda
+ de la controladora, hasta que se abra el interruptor principal, o se pierda
  la energía de la red.
  No se dispuso al usuario de un botón para apagar la controladora en el
  panel de operación a fin de evitar que se pueda apagar la controladora
@@ -2393,7 +2446,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Conexionado de drivers
@@ -2413,7 +2466,7 @@ Conexionado de drivers
 Cada uno de los drivers cuenta con 2 conectores digitales/analógicos, alimentaci
 ón de potencia y alimentación de control independiente.
  Con el fin de poder comunicarse a los drivers siempre que la controladora
- se encontrasé conectada, se decidió alimentar la etapa de potencia desdé
+ se encontrase conectada, se decidió alimentar la etapa de potencia desdé
  la salida del contactor KMACHON, y la etapa de control a 2 fases protegidas
  por un disyuntor de 5A conectadas directamente de la salida del Interruptor
  Principal.
@@ -2424,8 +2477,8 @@ Los drivers son dispositivos que convierten tensión de alterna, en tensión
  de continua, para luego volver a convertirla en tensión de alterna con
  frecuencia variable, cuando los motores conectados a dichos inversores
  cambian de sentido de giro el motor por una pequeña cantidad de tiempo
- se comporta como un generador de energía devolviendola al inversor, para
- que la disipación de dicha energía séa rápida y no dañe a los inversores
+ se comporta como un generador de energía devolviéndola al inversor, para
+ que la disipación de dicha energía sea rápida y no dañe a los inversores
  se conecta a estos resistencias regenerativas.
  Los drivers elegidos cuenta con una resistencia regenerativa interna, y
  para utilizar la misma se tienen que dejar abierto el conector B1 y cortocircui
@@ -2509,7 +2562,7 @@ name "sub:Conexionado-del-inversor"
 
 \end_inset
 
-Conexionado del inversor del usillo
+Conexionado del inversor del husillo
 \end_layout
 
 \begin_layout Standard
@@ -2529,10 +2582,10 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Conexionado inversor de usillo
+Conexionado inversor de husillo
 \end_layout
 
 \end_inset
@@ -2546,7 +2599,19 @@ Conexionado inversor de usillo
 \end_layout
 
 \begin_layout Standard
-Tanto los drivers de los ejes como el inversor del usillo tienen en común
+El control del inversor del husillo es más sencillo que el utilizado en
+ cada eje, por empezar la señal analógica de control es una señal proporcional
+ a la frecuencia de salida deseada, siendo dicha señal unipolar de entre
+ 0V y 5V, para el control de dirección se dispone de 2 entradas STF y STR
+ de sentido de giro, las cuales se habilitan cortocircuitando una o la otra
+ a la salida SD, para realizar dicho cortocircuito se utilizo en ambos casos
+ el contactor de un relé comandado por la controladora.
+ También se cuenta con una tercer entrada llamada STOP la cual permite deshabili
+tar la salida del inversor.
+\end_layout
+
+\begin_layout Standard
+Tanto los drivers de los ejes como el inversor del husillo tienen en común
  que se puede conectar por separado la etapa alimentación de potencia, de
  la alimentación de control.
  Por ello y dado que permite iniciar y comunicarse al inversor sin necesidad
@@ -2556,24 +2621,12 @@ Tanto los drivers de los ejes como el inversor del usillo tienen en común
 \end_layout
 
 \begin_layout Standard
-El control del inversor del usillo es más sencillo que el utilizado en cada
- eje, por empezar la señal análogica de control es una señal proporcional
- a la frequencia de salida deseada, siendo dicha señal unipolar de entre
- 0V y 5V, para el control de dirección se dispone de 2 entradas STF y STR
- de sentido de giro, las cuales se habilitan cortocircuitando una o la otra
- a la salida SD, para realizar dicho corticircuito se utilizo en ambos casos
- el contactor de un relé comandado por la controladora.
- También se cuenta con una tercer entrada llamada STOP la cual permite deshabili
-tar la salida del inversor.
-\end_layout
-
-\begin_layout Standard
 Tanto para las entradas como para las salidas lógicas el sistema dispone
  de borne común y la posibilidad de realizar un conexionado del tipo de
  contactores, si bien se podría realizar el mismo conexionado de una manera
  mucho más económica utilizando transistores, se prefirió utilizar relés
  ya que estos últimos son menos sensibles a vibraciones y se dispone de
- zocalos aptos para riel din, los cuales no requieren soldaduras, permitiendo
+ zócalos aptos para riel DIN, los cuales no requieren soldaduras, permitiendo
  una mejor sujeción de los cables.
 \end_layout
 
@@ -2614,7 +2667,7 @@ name "sub:Conexionado-de-selenoides"
 
 \end_inset
 
-Conexionado de selenoides
+Conexionado de solenoides
 \end_layout
 
 \begin_layout Standard
@@ -2634,10 +2687,10 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Conexionado selenoides
+Conexionado solenoides
 \end_layout
 
 \end_inset
@@ -2651,7 +2704,7 @@ Conexionado selenoides
 \end_layout
 
 \begin_layout Standard
-Determinadas tareas requieren de automatizmos sencillos, los cuales son
+Determinadas tareas requieren de automatismos sencillos, los cuales son
  resueltos por actuadores tanto hidráulicos como neumáticos.
  Para alimentar al sistema hidráulico la máquina cuenta con una bomba hidráulica
  propia y un deposito de aceite, dicha bomba es un motor trifásico pequeño
@@ -2668,7 +2721,7 @@ TODO agregar potencia del motor, y amperes de la protección.
 , en cambio el circuito neumático se alimenta vía un compresor de aire externo
  el cuál alimenta no sólo a la máquina a reparar, sino al resto de las máquinas
  del taller.
- Ambos circuitos son controlados vía selenoides, tanto de 24V para aire,
+ Ambos circuitos son controlados vía solenoides, tanto de 24V para aire,
  como de 220V para aceite.
 \end_layout
 
@@ -2676,16 +2729,16 @@ TODO agregar potencia del motor, y amperes de la protección.
 El circuito neumático comprende los sistemas de: Agarra pieza automático
  (Part catcher), liberar torre porta herramientas, bloquear torre porta
  herramientas y lubricación de carro del eje Z, en cambio el circuito hidráulico
- se compone de: Bloqueo de pieza en el usillo (cabezal), moviento de contra
+ se compone de: Bloqueo de pieza en el husillo (cabezal), moviente de contra
  punta tanto hacía como desde la pieza y control de velocidad de la misma.
 \end_layout
 
 \begin_layout Standard
-Independiente del tipo de selenoide utilizado se opto por utilizar reles
+Independiente del tipo de selenoide utilizado se opto por utilizar relays
  de 24V de corriente continua, protegidos en su alimentación por diodos
  de señal, los cuales conectan cada selenoide a la alimentación necesaria,
  además la máquina cuenta con 2 luces de seguridad una verde y otra roja
- de 220V las cuales son prendidas y apagadas vía reles igual que los selenoides.
+ de 220V las cuales son prendidas y apagadas vía relays igual que los solenoides.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2716,7 +2769,7 @@ name "fig:X2-1"
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -2755,7 +2808,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -2794,7 +2847,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -2854,7 +2907,7 @@ Cabe destacar que a determinados pines del puerto X2 se asignan funciones
 \end_layout
 
 \begin_layout Standard
-La salida OEMER permite activar o desactivar modulos en función del estado
+La salida OEMER permite activar o desactivar módulos en función del estado
  de funcionamiento del sistema, en caso de detectar algún tipo de estado
  de alerta se desenergiza la bobina del RELÉ KOEMER lo cual desenergiza
  el contactor principal, eliminado el suministro de energía a la etapa de
@@ -2863,8 +2916,8 @@ La salida OEMER permite activar o desactivar modulos en función del estado
 \end_layout
 
 \begin_layout Standard
-Por otro lado la entrada IEMER es la única entrada al PLC de atención instantane
-a, y permite al usuario y la maquina alertar al PLC de que una cituación
+Por otro lado la entrada IEMER es la única entrada al PLC de atención instantáne
+a, y permite al usuario y la maquina alertar al PLC de que una situación
  de error grave se a detectado, en el caso particular de la máquina reparada
  se decidió dotar a dicha entrada de un botón de emergencia el cual al ser
  pulsado por el usuario no sólo detiene el proceso productivo sino que también
@@ -2876,8 +2929,8 @@ Dada la forma en que fue atacada la puesta a punto de la máquina se había
  realizado un diagrama inicial de conexionado de entradas y salidas para
  lograr un mayor orden del proceso, pero el mismo fue cambiando y resuelto
  sobre la marcha, inicialmente sólo se utilizo el conector X2, luego en
- función del requerimiento se agregaron X9 y X7, el hecho de ir diviendo
- al sistemas en subsistemas e ir conectando por substitema se logro que
+ función del requerimiento se agregaron X9 y X7, el hecho de ir dividiendo
+ al sistemas en subsistemas e ir conectando por subsistema se logro que
  los distintos subsistemas se encuentren agrupados en el panel de conectores.
 \end_layout
 
@@ -2907,7 +2960,7 @@ reference "sub:subsistemas-Contra-punta"
 
 \begin_layout Itemize
 IREF0X, IREF0Z, IREF0T: Detectores de referencia de máquina, su utilidad
- se descibe en 
+ se describe en 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sub:subsitemas-Ejes-X-y-z"
@@ -2932,7 +2985,7 @@ reference "sub:Intercambiador-de-herramientas"
 \begin_layout Itemize
 ISENAIR: Permite detectar si hay presión de aire suficiente a la entrada
  del circuito neumático, se trata de un sensor tipo normal cerrado, el cual
- si la presión deciende de cierto valor prefijado (sobre el cual no hay
+ si la presión desciende de cierto valor prefijado (sobre el cual no hay
  control aparente) cambia de estado a abierto, eso hace cambiar de estado
  a la entrada ISENSAIR y se muestra un alerta en la pantalla del operario
  para verificar que sucede, si la condición de baja presión se mantiene
@@ -2946,10 +2999,10 @@ ILOWHIDR: Para el correcto funcionamiento del sistema hidráulico es necesario
  mantener un determinado nivel de presión hidráulica, dicha presión es configura
 ble por el usuario de forma manual con una perilla mecánica sobre la misma
  bomba, la entrada ILOWHIDR tiene conectado un sensor normal cerrado el
- cual se abre cuando la presión deciende.
- Es importante notar que es aceptable que la presión decienda por unos pocos
- milli segundos (del orden de 100 ms), con lo cual se sincroniza la entrada
- con un timer.
+ cual se abre cuando la presión desciende.
+ Es importante notar que es aceptable que la presión descienda por unos
+ pocos milli segundos (del orden de 100 ms), con lo cual se sincroniza la
+ entrada con un timer.
 \end_layout
 
 \begin_layout Itemize
@@ -2991,7 +3044,7 @@ reference "sub:Conexionado-del-inversor"
 
 \end_inset
 
- el inversor senoidal del usillo provee algunas señales de alarma las cuales
+ el inversor senoidal del husillo provee algunas señales de alarma las cuales
  son utilizadas en el PLC para mostrar distintos estados de falla.
 \end_layout
 
@@ -3061,7 +3114,7 @@ reference "sec:Sistema-de-refrigerante"
 
 \begin_layout Itemize
 OTAILR, OTAILF, OTAILHS: permiten habilitar el avance desde la pieza, hacia
- la pieza y a alta velcidad de la contra punta, se describe en
+ la pieza y a alta velocidad de la contra punta, se describe en
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sub:subsistemas-Contra-punta"
@@ -3077,7 +3130,7 @@ OSPCLAMP: permite liberar y retener la pieza del cabezal.
 
 \begin_layout Itemize
 OCHIPFW, OCHIPRW: permite activar el avance directo y reverso del sistema
- saca virtuas, se describe en 
+ saca virutas, se describe en 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sec:Saca-virutas"
@@ -3108,7 +3161,7 @@ reference "sec:Información-al-operario"
 
 \begin_layout Itemize
 OSPRW, OSPFW, OSPALRESSP, OSPSTOP: permiten activar el sentido de giro directo
- e inverso, reinicio de alarmas y parada del driver del usillo, descriptos
+ e inverso, reinicio de alarmas y parada del driver del husillo, descriptos
  en detalle en 
 \begin_inset CommandInset ref
 LatexCommand vref
@@ -3233,9 +3286,9 @@ El sistema mecánico de traba se compone de varias clavijas metálicas calibrada
  se ubica un agujero en el plato se coloca una clavija de la bancada, de
  tal forma que cuando el sistema se somete al trabajo realizado por la presión
  neumática tanto las clavijas de la bancada como las del plato formen una
- corona metálica casi perfecta, sin espacios vacios.
+ corona metálica casi perfecta, sin espacios vacíos.
  Dicha disposición permite que al momento de trabajar la herramienta sobre
- la pieza de corte los torques resultantes por el desbaste sean absorvidos
+ la pieza de corte los torques resultantes por el desbaste sean absorbidos
  mecánicamente por la traba mecánica y no por el servo motor.
 \end_layout
 
@@ -3292,9 +3345,9 @@ reference "sec:puesta-eje-t"
 \end_layout
 
 \begin_layout Standard
-El sistema cuenta básicamente de 2 estados: estado inmobilizado (clamped)
- y estado de cambio de herramienta o destrabado (unclamped), habíendo estados
- de transición en los cuales hay que tener ciertas precaciones respecto
+El sistema cuenta básicamente de 2 estados: estado inmovilizado (clamped)
+ y estado de cambio de herramienta o destrabado (unclamped), habiendo estados
+ de transición en los cuales hay que tener ciertas precauciones respecto
  de los movimientos posibles.
  Para pasar de un estado al otro la máquina cuenta con un actuador neumático
  de doble vía, el cuál es controlado por la salida OUNCLAMP, para garantizar
@@ -3355,7 +3408,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -3378,12 +3431,12 @@ Esquema simplificado subsistema cambiador de herramientas
 \end_layout
 
 \begin_layout Standard
-En realidad el estado unclamped es mayormente de transició forn el cuál
- fue utilizado sólo en desarrollo y no forma parte del sistema final, ya
- que se pasa por el sin esperar señal alguna.
- En el caso de cambio manual de herramienta el usuario preciona el botón
+En realidad el estado unclamped es mayormente de transición el cuál fue
+ utilizado sólo en desarrollo y no forma parte del sistema final, ya que
+ se pasa por el sin esperar señal alguna.
+ En el caso de cambio manual de herramienta el usuario presiona el botón
  de avance y el sistema avanza la herramienta en 1 posición, si se detecta
- que el botón se solto se clampea caso contrario se vuelve a avanzar hasta
+ que el botón se soltó se clampea caso contrario se vuelve a avanzar hasta
  que el usuario libere el botón.
  En el caso de cambio programado una vez alcanzada la posición deseada se
  procede automáticamente a clampear a fin de reducir tiempos muertos, y
@@ -3398,7 +3451,7 @@ En realidad el estado unclamped es mayormente de transició forn el cuál
 status open
 
 \begin_layout Plain Layout
-agregar diagrama simplificado de cambio programado, cambio manual, busqueda
+agregar diagrama simplificado de cambio programado, cambio manual, búsqueda
  de referencia
 \end_layout
 
@@ -3441,14 +3494,14 @@ Existen diversos tipos de contrapuntas, algunas con movimiento manual, otras
 \end_layout
 
 \begin_layout Standard
-En el caso particular de la máquina reparada se disponse de un cilindro
- hidráulico, una válvula hidráulica de doble dirección, otra válvula hidráulica
- la cuál permite momentaneamente aumentar el caudal hidráulico aumentando
- la velocidad de desplazamiento, y 3 sensores de fin de carrera dispuestos
+En el caso particular de la máquina reparada se dispone de un cilindro hidráulic
+o, una válvula hidráulica de doble dirección, otra válvula hidráulica la
+ cuál permite momentáneamente aumentar el caudal hidráulico aumentando la
+ velocidad de desplazamiento, y 3 sensores de fin de carrera dispuestos
  sobre la guía dónde se mueva la contra punta.
  La máquina originalmente tenía una regla dentada la cuál permitía medir
  la ubicación actual de la contrapunta, pero dado que su utilización era
- muy compleja, ningúno de los programadores la utilizaba, y se decidió reemplaza
+ muy compleja, ninguno de los programadores la utilizaba, y se decidió reemplaza
 rlo por los detectores de fin de carrera.
 \end_layout
 
@@ -3466,9 +3519,9 @@ Los detectores se disponen uno en la punta de la guía alejada de la pieza,
 \end_layout
 
 \begin_layout Standard
-Es importante destacar que no se programo en el control un area de trabajo
+Es importante destacar que no se programo en el control un área de trabajo
  seguro de la contrapunta con lo cuál es el operario el responsable de verificar
- que cuándo se ejecute el código no se produzcan coliciones entre la pieza,
+ que cuándo se ejecute el código no se produzcan colisiones entre la pieza,
  la contra punta y el carro porta herramientas.
 \end_layout
 
@@ -3483,8 +3536,8 @@ Existen a la vez 3 formas de accionar la contra punta: por código, por teclado
 \begin_layout Standard
 Se intento lograr un control preciso de la contra punta basada en tiempos
  (avanzar tal cantidad de milli segundos a velocidad rápida, luego seguir
- a velocidad lenta) pero el mismo demostro ser muy complicado y de poca
- útilidad, dada las características particulares de la empresa y el uso
+ a velocidad lenta) pero el mismo demostró ser muy complicado y de poca
+ utilidad, dada las características particulares de la empresa y el uso
  que se le daba a está máquina la contra punta no era un sistema importante
  por lo cuál no tenía mucho sentido invertir demasiados recursos en ello,
  un empleado de más de 5 años en la empresa dijo haber usado la contrapunta
@@ -3504,10 +3557,10 @@ Ejes X y Z
 \end_layout
 
 \begin_layout Standard
-Los subsitemas del eje X y el Z son bastante similares, ambos se conforman
+Los subsistemas del eje X y el Z son bastante similares, ambos se conforman
  por un motor trifásico con un encoder de alta resolución solidario al eje,
  un sistema de transmisión mecánica el cuál permite desacoplar la carga
- del motor a la vez que absorve determinadas vibraciones.
+ del motor a la vez que absorbe determinadas vibraciones.
  Siendo la transmisión a la carga realizada con un tornillo de bolas recirculant
 es el cual en su tuerca tiene acoplada mecánicamente el carro a mover, convirtie
 ndo el movimiento circular del motor en movimiento lineal del carro como
@@ -3535,10 +3588,10 @@ reference "fig:Tornillo-2"
  función de las bolas en el sistema es la de aumentar la superficie de apoyo
  entre el tornillo y la rosca aumentando la tracción mecánica, tiene también
  agregada la ventaja de generar un enlace cuasi rígido el cuál al momento
- de un cambio de sentido de rotación en el motor previene el efecto de sobrepico
- denominado backslash en la jerga de control cnc.
- En el caso del eje X dado que el mismo se enuentra en un plano inclinado
- el fábricante original de la máquina dispuso la ubicación de un resorte
+ de un cambio de sentido de rotación en el motor previene el efecto de sobre
+ pico denominado backslash en la jerga de control CNC.
+ En el caso del eje X dado que el mismo se encuentra en un plano inclinado
+ el fabricante original de la máquina dispuso la ubicación de un resorte
  resistente el cuál reduce la fuerza necesaria en el tornillo para mantener
  la posición.
 \end_layout
@@ -3565,7 +3618,7 @@ El sistema de control del movimiento se complementa con un sensor de fin
  dado que la calibración es realizada una vez por día o puesta a punto de
  la máquina.
  Es fundamental destacar que el operario debe verificar las piezas mecanizadas
- de forma periódica para compenzar las derivas que se pudiecen ocacionar
+ de forma periódica para comenzar las derivas que se pudiesen ocasionar
  por imperfecciones en el control.
 \end_layout
 
@@ -3580,7 +3633,7 @@ La controladora CNC permite programar errores máximos de seguimiento tanto
  de daño mecánico al sistema cuándo el mismo se movía a pequeñas velocidades,
  no fue así el caso cuándo el eje X se movió a velocidad máxima hacía uno
  de los extremos por un error humano, previo a que se configuren los sensores
- de fin de carrera, y la posición relativa a los extremos de la guia.
+ de fin de carrera, y la posición relativa a los extremos de la guía.
 \end_layout
 
 \begin_layout Standard
@@ -3590,9 +3643,9 @@ ar distintos tipos de control: P, PI, PID, PD, FeedForward, Feed-Back-Forward,
  en la materia Control II de la carrera, y si bien el rendimiento del control
  aumento, el sistema producía ruidos extraños los cuales denotaban un desgaste
  mecánico importante, lo cuál hacía presuponer que la vida útil de las partes
- mecánicas iba a ser considerabemente reducida, siendo la mejora de performance
+ mecánicas iba a ser considerablemente reducida, siendo la mejora de performance
  muy pequeña como para justificar el cambio, por ello es que se decidió
- realizar un control PI sensillo.
+ realizar un control PI sencillo.
  Con la ayuda de un osciloscopio y escuchando la respuesta mecánica del
  sistema se ajustaron los parámetros de forma tal que el sistema respondiese
  con buenos tiempos sin producir ruidos demasiado extraños.
@@ -3615,7 +3668,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -3654,7 +3707,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -3683,12 +3736,12 @@ name "sub:substitemas-Usillo"
 
 \end_inset
 
-Usillo y cabezal
+Husillo y cabezal
 \end_layout
 
 \begin_layout Standard
 Como se menciono anteriormente la pieza se coloca en un cabezal de 3 mordazas
- el cuál es accionado hidraulicamente bajo pedido del operario (o por programaci
+ el cuál es accionado hidráulicamente bajo pedido del operario (o por programaci
 ón).
  En la figura 
 \begin_inset CommandInset ref
@@ -3700,8 +3753,8 @@ reference "fig:Cabezal"
 se observa una pieza montada sobre dicho cabezal.
  Las mordazas son torneables y de hecho es fundamental adaptarlas al diámetro
  exterior de la pieza a mecanizar, dado que de está forma se aumenta la
- superficie de apoyo reduciendosé distribuyendosé la presión hidráulica
- sobre la pieza de forma más homogenéa, reduciendo daños a la superficie
+ superficie de apoyo reduciéndose distribuyéndose la presión hidráulica
+ sobre la pieza de forma más homogénea, reduciendo daños a la superficie
  de la pieza.
  La posición respecto del centro de las mordazas también es regulable lo
  cuál permite trabajar con distintos diámetros, dependiendo de la operación
@@ -3714,9 +3767,10 @@ El código del PLC tiene que estar preparado para estas dos formas de tomar
  la pieza antes mencionadas, y tiene que proveer al operario de cierta seguridad
  a la hora de cambiar de estados, en el caso particular de este trabajo
  se decidió que la pieza sólo pueda ser liberada cuándo la cantidad de vueltas
- del usillo sea menor a 30rpm lo cuál sólo es posible si la pieza está siendo
- actuada manulmente por el operario, esto se decidió porque al momento de
- cambiar de pieza es prácticamente imposible lograr que la misma no se mueva.
+ del husillo sea menor a 30rpm lo cuál sólo es posible si la pieza está
+ siendo actuada manualmente por el operario, esto se decidió porque al momento
+ de cambiar de pieza es prácticamente imposible lograr que la misma no se
+ mueva.
  El operario al momento de cambiar la pieza a mecanizar suele colocarla,
  realizar un pequeño giro con la mano y de ser necesario liberar y volver
  a ajustar la pieza, en dichos casos esperar a que la pieza se detenga completam
@@ -3740,20 +3794,20 @@ Para la apertura y cierre del cabezal se cuenta con un actuador hidráulico
  Dado que la seguridad del operario está en juego, si dicha presión desaparece
  por una cantidad prolongada de tiempo se supone lo peor, y es que la pieza
  podría soltarse, por lo cuál se desenergizan todos los sistemas de potencias
- de forma tal que el usillo deje de girar por carga mecánica y no por aplicación
- de un cambio sentido de giro en el motor.
+ de forma tal que el husillo deje de girar por carga mecánica y no por aplicació
+n de un cambio sentido de giro en el motor.
 \end_layout
 
 \begin_layout Standard
-En un principio se presuposo que el inversor del usillo iba a ser capaz
+En un principio se presupuso que el inversor del husillo iba a ser capaz
  de regular frecuencia de salida a fin de obtener una velocidad de rotación
  del motor menor a los 50rpm (como sí lo realizan otras máquinas de la empresa).
- Pero al momento de hacer la puesta a punto se comprobo que esto no era
- así, sino que por debajo de los 50 rpm la velocidad el moto oscilaba, con
+ Pero al momento de hacer la puesta a punto se comprobó que esto no era
+ así, sino que por debajo de los 50 RPM la velocidad el moto oscilaba, con
  lo cuál se presupuso que había presencia de ruido, pero luego de probar
  de distintas formas se desistió, se probaron distintas configuraciones
  de señales en tensión, corriente, amplificadores diferenciales de precisión,
- pero ninguna demostro una mejora sustancial.
+ pero ninguna demostró una mejora sustancial.
 \end_layout
 
 \begin_layout Standard
@@ -3767,7 +3821,7 @@ En una página web se encontró que varios usuarios del inversor tenían el
 \begin_layout Standard
 La controladora CNC entrega una señal de control la cuál puede tomar tanto
  valores positivos como negativos entre -10 y 10V, pero el inversor esperaba
- señales entre 0 y 5V, con lo cuál hubo que preveer este caso y configurar
+ señales entre 0 y 5V, con lo cuál hubo que prever este caso y configurar
  la controladora a fin de evitar daños.
 \end_layout
 
@@ -3775,7 +3829,7 @@ La controladora CNC entrega una señal de control la cuál puede tomar tanto
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -3789,7 +3843,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -3821,6 +3875,98 @@ name "sub:subsistemas-part-catcher"
 Agarra pieza - Part-Catcher
 \end_layout
 
+\begin_layout Standard
+El agarra piezas o part-catcher, nombre en inglés, permite implementar tareas
+ de fabricación continua al evitar al operador tener que intercambiar piezas
+ en cada operación del proceso.
+ El sistema se compone de una bandeja metálica acoplada a un actuador neumático,
+ y una puerta movediza en la puerta de la máquina.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/diagramas/part-catcher.svg
+	lyxscale 80
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Diagrama-part-catcher"
+
+\end_inset
+
+Diagrama de flujo de trabajo sin part-catcher (arriba) y con part-catcher
+ (abajo) suponiendo barra de material continua.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+El programador dispone de un comando el cuál permite controlar el actuador.
+ Uno de los posibles flujos de trabajo que utiliza el módulo de part-catcher
+ se muestra en la gráfica 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+TODO agregar diagrama de flujo
+\end_layout
+
+\end_inset
+
+, dicha gráfica permite comparar un flujo en el cuál el operario interviene
+ en cada pieza fabrica, de aquel posible gracias al uso del part-catcher.
+ 
+\end_layout
+
+\begin_layout Standard
+El proceso consiste en preparar el código de mecanizado de tal forma de
+ que luego de terminadas las operaciones de fabricación, se mueve el porta-herra
+mientas a una zona segura, se detiene el giro del husillo, se activa el
+ part-catcher, se espera pasivamente tiempo suficiente para que la pieza
+ llegue a la bandeja receptora (dicho tiempo depende de la pieza y del tiempo
+ del actuador), se repliegue el part-catcher y se proceda a la producción
+ de la siguiente pieza, repitiéndose el ciclo hasta que cierta condición
+ se cumpliese.
+ 
+\end_layout
+
+\begin_layout Standard
+En aquellos casos dónde se puede automatizar el cambio de material a trabajar
+ esto permite realizar una producción continua con un tiempo de parada para
+ cambio de pieza a trabajar, por ejemplo en aquellas piezas que son mecanizadas
+ de una barra continua.
+ Dicho caso de uso existe en el taller en cuestión, con dicho método se
+ reducen los tiempos de fabricación considerablemente, al día de la fecha
+ la máquina acondicionada no ha sido puesta a prueba con dicha funcionalidad,
+ sólo se pudo verificar la funcionalidad del subsistema sin interrelacionarlo
+ con el resto de los sistemas.
+ 
+\end_layout
+
 \begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
@@ -3831,6 +3977,106 @@ name "sec:Lubricación-de-ejes-X-y-Z"
 Lubricación de ejes X y Z
 \end_layout
 
+\begin_layout Standard
+Las máquinas herramienta de cierta envergadura requieren de lubricación
+ a fin de reducir la fricción entre sus partes mecánicas.
+ Dicha lubricación es indispensable en la máquina reacondicionada, ya que
+ sin ella la fricción entre las distintas partes móviles produciría un increment
+o en la temperatura siendo alta la probabilidad de daños graves.
+ Para ello la máquina cuenta con lubricación distribuida en las distintas
+ partes de la máquina, componiéndose tanto de lubricación pasiva (a cargo
+ del personal de mantenimiento), como lubricación activa la cuál es comandada
+ por el PLC dependiendo de varios factores.
+\end_layout
+
+\begin_layout Standard
+En el caso particular de los ejes X y Z el fabricante de la máquina original
+ dispuso de boquillas sobre dichos ejes, por las cuales se puede liberar
+ aceite a pulverizado por aire a presión proveniente del compresor externo.
+ Dicho sistema se activa automáticamente bajo 3 condiciones programadas
+ en el PLC: arranque de máquina, tiempo transcurrido o distancia recorrida
+ desdé el último ciclo de lubricación, en todos los casos dicha lubricación
+ se activa por un tiempo predeterminado, el operador también dispone de
+ un atajo en el teclado el cuál le permite activar y luego detener el proceso.
+\end_layout
+
+\begin_layout Standard
+El sistema se compone de las mencionadas boquillas, el ingreso de aire a
+ presión, una bomba hidráulica controlada electrónicamente, válvulas de
+ paso activadas por relays, un circuito hidro-neumático capaz de llevar
+ el aceite pulverizado a las boquillas, así como sensores para medición
+ de nivel de aceite y presión de aire a fin de garantizar el correcto funcionami
+ento.
+\end_layout
+
+\begin_layout Standard
+Básicamente el PLC monitorea el estado de ISENAIR, presión de aire en nivel
+ aceptable, ILLUB190 y ILLUB960, sensores de nivel de aceite y comanda OLUBAIR
+ el cuál controla la pulverización con aire a presión.
+ Llevando cuenta del estado del proceso, aprovechando los contadores de
+ recorrido provistos por la controladora CNC, como así también los relojes
+ de tiempo transcurrido.
+\end_layout
+
+\begin_layout Standard
+El fabricante original estipulaba ciclos de lubricación de 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+completar
+\end_layout
+
+\end_inset
+
+ minutos cada 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+completar
+\end_layout
+
+\end_inset
+
+ metros recorridos, 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+completar
+\end_layout
+
+\end_inset
+
+ minutos cada 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+completar
+\end_layout
+
+\end_inset
+
+ horas de trabajo y 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+minutos
+\end_layout
+
+\end_inset
+
+ al arranque de la máquina.
+ De la coordinación con el personal de mantenimiento se arribo a lubricación
+ automática en encendido durante 2 minutos, lubricación por pedido manual
+ de 5 minutos, lubricación de 5 minutos por cada hora de movimiento del
+ eje X o Z lo que suceda primero, lubricación de 5 minutos cuándo el movimiento
+ acumulado entre los ejes X y Z supere los 240 metros.
+\end_layout
+
 \begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
@@ -3839,6 +4085,53 @@ name "sec:Sistema-de-refrigerante"
 \end_inset
 
 Refrigerante de herramienta de corte
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Agregar imágenes!!!!
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+El proceso de desprendimiento de viruta, es un proceso el cuál inherentemente
+ tiene asociada una fricción dada por el contacto entre la herramienta de
+ corte y la pieza a mecanizar la cuál se encuentra girando a altas RPM,
+ para poder aumentar la productividad de la máquina y aumentar la vida útil
+ de los insertos de corte, se emplea una mezcla de agua con aceite refrigerante,
+ lo cuál no sólo disipa el calor producido por el proceso, sino que también
+ mantiene al inserto lubricado disminuyendo el roce entre la pieza y dicho
+ inserto.
+ 
+\end_layout
+
+\begin_layout Standard
+Dicha mezcla, llamada refrigerante, se inyecta presión en el punto de trabajo
+ de la herramienta, para ello la máquina dispone de un sistema hidráulico
+ el cuál permite conectar distintos tipo de salidas según la herramienta
+ en uso.
+ Aquellas herramientas de perforación, conocidas como TMAC, la herramienta
+ cuenta con pequeños orificios los cuáles permiten al líquido llegar hasta
+ el punto de corte, en otros tipos de herramientas se utilizan mangueras
+ rígidas a las cuáles se les controla el ángulo de salida, en casos más
+ sencillos se puede disponer sólo del chorro a presión entregado en en el
+ plato de herramientas.
+\end_layout
+
+\begin_layout Standard
+Una de las ventajas fundamentales entre una máquina CNC y una de co
+\end_layout
+
+\begin_layout Standard
+El proceso de control del refrigerante está mayormente a control del operador,
+ 
 \end_layout
 
 \begin_layout Section

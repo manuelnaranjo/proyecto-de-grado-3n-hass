@@ -101,15 +101,27 @@ LatexCommand tableofcontents
 El presente informe describe las tareas realizadas por el alumno Naranjo
  Manuel Francisco para el reacondicionamiento, conocido en la industria
  como refitting, de un torno CNC marca Hass modelo HL-2.
- El proceso de refitting consiste en el reemplazo tanto mecánico como eléctrico
- de una máquina en funcionamiento, con su correspondiente puesta a punto.
- En este caso en particular se reemplazaron la controladora CNC por una
- de otro proveedor, los motores de los ejes y sus respectivos moduladores
- de potencia (drivers de potencia), todo el circuito eléctrico, el tornillo
- de precisión del eje X, como así también algunos cambios secundarios que
- fueron necesarios al ir poniendo en marcha la máquina.
+ Dicho proceso consiste en el reemplazo y o reacondicionamiento tanto mecánico
+ como eléctrico de una máquina previamente en funcionamiento, para luego
+ hacer la correspondiente puesta a punto y vuelta a producción del sistema,
+ permitiendo la extensión de la vida útil de la máquina, y en algunos casos
+ también las funcionalidades de la misma.
+ 
+\end_layout
+
+\begin_layout Abstract
+En esté caso en particular el reemplazo eléctrico fue casi total, conservando
+ de la máquina original sólo el motor del husillo y su inversor.
+ Se actualizaron la controladora CNC, el cerebro de la máquina, los drivers
+ y motores de los ejes, las 
+\noun on
+extremidades
+\noun default
+ de la misma y el conexionado eléctrico, del lado mecánico se sustituyeron
+ partes fundamentales como el tornillo de precisión del eje X así cómo también
+ reparaciones secundarias que se dieron durante el proceso.
  Dicha máquina se encuentra en funcionamiento en un taller de mecanizado,
- el cuál cuenta de 3 máquinas automáticas más.
+ el cuál cuenta de 3 máquinas CNC más.
 \end_layout
 
 \begin_layout Chapter
@@ -124,29 +136,50 @@ name "chap:Introducción"
 \end_layout
 
 \begin_layout Standard
-Como se expuso en el resumen del informe el presente informe abarca la puesta
- en marcha de una máquina la cual previo al refitting se encontraba funcionando,
- pero por diversas causas se encontró aproximadamente un año fuera de servicio.
+Como se expuso en el resumen, el proceso llevado a cabo por el alumno abarco
+ la diagramación y resolución del conexionado eléctrico, la programación
+ del plc, la resolución lógica de cada uno de los subsistemas y la puesta
+ a punto tanto de cada subsistema, como del conjunto, hasta lograr que la
+ máquina volviese a producción.
  
 \end_layout
 
 \begin_layout Standard
-Para poder comenzar se considera fundamental realizar una breve introducción
- respecto de que es una máquina tipo torno, una máquina CNC, explicando
- particularmente qué se entiende por torno CNC, luego se realizará una descripci
-ón de algunas las funcionalidades básicas de los subsistemas que componen
- el resultado final, un resumen de motores eléctricos y control de los mismos.
-\end_layout
-
-\begin_layout Standard
-Básicamente fue llevar la máquina del estado mostrado en la figura
+En el recuadro de imágenes 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:iniciales"
 
 \end_inset
 
- al mostrado en las imágenes .
+ se puede apreciar el estado de la máquina al momento de iniciar las tareas,
+ mientras que en 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:final-1"
+
+\end_inset
+
+ se puede apreciar el estado actual de la misma.
+\end_layout
+
+\begin_layout Standard
+En esté capítulo se realizará una descripción breve a los temas no abarcados
+ en la carrera, los cuales son fundamentales a la hora de entender las decisione
+s de diseño y las funcionalidades esperadas, como ser que es una máquina
+ herramienta tipo torno, una máquina CNC, explicando particularmente qué
+ se entiende por torno CNC y cuáles son los subsistemas que normalmente
+ se encuentran en estas máquinas.
+\end_layout
+
+\begin_layout Standard
+En los siguientes capítulos se abordará la resolución del problema en sí,
+ mostrando una diagramación inicial de la posible solución al sistema, el
+ abordaje de los distintos subsistemas involucrados con la respectiva explicació
+n de cómo se resolvieron, el código del PLC involucrado, la puesta a punto
+ y configuración de los distintos bloques funcionales y del sistema en general
+ y también se describirán algunos de los problemas encontrados durante el
+ proceso y cómo se resolvieron.
 \end_layout
 
 \begin_layout Standard
@@ -443,28 +476,39 @@ Máquina Torno
 \end_layout
 
 \begin_layout Standard
-Se denomina torno (del latín tornus, giro, vuelta) a un conjunto de máquinas
- y herramientas que permiten mecanizar piezas de forma geométrica de revolución.
- Estas máquinas-herramienta operan haciendo girar la pieza a mecanizar (sujeta
- en el cabezal o fijada entre los puntos de centraje) mientras una o varias
- herramientas de corte son empujadas en un movimiento regulado de avance
- contra la superficie de la pieza, cortando la viruta de acuerdo con las
- condiciones tecnológicas de mecanizado adecuadas.
+Se denomina torno a un conjunto de máquinas y herramientas que permiten
+ mecanizar piezas cuya geometría es de revolución, suelen trabajar por desbastes
+, eso quiere decir que se parte de una pieza o trozo de material de mayor
+ tamaño para ir reduciéndolo al objetivo deseado.
+ Estas máquinas-herramienta operan haciendo girar la pieza a mecanizar mientras
+ una o varias herramientas de corte son empujadas en un movimiento regulado
+ de avance contra la superficie de la pieza, cortando la viruta de acuerdo
+ con las condiciones tecnológicas de mecanizado adecuadas.
  Desde el inicio de la revolución industrial, el torno se ha convertido
  en una máquina básica en el proceso industrial de mecanizado.
 \end_layout
 
 \begin_layout Standard
 La herramienta de corte va montada sobre un carro que se desplaza sobre
- unas guías o rieles paralelos al eje de giro de la pieza que se tornea,
+ unas guías o rieles paralelos al eje de giro de la pieza que se tornea
  llamado eje Z, sobre este carro hay otro que se mueve según el eje X, en
  dirección radial a la pieza que se tornea, sobre el cual se monta la torre
- portaherramientas.
+ porta-herramientas.
  Cuando el carro principal desplaza la herramienta a lo largo del eje de
  rotación, produce el cilindrado de la pieza, y cuando el carro transversal
  se desplaza de forma perpendicular al eje de simetría de la pieza se realiza
  la operación denominada refrentado, cuando ambos ejes se mueven simultáneamente
  se pueden realizar cilindrados cónicos y esféricos.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+AGREGAR ESQUEMA de ejes.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -508,7 +552,7 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -553,7 +597,7 @@ Torno Paralelo
 \begin_inset Float figure
 wide true
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Box Frameless
@@ -636,25 +680,29 @@ Torno de control numérico computarizado
 \end_layout
 
 \begin_layout Standard
-El torno CNC es un torno dirigido por control numérico por computadora.
+El torno CNC es un torno por control numérico dirigido por computadora.
  Ofrece una gran capacidad de producción y precisión en el mecanizado por
  su estructura funcional y porque la trayectoria de la herramienta de torneado
- es controlada por un ordenador que lleva incorporado, el cual procesa las
- órdenes de ejecución contenidas en un software que previamente ha confeccionado
- un programador conocedor de la tecnología de mecanizado en torno.
- Es una máquina que resulta rentable para el mecanizado de grandes series
+ es controlada por dicha computadora la cuál lleva incorporada, procesando
+ las órdenes de ejecución contenidas en un software que previamente ha confeccio
+nado un programador conocedor de la tecnología de mecanizado en torno.
+ 
+\end_layout
+
+\begin_layout Standard
+Es una máquina que resulta rentable para el mecanizado de grandes series
  de piezas sencillas, sobre todo piezas de revolución, y permite mecanizar
  con precisión superficies curvas coordinando los movimientos axial y radial
  para el avance de la herramienta.
 \end_layout
 
 \begin_layout Standard
-La velocidad de giro del cabezal porta-piezas, el avance de los carros longitudi
-nal y transversal y las cotas de ejecución de la pieza están programadas,
- herramientas a utilizar para cada operación, control de los sistemas refrigeran
-tes, control de la recolección de desperdicios de mecanizado, incluso cuenta
- de la cantidad de piezas realizas.
- Y por tanto, exentas de fallos imputables al operario de la máquina.
+La velocidad de giro de la pieza a tornear, el avance de los carros longitudinal
+ y transversal, cotas de ejecución de la pieza, herramientas a utilizar
+ para cada operación, control de los sistemas refrigerantes, control de
+ la recolección de desperdicios de mecanizado, contar la cantidad de piezas
+ realizas, y otras funcionalidades son resueltas por la computadora, reduciendo
+ la incidencia de errores producidos por el operario de la máquina.
 \end_layout
 
 \begin_layout Subsection
@@ -680,19 +728,20 @@ Husillo
 
 \begin_layout Standard
 Es la parte encargada de sujetar la pieza y hacerla girar.
- Se compone de un motor eléctrico de corriente alterna trifásico, al cual
- se le controla la potencia vía un inversor trifásico, normalmente denominado
- 
+ Se compone de un motor, generalmente eléctrico de corriente alterna trifásico,
+ al cual se le controla la potencia entregada.
+ En los casos de motores eléctricos, se suelen utilizar inversor trifásicos
+ normalmente denominados 
 \series bold
 Driver
 \series default
 .
  Dicho motor se suele acoplar al husillo sobre el cual se monta la pieza
- vía poleas, algunos cabezales cuentan con cajas de reducción lo cual permite
- diferentes relaciones entre la velocidad del motor y la del cabezal, la
- cuál puede ser seleccionada vía el código que el programador del CNC realiza,
- funcionalidad no disponible en el torno utilizado para el proyecto por
- lo cuál no se ahondará en el tema.
+ vía poleas y en algunos casos se cuenta con cajas de reducción lo cual
+ permite diferentes relaciones de velocidad entre el motor y el cabezal.
+ En el caso particular de esté proyecto sólo se contaba de un enlace vía
+ poleas entre el motor y el husillo, por lo cuál no se va a ahondar en el
+ análisis de diferentes relaciones de velocidades.
 \end_layout
 
 \begin_layout Standard
@@ -700,37 +749,13 @@ El husillo cuenta con un
 \series bold
 plato
 \series default
-, en esté caso en particular se cuenta con un 
+, el cuál en el caso particular del proyecto se trataba de un 
 \series bold
-plato de garras universal
+plato de garras universal,
 \series default
-, el cuál se compone de un sistema hidráulico con 3 puntos de apoyo regulables
- denominados mordazas, los cuales se adaptan según la pieza a mecanizar,
- y se mueven hacia adentro y afuera del plato con la fuerza realizada por
- la presión de una 
-\series bold
-bomba hidráulica
-\series default
-, la cuál permite variar la presión según el peso y velocidad máxima de
- corte a utilizar.
- Son características de la bomba hidráulica y del tamaño del plato el 
-\series bold
-diámetro máximo 
-\series default
-que se puede mecanizar, y la 
-\series bold
-velocidad máxima
-\series default
- de trabajo la cuál depende de la máxima presión que puede entregar la bomba.
- Es una característica constructiva también el largo máximo de pieza que
- se puede tornear sin que sea necesario utilizar un segundo punto de apoyo
- denominado 
-\series bold
-contra punta.
-\end_layout
-
-\begin_layout Standard
-En la figura 
+ el cuál se compone de un sistema hidráulico con 3 puntos de apoyo regulables
+ denominados mordazas que se adaptan según la pieza a mecanizar.
+ En la figura 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig-monografias-plato"
@@ -738,16 +763,44 @@ reference "fig-monografias-plato"
 \end_inset
 
  se muestra un esquema de un cabezal similar al encontrado en la máquina
- utilizada en el proyecto.
- La apertura y el cierre de las mordazas de dicho plato se controlan vía
- unas solenoides de paso hidráulicas las cuales se acoplan a la salida de
- la bomba hidráulica, el operario dispone de un pedal bajo la máquina el
- cual permite abrir y cerrar las mordazas cuando la máquina no se encuentra
- trabajando.
+ utilizada en el proyecto, en la figura de la izquierda se puede observar
+ el sistema completo, en la del medio se observan las mordazas o garras
+ y en la última el plato propiamente dicho.
+ Las mordazas se desplazan tanto hacia adentro cómo hacia afuera del plato
+ con la fuerza entregada por la presión regulable de una 
+\series bold
+bomba hidráulica
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+La geometría del plato define características fundamentales de la máquina,
+ en particula el 
+\series bold
+diámetro máximo 
+\series default
+de material mecanizable, y la 
+\series bold
+velocidad máxima
+\series default
+ de trabajo la cuál depende de la máxima presión que puede entregar la bomba,
+ así cómo también el largo máximo de pieza que se puede trabajar sin que
+ sea necesario utilizar un segundo punto de apoyo denominado 
+\series bold
+contra punta.
+\end_layout
+
+\begin_layout Standard
+La apertura y el cierre de las mordazas se controla vía unas solenoides
+ de paso hidráulicas las cuales se acoplan a la salida de la bomba hidráulica,
+ el operario dispone de un pedal bajo la máquina el cual permite abrir y
+ cerrar las mordazas, siendo función del código PLC supervisar que dicha
+ operación sólo se pueda realizar en una velocidad de rotación segura.
  Las mordazas suelen tornearse para ajustarse lo mejor posible al tamaño
  de pieza a trabajar, de forma que el material excedente no haga girar la
- pieza muy alejada de su eje de simétria por un lado, y por el otro que
- no se marque la pieza por la presión de la bomba.
+ pieza muy alejada de su eje de simétria, evitandosé también marcas en la
+ pieza final debidas a la presión aplicada en las mordazas.
 \end_layout
 
 \begin_layout Standard
@@ -756,9 +809,9 @@ Solidario al husillo se acopla un
 encoder
 \series default
  el cuál permite realimentar al sistema de control la velocidad de giro,
- en algunos sistemas más complejos incluso se puede ubicar el husillo en
- una posición en grados precisa, pero no es el caso de la máquina utilizada
- durante el proyecto.
+ en algunos sistemas más complejos incluso se puede controlar la ubicación
+ en grados del husillo de forma precisa, pero no es el caso de la máquina
+ utilizada durante el proyecto.
  En la máquina en cuestión se cuenta con un 
 \series bold
 encoder de 10 bits
@@ -834,6 +887,16 @@ Bancada y Carro desplazable
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Bancada-y-Carro"
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+HASTA acá llegue revisando
+\end_layout
 
 \end_inset
 
@@ -4178,6 +4241,7 @@ o generalmente del orden del 5% y en algunos casos superando el 50% del
 
 \begin_layout Standard
 \begin_inset Float figure
+placement h
 wide false
 sideways false
 status open
@@ -4274,6 +4338,7 @@ se puede observar tanto el tornillo, como el cono de recolección con un
 
 \begin_layout Standard
 \begin_inset Float figure
+placement h
 wide false
 sideways false
 status open
@@ -4314,6 +4379,7 @@ Fotografía del tornillo sin fin en acción.
 
 \begin_layout Standard
 \begin_inset Float figure
+placement h
 wide false
 sideways false
 status open

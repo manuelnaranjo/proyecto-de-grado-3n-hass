@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="45cm" height="17cm" viewBox="79 41 882 340" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="80" y="280" width="200" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="80" y="280" width="200" height="60"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="180" y="313.9">
+      <tspan x="180" y="313.9"></tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="180" y="314.425">
+    <tspan x="180" y="314.425">Mecanizado de pieza</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="300" y="280" width="200" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="300" y="280" width="200" height="60"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="400" y="313.9">
+      <tspan x="400" y="313.9"></tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="400" y="306.425">
+    <tspan x="400" y="306.425">Detener Usillo</tspan>
+    <tspan x="400" y="322.425">Retraer porta-herramientas</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="280" y1="310" x2="289" y2="310"/>
+    <polygon style="fill: #000000" points="289,315 299,310 289,305 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="289,315 299,310 289,305 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="120" y="82" width="200" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="120" y="82" width="200" height="60"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="220" y="115.9">
+      <tspan x="220" y="115.9"></tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="220" y="116.425">
+    <tspan x="220" y="116.425">Mecanizado de pieza</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="340" y="82" width="200" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="340" y="82" width="200" height="60"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="440" y="115.9">
+      <tspan x="440" y="115.9"></tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="440" y="108.425">
+    <tspan x="440" y="108.425">Detener Usillo</tspan>
+    <tspan x="440" y="124.425">Retraer porta-herramientas</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="320" y1="112" x2="329" y2="112"/>
+    <polygon style="fill: #000000" points="329,117 339,112 329,107 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="329,117 339,112 329,107 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="560" y="62" width="160" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="560" y="62" width="160" height="100"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="640" y="115.9">
+      <tspan x="640" y="115.9"></tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="640" y="84.425">
+    <tspan x="640" y="84.425">Operario:</tspan>
+    <tspan x="640" y="100.425">Abrir puerta,</tspan>
+    <tspan x="640" y="116.425">tomar pieza,</tspan>
+    <tspan x="640" y="132.425">liberar pieza del usillo,</tspan>
+    <tspan x="640" y="148.425">colocar en deposito</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="740" y="42" width="200" height="138"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="740" y="42" width="200" height="138"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="840" y="74.9">
+      <tspan x="840" y="74.9">Operario:</tspan>
+      <tspan x="840" y="90.9">elegir nueva pieza,</tspan>
+      <tspan x="840" y="106.9">posicionar,</tspan>
+      <tspan x="840" y="122.9">bloquear pieza en el usillo,</tspan>
+      <tspan x="840" y="138.9">cerrar puerta,</tspan>
+      <tspan x="840" y="154.9">presionar inicio de ciclo</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="540" y1="112" x2="549" y2="112"/>
+    <polygon style="fill: #000000" points="549,117 559,112 549,107 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="549,117 559,112 549,107 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="720" y1="112" x2="729.014" y2="111.549"/>
+    <polygon style="fill: #000000" points="729.263,116.543 739.001,111.05 728.764,106.556 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="729.263,116.543 739.001,111.05 728.764,106.556 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="840,180 840,202 220,202 220,153 "/>
+    <polygon style="fill: #000000" points="225,153 220,143 215,153 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="225,153 220,143 215,153 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="520" y="260" width="200" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="520" y="260" width="200" height="100"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="620" y="289.9">
+      <tspan x="620" y="289.9">Accionar part-catcher</tspan>
+      <tspan x="620" y="305.9">liberar pieza</tspan>
+      <tspan x="620" y="321.9">esperar a que pieza caiga</tspan>
+      <tspan x="620" y="337.9">desactivar part-catcher</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="500" y1="310" x2="509" y2="310"/>
+    <polygon style="fill: #000000" points="509,315 519,310 509,305 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="509,315 519,310 509,305 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="740" y="260" width="220" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="740" y="260" width="220" height="100"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="850" y="305.9">
+      <tspan x="850" y="305.9">Posicionar barra de material,</tspan>
+      <tspan x="850" y="321.9">bloquear pieza en el usillo</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="720" y1="310" x2="729" y2="310"/>
+    <polygon style="fill: #000000" points="729,315 739,310 729,305 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="729,315 739,310 729,305 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="850,360 850,380 180,380 180,351 "/>
+    <polygon style="fill: #000000" points="185,351 180,341 175,351 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="185,351 180,341 175,351 "/>
+  </g>
+</svg>
